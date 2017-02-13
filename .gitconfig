@@ -1,0 +1,9 @@
+[user]
+	email = adab3ta@gmail.com
+	name = ada mancini
+[push]
+	default = current 
+
+[alias]
+        graph = log --graph --oneline --decorate --all --date-order
+        gram = log --graph --decorate --all --date-order --format=format:'%C(auto)%h%C(reset) - %C(dim white)(%ar)%C(reset) %C(auto)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'

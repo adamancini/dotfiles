@@ -1,0 +1,4 @@
+alias sudo='sudo '
+alias vi='vim'
+alias gst='git status'
+alias gca='git commit -a'
