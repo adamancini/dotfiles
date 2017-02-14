@@ -26,6 +26,8 @@ set laststatus=2
 "set relativenumber
 "set undofile
 
+
+" set very-magic search mode
 nnoremap / /\v
 vnoremap / /\v
 set ignorecase

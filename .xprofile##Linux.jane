@@ -1,0 +1,5 @@
+feh --bg-scale /home/ada/wallpaper/x4ZsN64.jpg &
+volumeicon &
+compton --config ~/.config/compton.conf -b &
+lxpolkit &
+
