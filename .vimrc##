@@ -1,4 +1,12 @@
 execute pathogen#infect()
+" allows cursor change in tmux mode
+if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
 syntax on
 filetype plugin indent on
 set background=dark
@@ -18,8 +26,17 @@ set expandtab
 set shiftwidth=2
 set smartindent
 set smarttab
+set tabstop=2
 set softtabstop=2
 set ruler
 set undolevels=1000
 set backspace=indent,eol,start
- 
+set showcmd
+set wildmenu
+let mapleader=","       " leader is comma
+
+" edit vimrc/zshrc and load vimrc bindings
+nnoremap <leader>ev :vsp $MYVIMRC<CR>
+nnoremap <leader>ez :vsp ~/.zshrc<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
+
