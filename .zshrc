@@ -1,1 +1,1 @@
-/home/ada/.zshrc##Linux.jane
+/Users/ada/.zshrc##Darwin
