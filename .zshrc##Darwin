@@ -51,11 +51,19 @@ ZSH_THEME="gentoo"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(docker docker-compose git tmux)
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
+
+system_type=$(uname -s)
+if [ "$system_type" = "Darwin" ]; then
+	plugins+=(brew osx pass)
+else
+fi
+
+
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
