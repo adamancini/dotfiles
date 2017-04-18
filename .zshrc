@@ -1,1 +1,1 @@
-/srv/home/ada/.zshrc##
+/srv/home/ada/.zshrc##Linux
