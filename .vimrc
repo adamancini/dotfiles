@@ -1,1 +1,1 @@
-/Users/ada/.vimrc##
+/srv/home/ada/.vimrc##

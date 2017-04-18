@@ -11,3 +11,6 @@ zstyle :compinstall filename '/srv/home/ada/.zshrc'
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
+#
+# Source aliases file
+source ~/.zsh_aliases

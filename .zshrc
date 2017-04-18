@@ -1,1 +1,1 @@
-/Users/ada/.zshrc##Darwin
+/srv/home/ada/.zshrc##
