@@ -1,1 +1,0 @@
-/srv/home/ada/.zshrc##
