@@ -4,6 +4,7 @@
 export PATH=~/bin:$PATH
 export DRONE_SERVER='http://git.jbanetwork.com:8080'
 export DRONE_TOKEN='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZXh0IjoiYWRhbWFuY2luaSIsInR5cGUiOiJ1c2VyIn0.aLKFZlOAOmJR5vh1_CKk9P1iuDCYC-6Pc9jJAXkxLO4'
+export ANSIBLE_INVENTORY=/etc/ansible/puppetdb-inventory.sh
 
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
@@ -23,22 +24,23 @@ fi
 
 if [[ -n $PS1 ]]; then
     : # These are executed only for interactive shells
-    echo "interactive"
+    #    echo "interactive"
     if [ -z "$SSH_AUTH_SOCK"  ] ; then
       eval `ssh-agent -s`
       ssh-add ~/.ssh/jba_rsa
     fi
     source ~/ansible/hacking/env-setup -q
+
 else
     : # Only for NON-interactive shells
 fi
 
 if shopt -q login_shell ; then
     : # These are executed only when it is a login shell
-    echo "login"
+    # echo "login"
 else
     : # Only when it is NOT a login shell
-    echo "nonlogin"
+    # echo "nonlogin"
 fi
 
 source ~/.bash_aliases
