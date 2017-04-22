@@ -25,11 +25,11 @@ fi
 if [[ -n $PS1 ]]; then
     : # These are executed only for interactive shells
     #    echo "interactive"
-    if [ -z "$SSH_AUTH_SOCK"  ] ; then
-      eval `ssh-agent -s`
-      ssh-add ~/.ssh/jba_rsa
-    fi
-    source ~/ansible/hacking/env-setup -q
+    #if [ -z "$SSH_AUTH_SOCK"  ] ; then
+    #  eval `ssh-agent -s`
+    #  ssh-add ~/.ssh/jba_rsa
+    #fi
+    #source ~/ansible/hacking/env-setup -q
 
 else
     : # Only for NON-interactive shells
@@ -38,6 +38,15 @@ fi
 if shopt -q login_shell ; then
     : # These are executed only when it is a login shell
     # echo "login"
+    settitle() {
+      printf "\033k$1\033\\"
+    }
+
+    ssh() {
+      settitle "$*"
+      command ssh "$@"
+      settitle "bash"
+    }
 else
     : # Only when it is NOT a login shell
     # echo "nonlogin"
