@@ -2,7 +2,7 @@
 	name = Ada Mancini
 	email = ada@jbanetwork.com
 [push]
-	default = upstream
+	default = current
 [core]
 	excludesfile = /Users/ada/.gitignore_global
 [difftool "sourcetree"]
