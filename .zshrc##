@@ -23,5 +23,15 @@ fi
 export LANG=en_US.UTF-8
 export EDITOR='vim'
 
+settitle() {
+  printf "\033k$1\033\\"
+}
+
+ssh() {
+  settitle "$*"
+  command ssh "$@"
+  settitle "zsh"
+}
+
 source ~/.bash_aliases
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
