@@ -1,16 +1,27 @@
-# Lines configured by zsh-newuser-install
-HISTFILE=~/.histfile
-HISTSIZE=99999
-SAVEHIST=99999
-setopt appendhistory autocd beep extendedglob nomatch notify
-bindkey -e
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
-zstyle :compinstall filename '~/.zshrc'
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+export ZSH=$HOME/.oh-my-zsh
+export DRONE_SERVER='http://git.jbanetwork.com:8080'
+export DRONE_TOKEN='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZXh0IjoiYWRhbWFuY2luaSIsInR5cGUiOiJ1c2VyIn0.aLKFZlOAOmJR5vh1_CKk9P1iuDCYC-6Pc9jJAXkxLO4'
+export ANSIBLE_INVENTORY=/etc/ansible/puppetdb-inventory.sh
 
-autoload -Uz compinit
-compinit
-# End of lines added by compinstall
-#
-# Source aliases file
-source ~/.zsh_aliases
+ZSH_THEME="jreese"
+DISABLE_AUTO_UPDATE="true"
+COMPLETION_WAITING_DOTS="true"
+
+plugins=(docker docker-compose git tmux)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+system_type=$(uname -s)
+if [ "$system_type" = "Darwin" ]; then
+  plugins+=(brew osx pass)
+else
+fi
+
+export LANG=en_US.UTF-8
+export EDITOR='vim'
+
+source ~/.bash_aliases
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
