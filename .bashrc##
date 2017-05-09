@@ -47,6 +47,7 @@ if shopt -q login_shell ; then
       command ssh "$@"
       settitle "bash"
     }
+
 else
     : # Only when it is NOT a login shell
     # echo "nonlogin"
