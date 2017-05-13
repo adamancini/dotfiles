@@ -6,6 +6,7 @@ export ANSIBLE_INVENTORY=/etc/ansible/puppetdb-inventory.sh
 
 ZSH_THEME="jreese"
 DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_TITLE="true"
 COMPLETION_WAITING_DOTS="true"
 
 plugins=(docker docker-compose git tmux)
