@@ -17,6 +17,7 @@ source $ZSH/oh-my-zsh.sh
 system_type=$(uname -s)
 if [ "$system_type" = "Darwin" ]; then
   plugins+=(brew osx pass)
+  test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 else
 fi
 
@@ -35,3 +36,4 @@ ssh() {
 
 source ~/.bash_aliases
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
