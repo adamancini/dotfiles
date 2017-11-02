@@ -1,7 +1,9 @@
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export ZSH=$HOME/.oh-my-zsh
+export TESTKIT_DRIVER=virsh
+export LIBVIRT_DEFAULT_URI=qemu:///system  
 
-ZSH_THEME="jreese"
+ZSH_THEME="agnoster-mod"
 DISABLE_AUTO_UPDATE="true"
 DISABLE_AUTO_TITLE="true"
 COMPLETION_WAITING_DOTS="true"
@@ -21,6 +23,8 @@ fi
 
 export LANG=en_US.UTF-8
 export EDITOR='vim'
+
+setopt prompt_subst
 
 settitle() {
   printf "\033k$1\033\\"
