@@ -177,7 +177,7 @@ bindsym $mod+Control+l exec "/home/ada/.config/i3/i3lock-fancy-multimonitor/lock
 # finds out, if available)
 bar {
         status_command i3blocks 
-        font pango:monospace 15
+        font pango:monospace 7
         # $i3-theme-bar
 }
 
