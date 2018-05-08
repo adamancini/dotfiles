@@ -15,7 +15,7 @@ DISABLE_AUTO_UPDATE="true"
 DISABLE_AUTO_TITLE="true"
 COMPLETION_WAITING_DOTS="true"
 
-plugins=(docker docker-compose git kubectl pass tmux vagrant zsh-dircolors-solarized)
+plugins=(ack docker docker-compose git kubectl pass tmux vagrant zsh-dircolors-solarized)
 
 source $ZSH/oh-my-zsh.sh
 
