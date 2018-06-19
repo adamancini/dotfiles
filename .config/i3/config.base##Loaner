@@ -169,19 +169,20 @@ bindsym $mod+Control+l exec "/home/ada/.config/i3/i3lock-fancy-multimonitor/lock
 # finds out, if available)
 bar {
         status_command i3blocks 
-        font pango:monospace 11
+        font pango:monospace 15
         # $i3-theme-bar
 }
 
 # Floating window rules
 for_window [class="tilda"] floating enable
-for_window [class="Blueberry.py"] floating enable
+for_window [class="Blueman-manager"] floating enable
 # for_window [title="^.*Preferences"] floating enable
 for_window [class="zoom"] floating enable
-for_window [class="shutter"] floating enable
+for_window [class="Shutter"] floating enable
 for_window [class="Pcmanfm"] floating enable
 for_window [class="arandr"] floating enable
 for_window [class="Pavucontrol"] floating enable
+for_window [class="Nautilus"] floating enable
 for_window [class="Virt-manager"] floating enable
 for_window [class="Nm-connection-editor"] floating enable
 # Disable titlebars entirely
@@ -233,21 +234,35 @@ smart_gaps on
 smart_borders on
 
 # autostart applications
+# exec --no-startup-id compton
 exec --no-startup-id lxpolkit
 exec --no-startup-id nm-applet
 exec xrdb /home/ada/.XResources
 exec tilda
-exec_always nitrogen --restore
+exec_always --no-startup-id feh --bg-fill /home/ada/Pictures/wallpaper/docker_wallpaper.png /home/ada/Pictures/wallpaper/docker_wallpaper.png
 exec --no-startup-id volumeicon
 exec --no-startup-id cbatticon
-# exec --no-startup-id compton --config ~/.config/compton.conf -b
-exec synergy
-exec --no-startup-id blueberry-tray
-exec kitty 
-exec tmux new -s weechat -d && tmux send -t weechat weechat ENTER
+ exec --no-startup-id compton --config ~/.config/compton.conf -b
+# exec synergy
+exec --no-startup-id blueberry-tray 
+# exec kitty 
+#exec tmux new -s weechat -d && tmux send -t weechat weechat ENTER
 
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +5% #increase sound volume
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -5% #decrease sound volume
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 1 toggle # mute sound
 
+# Sreen brightness controls
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
+
+# Media player controls
+#bindsym XF86AudioPlay exec playerctl play
+#bindsym XF86AudioPause exec playerctl pause
+#bindsym XF86AudioNext exec playerctl next
+#bindsym XF86AudioPrev exec playerctl previous
+
+# increase/decrease keyboard brightness
+#bindsym XF86KbdBrightnessUp exec kbdbacklight up
+#bindsym XF86KbdBrightnessDown exec kbdbacklight down

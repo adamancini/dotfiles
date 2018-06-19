@@ -29,7 +29,7 @@ set background=dark
 colorscheme solarized
 set nocompatible
 set number
-set nowrap
+set wrap
 set showmatch
 set visualbell
 set errorbells 

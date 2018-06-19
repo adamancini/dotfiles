@@ -4,7 +4,7 @@ export ZSH=$HOME/.oh-my-zsh
 export GOPATH=$(go env GOPATH)
 export RUBYOPT="-W0"
 export TESTKIT_DRIVER=virsh
-export LIBVIRT_DEFAULT_URI=qemu:///system  
+export LIBVIRT_DEFAULT_URI=qemu:///system
 export TERMINAL=termite
 export TERM=xterm-256color
 export LANG=en_US.UTF-8
@@ -42,6 +42,13 @@ ssh() {
   command ssh "$@"
   settitle "zsh"
 }
+
+if [ -d $HOME/.zsh.d ]; then
+  for file in $HOME/.zsh.d/*.sh; do
+    source $file
+  done
+fi
+
 
 source ~/.bash_aliases
 source /etc/profile.d/vte.sh

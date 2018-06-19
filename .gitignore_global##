@@ -41,3 +41,7 @@ Thumbs.db
 
 ## application specific
 docker_subscription.lic
+*.retry
+*.pem
+*.pub
+
