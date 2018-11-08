@@ -23,19 +23,6 @@ alias subl='subl3 -n'
 alias tb='nc termbin.com 9999'
 alias wee='tmux attach -d -t weechat'
 alias dlook='docker run --rm -e LOOKER_CLIENT_ID -e LOOKER_CLIENT_SECRET -e LICENSE_USER -e LICENSE_PASS support/dlook'
-
-train-dev() {
-    set -l CURRENT_DIR $(pwd)
-    cd ~/git/dockersupport/train
-    docker build -t support/train .
-    cd $CURRENT_DIR
-    if [ -z $argv ]; then
-        docker run --rm -ti --env-file='train.env' -v $(pwd):/host -v /Users/jbaker/git/dockersupport/train/train:/home/train/train support/train
-    else
-        docker run --rm -ti --env-file='train.env' -e VPC=$argv -v $(pwd):/host -v /Users/jbaker/git/dockersupport/train/train:/home/train/train support/train
-    fi  
-}
-
-jps() {
-   jq -r -M --arg key "$1" 'paths | select(.[-1]|strings|test($key;"i")) | [.[]|tostring] | join(".") | "." + .[2:]' | sort -u
-}
+alias tmux='tmux -2'
+alias tk='testkit'
+alias tf='terraform'
