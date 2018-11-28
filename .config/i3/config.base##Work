@@ -18,7 +18,7 @@ font pango:NotoSans-Regular 11
 # Window Border Thickness
 set $bordersize 5
 # Bar Height
-set $bheight 6 
+set $bheight 6
 
 # insert theme
 # $i3-theme-window
@@ -28,7 +28,7 @@ set $bheight 6
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec kitty 
+bindsym $mod+Return exec alacritty
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -43,14 +43,32 @@ bindsym Control+space exec --no-startup-id "rofi -combi-modi drun,run -show comb
 #
 #bindsym $mod+Tab exec "rofi -show window"
 
-bindsym $mod+Tab workspace next
-bindsym $mod+Shift+Tab workspace prev
+
+bindsym $mod+Tab focus mode_toggle
+
+#bindsym $mod+Tab workspace next
+#bindsym $mod+Shift+Tab workspace prev
+
+# Make the currently focused window a scratchpad
+bindsym $mod+Shift+minus move scratchpad 
+
+# Show First scratchpad
+bindsym $mod+Shift+plus scratchpad show
+
+# Show Specific Scratchpad
+bindsym $mod+t [class="Subl3"] scratchpad show
+bindsym $mod+minus [class="Alacritty"] scratchpad show
+bindsym $mod+z [class="zoom" title="^Zoom Meeting ID*"] scratchpad show
+bindsym $mod+d [class="Devdocs-desktop"] scratchpad show
+
+# Show the sup-mail scratchpad window, if any.
+# bindsym mod4+s [title="^Sup ::"] scratchpad show
 
 # change focus
 bindsym $mod+j focus left
-bindsym $mod+k focus up 
-bindsym $mod+l focus down
-bindsym $mod+semicolon focus right
+bindsym $mod+i focus up
+bindsym $mod+k focus down
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -60,8 +78,8 @@ bindsym $mod+Right focus right
 
 # move focused window
 bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move up 
-bindsym $mod+Shift+l move down 
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move down
 bindsym $mod+Shift+semicolon move right
 
 # alternatively, you can use the cursor keys:
@@ -95,7 +113,7 @@ bindsym $mod+e layout toggle split
 bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+# bindsym $mod+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -168,15 +186,20 @@ bindsym $mod+Control+l exec "/home/ada/.config/i3/i3lock-fancy-multimonitor/lock
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3blocks 
+        status_command i3blocks
         font pango:monospace 15
         # $i3-theme-bar
+        tray_output primary
 }
 
 # Floating window rules
+for_window [class="Devdocs-desktop"] move to scratchpad, border 4pixel
+for_window [class="peek"] floating enable
+for_window [class="obs"] floating enable
 for_window [class="tilda"] floating enable
-for_window [class="Blueman-manager"] floating enable
+for_window [class="Blueberry.py"] floating enable
 # for_window [title="^.*Preferences"] floating enable
+for_window [class="zoom" title="^Zoom Meeting ID*"] move to scratchpad, border 2pixel
 for_window [class="zoom"] floating enable
 for_window [class="Shutter"] floating enable
 for_window [class="Pcmanfm"] floating enable
@@ -188,8 +211,8 @@ for_window [class="Nm-connection-editor"] floating enable
 # Disable titlebars entirely
 for_window [class="^.*"] border pixel 0
 # Window gap options
-gaps inner 2
-gaps outer 1
+gaps inner 12
+gaps outer 0 
 
 
 # control gap sizes
@@ -230,22 +253,23 @@ mode "$mode_gaps_outer" {
         bindsym Escape mode "default"
 }
 
-smart_gaps on
+#smart_gaps on
 smart_borders on
 
 # autostart applications
 # exec --no-startup-id compton
-exec --no-startup-id lxpolkit
-exec --no-startup-id nm-applet
-exec xrdb /home/ada/.XResources
-exec tilda
-exec_always --no-startup-id feh --bg-fill /home/ada/Pictures/wallpaper/docker_wallpaper.png /home/ada/Pictures/wallpaper/docker_wallpaper.png
-exec --no-startup-id volumeicon
-exec --no-startup-id cbatticon
- exec --no-startup-id compton --config ~/.config/compton.conf -b
+exec --no-startup-id lxpolkit &
+exec --no-startup-id nm-applet &
+exec_always --no-startup-id xrdb /home/ada/.XResources &
+exec --no-startup-id tilda &
+exec_always --no-startup-id feh --bg-fill /home/ada/Pictures/wallpaper/docker_wallpaper.png /home/ada/Pictures/wallpaper/docker_wallpaper.png &
+exec --no-startup-id volumeicon &
+exec --no-startup-id cbatticon &
+exec --no-startup-id compton --config ~/.config/compton.conf -b &
 # exec synergy
-exec --no-startup-id blueberry-tray 
-# exec kitty 
+exec --no-startup-id devdocs-desktop &
+exec --no-startup-id blueberry-tray &
+# exec kitty
 #exec tmux new -s weechat -d && tmux send -t weechat weechat ENTER
 
 # Pulse Audio controls
@@ -258,10 +282,10 @@ bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
 
 # Media player controls
-#bindsym XF86AudioPlay exec playerctl play
-#bindsym XF86AudioPause exec playerctl pause
-#bindsym XF86AudioNext exec playerctl next
-#bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioPlay exec playerctl play
+bindsym XF86AudioPause exec playerctl pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
 
 # increase/decrease keyboard brightness
 #bindsym XF86KbdBrightnessUp exec kbdbacklight up
