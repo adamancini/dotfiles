@@ -38,7 +38,7 @@ map q <Nop>
 set background=dark
 colorscheme solarized
 set nocompatible
-set number
+set nonumber
 set wrap
 set showmatch
 set visualbell
