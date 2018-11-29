@@ -28,7 +28,7 @@ set $bheight 6
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec kitty
+bindsym $mod+Return exec alacritty
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -51,7 +51,7 @@ bindsym $mod+Shift+minus move scratchpad
 
 # Show the first scratchpad window
 bindsym $mod+t [class="Subl3"] scratchpad show
-bindsym $mod+minus [class="kitty"] scratchpad show
+bindsym $mod+minus [class="Alacritty"] scratchpad show
 bindsym $mod+z [class="zoom" title="^Zoom Meeting ID*"] scratchpad show
 
 # Show the sup-mail scratchpad window, if any.
@@ -261,7 +261,7 @@ exec --no-startup-id cbatticon
  exec --no-startup-id compton --config ~/.config/compton.conf -b
 # exec synergy
 exec --no-startup-id blueberry-tray
-# exec kitty
+# exec alacritty
 #exec tmux new -s weechat -d && tmux send -t weechat weechat ENTER
 
 # Pulse Audio controls
