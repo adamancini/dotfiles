@@ -22,8 +22,8 @@ setw -g monitor-activity on
 set -g visual-activity off
 
 # tabs
-setw -g window-status-format "#[fg=black]#[bg=green] #I #[bg=green]#[fg=black] #W "
-setw -g window-status-current-format "#[bg=black]#[fg=green] *#I #[fg=green,bold]#[bg=darkgreen] [#W] "
+setw -g window-status-current-format "#[fg=black]#[bg=green] *#I #[bg=green,bold]#[fg=black] [#W] "
+setw -g window-status-format "#[bg=blue]#[fg=black] #I #[fg=black]#[bg=blue] #W "
 setw -g window-status-attr bold,blink,reverse
 
 # statusbar
