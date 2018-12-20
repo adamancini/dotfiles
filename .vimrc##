@@ -134,7 +134,7 @@ set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ 
 """
 
 autocmd Filetype xml setlocal tabstop=4 shiftwidth=4 softtabstop=4
-autocmd Filetype yaml setlocal tabstop=2
+autocmd Filetype yaml setlocal tabstop=2 shiftwidth=2 expandtab
 autocmd Filetype yml setlocal tabstop=2
 
 "  xmllist keybind @@x
