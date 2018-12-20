@@ -49,7 +49,10 @@ bindsym $mod+Shift+Tab workspace prev
 # Make the currently focused window a scratchpad
 bindsym $mod+Shift+minus move scratchpad 
 
-# Show the first scratchpad window
+# Show First scratchpad
+bindsym $mod+Shift+plus scratchpad show
+
+# Show selected scratchpad
 bindsym $mod+t [class="Subl3"] scratchpad show
 bindsym $mod+minus [class="Alacritty"] scratchpad show
 bindsym $mod+z [class="zoom" title="^Zoom Meeting ID*"] scratchpad show
