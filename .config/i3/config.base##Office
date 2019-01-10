@@ -258,7 +258,7 @@ exec --no-startup-id lxpolkit
 exec --no-startup-id nm-applet
 exec xrdb /home/ada/.XResources
 exec tilda
-exec_always --no-startup-id feh --bg-fill /home/ada/Pictures/wallpaper/docker_wallpaper.png /home/ada/Pictures/wallpaper/docker_wallpaper.png
+exec_always --no-startup-id feh --bg-fill /home/ada/Pictures/wallpaper/8xYQahh.png /home/ada/Pictures/wallpaper/8xYQahh.png
 exec --no-startup-id volumeicon
 exec --no-startup-id cbatticon
  exec --no-startup-id compton --config ~/.config/compton.conf -b
