@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+fswatch -o /home/ada/opt/sforce-dev/sforce/active | xargs -n1 python ~/opt/sforce-dev/sforce/active/track.py
