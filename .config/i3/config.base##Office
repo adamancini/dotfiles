@@ -257,19 +257,20 @@ mode "$mode_gaps_outer" {
 smart_borders on
 
 # autostart applications
+
+# exec --no-startup-id blueberry-tray
 # exec --no-startup-id compton
+# exec alacritty
+# exec synergy
+#exec tmux new -s weechat -d && tmux send -t weechat weechat ENTER
+exec --no-startup-id cbatticon
+exec --no-startup-id compton --config ~/.config/compton.conf -b
 exec --no-startup-id lxpolkit
 exec --no-startup-id nm-applet
-exec xrdb /home/ada/.XResources
-exec tilda
-exec_always --no-startup-id feh --bg-fill /home/ada/Pictures/wallpaper/8xYQahh.png /home/ada/Pictures/wallpaper/8xYQahh.png
+exec --no-startup-id tilda
 exec --no-startup-id volumeicon
-exec --no-startup-id cbatticon
- exec --no-startup-id compton --config ~/.config/compton.conf -b
-# exec synergy
-exec --no-startup-id blueberry-tray
-# exec alacritty
-#exec tmux new -s weechat -d && tmux send -t weechat weechat ENTER
+exec --no-startup-id xrdb /home/ada/.XResources
+exec_always --no-startup-id feh --bg-fill /home/ada/Pictures/wallpaper/8xYQahh.png /home/ada/Pictures/wallpaper/8xYQahh.png
 
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +5% #increase sound volume
