@@ -1,8 +1,12 @@
 [user]
 	name = ada
 	email = adab3ta@gmail.com
+[pull]
+  rebase = true
 [push]
-	default = upstream
+  default = upstream
+[rebase]
+  autoStash = true
 [core]
 	excludesfile = /home/ada/.gitignore_global
 [difftool "sourcetree"]
