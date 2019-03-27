@@ -6,14 +6,19 @@ DISABLE_AUTO_UPDATE="true"
 ENABLE_CORRECTION="false"
 COMPLETION_WAITING_DOTS="true"
 POWERLEVEL9K_DISABLE_RPROMPT=true
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(status host dir vcs custom_swarm)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(status host dir vcs custom_dci custom_swarm)
+POWERLEVEL9K_CUSTOM_DCI='[[ ! -z "$DCI_DEPLOYMENT" ]] && echo "${DCI_DEPLOYMENT}@${DCI_CLOUD}"' 
 POWERLEVEL9K_CUSTOM_SWARM='[[ ! -z "$DOCKER_HOST" ]] && echo "${DOCKER_HOST}"'
+#MARKER_KEY_GET='\C-f'
+#MARKER_KEY_MARK='\C-j'
+#MARKER_KEY_NEXT_PLACEHOLDER='\C-t'
 plugins=(
   history 
   ack 
   aws 
   docker 
   docker-compose 
+  fzf
   git 
   gcloud 
   kubectl 
@@ -61,6 +66,13 @@ fi
 if [[ -r ~/.bash_aliases ]]; then
   source ~/.bash_aliases
 fi
+
+# set up Marker
+# [[ -s "$HOME/.local/share/marker/marker.sh" ]] && source "$HOME/.local/share/marker/marker.sh"
+
+[[ $(which jira) ]] && eval "$(jira --completion-script-zsh)"
+
+source <(dci completion zsh)
 
 if [[ -r ~/.zsh/zsh-dircolors-solarized/zsh-dircolors-solarized.zsh ]]; then
   source ~/.zsh/zsh-dircolors-solarized/zsh-dircolors-solarized.zsh
