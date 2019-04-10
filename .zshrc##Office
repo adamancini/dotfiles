@@ -86,3 +86,4 @@ if which rbenv > /dev/null; then
   eval "$(rbenv init -)";
 fi
 
+if [ /usr/bin/kubectl ]; then source <(kubectl completion zsh); fi

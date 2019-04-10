@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
+#docker run -it \
+#  --user $(id -u):$(id -g) \
+#  --env-file='/home/ada/opt/sforce-dev/sforce.env' \
+#  -e SFCUSTOM=$(tmux list-panes -F "#{session_name}:#{window_index}") \
+#  -v /home/ada/opt/sforce-dev:/host \
+#  -v sforcetmp:/tmp \
+#  -v /home/ada/docker/issues:/host/sforce/attachments \
+#support/sforce:dev
 docker run -it \
   --user $(id -u):$(id -g) \
   --env-file='/home/ada/opt/sforce-dev/sforce.env' \
-  -e SFCUSTOM=$(tmux list-panes -F "#{session_name}:#{window_index}") \
   -v /home/ada/opt/sforce-dev:/host \
   -v sforcetmp:/tmp \
   -v /home/ada/docker/issues:/host/sforce/attachments \

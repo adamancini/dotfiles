@@ -16,7 +16,7 @@ set $mod Mod4
 font pango:NotoSans-Regular 11
 
 # Window Border Thickness
-set $bordersize 5
+set $bordersize 4
 # Bar Height
 set $bheight 6
 
@@ -201,7 +201,7 @@ for_window [class="Pcmanfm"] floating enable
 for_window [class="Shutter"] floating enable
 for_window [class="Steam"] floating enable, move to workspace 10
 for_window [class="Virt-manager"] floating enable
-for_window [class="^.*"] border pixel 0 # Disable titlebars entirely
+for_window [class="^.*"] border pixel 1 # Disable titlebars entirely
 for_window [class="arandr"] floating enable
 for_window [class="battle.net.exe"] floating enable, move to workspace 10
 for_window [class="dota2"] move to workspace 10, fullscreen
