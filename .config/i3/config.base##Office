@@ -31,7 +31,9 @@ floating_modifier $mod
 bindsym $mod+Return exec alacritty
 
 # kill focused window
-bindsym $mod+Shift+q kill
+bindsym $mod+Shift+x kill
+
+bindsym Mod1+Shift+4 exec --no-startup-id "gscreenshot-cli -c -f $HOME/Pictures -s"
 
 # start dmenu (a program launcher)
 bindsym Control+space exec --no-startup-id "rofi -combi-modi drun,run -show combi -modi combi"
