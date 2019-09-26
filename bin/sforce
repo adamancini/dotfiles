@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-docker run -it --user $(id -u):$(id -g) --env-file /home/ada/opt/sforce/sforce.env -v /home/ada/opt/sforce/sforce:/host -v sforcetmp:/tmp -v /home/ada/.vimrc##:/home/sforce/.vimrc -v /home/ada/.vim:/home/sforce/.vim -v /home/ada/docker/issues:/host/sforce/attachments support/sforce:latest bash
