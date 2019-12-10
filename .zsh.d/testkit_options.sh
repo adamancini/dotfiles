@@ -10,4 +10,9 @@ export TESTKIT_ENGINE=master
 export TESTKIT_DRIVER=aws
 export TESTKIT_SSH_KEYPATH=/home/$USER/.ssh/id_rsa
 
-
+function update_testkit {
+docker pull dockereng/testkit:latest \
+ && id=$(docker create dockereng/testkit:latest) \
+ && sudo docker cp $id:/testkit-$(uname -s)-$(uname -m) /usr/local/bin/testkit \
+ && (docker rm $id >/dev/null)
+}
