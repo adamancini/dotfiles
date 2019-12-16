@@ -27,6 +27,8 @@ plugins=(
   vagrant 
   zsh-dircolors-solarized 
   zsh-autosuggestions
+  zsh-syntax-highlighting
+  z.lua
 )
 source $ZSH/oh-my-zsh.sh
 
@@ -35,8 +37,10 @@ stty -ixon
 
 # User configuration
 
-#autoload -U compinit
+autoload -U +X compinit && compinit
+###
 #compinit
+source <(kubectl completion zsh)
 
 system_type=$(uname -s)
 if [[ "$system_type" = "Darwin" ]]; then
@@ -63,6 +67,9 @@ if [[ -d $HOME/.zsh.d ]]; then
   done
 fi
 
+path+=$HOME/bin
+typeset -U path
+
 if [[ -r ~/.bash_aliases ]]; then
   source ~/.bash_aliases
 fi
@@ -72,18 +79,18 @@ fi
 
 [[ $(which jira) ]] && eval "$(jira --completion-script-zsh)"
 
+
 source <(dci completion zsh)
 
 if [[ -r ~/.zsh/zsh-dircolors-solarized/zsh-dircolors-solarized.zsh ]]; then
   source ~/.zsh/zsh-dircolors-solarized/zsh-dircolors-solarized.zsh
 fi
 
-if [[ -r /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
-  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
+#if [[ -r /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+#  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#fi
 
 if which rbenv > /dev/null; then
   eval "$(rbenv init -)";
 fi
 
-if [ /usr/bin/kubectl ]; then source <(kubectl completion zsh); fi

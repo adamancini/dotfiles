@@ -23,4 +23,5 @@ if [ -f "$usermodmap" ]; then
     xmodmap "$usermodmap"
 fi
 xrandr --auto
+numlockx &
 exec i3
