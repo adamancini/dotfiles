@@ -1,0 +1,8 @@
+[Default Applications]
+x-scheme-handler/mailto=exo-mail-reader.desktop
+x-scheme-handler/webcal=chromium.desktop
+application/x-yaml=sublime_text_3.desktop
+
+[Added Associations]
+application/octet-stream=sublime_text_3.desktop;
+application/x-yaml=sublime_text_3.desktop;

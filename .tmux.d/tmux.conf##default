@@ -27,18 +27,21 @@ set -g visual-activity off
 # tabs
 setw -g window-status-current-format "#[fg=black]#[bg=green] *#I #[bg=green,bold]#[fg=black] [#W] "
 setw -g window-status-format "#[bg=blue]#[fg=black] #I #[fg=black]#[bg=blue] #W "
-setw -g window-status-attr bold,blink,reverse
+#setw -g window-status-attr bold,blink,reverse
+setw -g window-status-style bold,blink,reverse
 
 # statusbar
 # set-option -g status-position top
-set -g status-fg white
-set -g status-bg black
+#set -g status-fg white
+#set -g status-bg black
+set -g status-style bg=black,fg=white
 set -g status-justify centre
 set -g status-interval 5
 
 # colorize messages in the command line
-    set-option -g message-bg black
-    set-option -g message-fg  green 
+#set-option -g message-bg black
+#set-option -g message-fg  green 
+set-option -g message-style bg=black,fg=green
 
 # shorten command delay
 set -sg escape-time 1
