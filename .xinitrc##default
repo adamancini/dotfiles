@@ -22,6 +22,8 @@ fi
 if [ -f "$usermodmap" ]; then
     xmodmap "$usermodmap"
 fi
+
+systemctl --user import-environment DISPLAY
 xrandr --auto
-numlockx &
-exec i3
+# numlockx &
+exec i3 --shmlog-size=26214400
