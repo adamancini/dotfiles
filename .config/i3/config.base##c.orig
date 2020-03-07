@@ -15,23 +15,31 @@ set $mod Mod4
 # is used in the bar {} block below.
 font pango:NotoSans-Regular 11
 
+# This font is widely installed, provides lots of unicode glyphs, right-to-left
+# text rendering and scalability on retina/hidpi displays (thanks to pango).
+#font pango:DejaVu Sans Mono 8
+
+# Before i3 v4.8, we used to recommend this one as the default:
+# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+# The font above is very space-efficient, that is, it looks good, sharp and
+# clear in small sizes. Hoewmyver, its unicode glyph coverage is limited, the old
+# X core fonts rendering does not support right-to-left and this being a bitmap
+# font, it doesn’t scale on retina/hidpi displays.
+
 # Window Border Thickness
 set $bordersize 5
 # Bar Height
-set $bheight 6
-
-# insert theme
-# $i3-theme-window
+set $bheight 26
 
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec termite 
 
 # kill focused window
-bindsym $mod+Shift+x kill
+bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
 bindsym Control+space exec --no-startup-id "rofi -combi-modi drun,run -show combi -modi combi"
@@ -43,32 +51,14 @@ bindsym Control+space exec --no-startup-id "rofi -combi-modi drun,run -show comb
 #
 #bindsym $mod+Tab exec "rofi -show window"
 
-
-bindsym $mod+Tab focus mode_toggle
-
-#bindsym $mod+Tab workspace next
-#bindsym $mod+Shift+Tab workspace prev
-
-# Make the currently focused window a scratchpad
-bindsym $mod+Shift+minus move scratchpad 
-
-# Show First scratchpad
-bindsym $mod+Shift+plus scratchpad show
-
-# Show Specific Scratchpad
-bindsym $mod+t [class="Subl3"] scratchpad show
-bindsym $mod+minus [class="Alacritty"] scratchpad show
-bindsym $mod+z [class="zoom" title="^Zoom Meeting ID*"] scratchpad show
-bindsym $mod+d [class="Devdocs-desktop"] scratchpad show
-
-# Show the sup-mail scratchpad window, if any.
-# bindsym mod4+s [title="^Sup ::"] scratchpad show
+bindsym $mod+Tab workspace next
+bindsym $mod+Shift+Tab workspace prev
 
 # change focus
 bindsym $mod+j focus left
-bindsym $mod+i focus up
-bindsym $mod+k focus down
-bindsym $mod+l focus right
+bindsym $mod+k focus up 
+bindsym $mod+l focus down
+bindsym $mod+semicolon focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -78,8 +68,8 @@ bindsym $mod+Right focus right
 
 # move focused window
 bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move down
+bindsym $mod+Shift+k move up 
+bindsym $mod+Shift+l move down 
 bindsym $mod+Shift+semicolon move right
 
 # alternatively, you can use the cursor keys:
@@ -113,7 +103,7 @@ bindsym $mod+e layout toggle split
 bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-# bindsym $mod+space focus mode_toggle
+bindsym $mod+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -186,33 +176,23 @@ bindsym $mod+Control+l exec "/home/ada/.config/i3/i3lock-fancy-multimonitor/lock
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3blocks
+        status_command i3blocks 
         font pango:monospace 15
         # $i3-theme-bar
-        tray_output primary
 }
 
 # Floating window rules
-for_window [class="Devdocs-desktop"] move to scratchpad, border 4pixel
-for_window [class="peek"] floating enable
-for_window [class="obs"] floating enable
 for_window [class="tilda"] floating enable
-for_window [class="Blueberry.py"] floating enable
-# for_window [title="^.*Preferences"] floating enable
-for_window [class="zoom" title="^Zoom Meeting ID*"] move to scratchpad, border 2pixel
+for_window [title="^.*Preferences"] floating enable
 for_window [class="zoom"] floating enable
-for_window [class="Shutter"] floating enable
-for_window [class="Pcmanfm"] floating enable
+for_window [class="shutter"] floating enable
+for_window [title="Pcmanfm"] floating enable
 for_window [class="arandr"] floating enable
-for_window [class="Pavucontrol"] floating enable
-for_window [class="Nautilus"] floating enable
-for_window [class="Virt-manager"] floating enable
-for_window [class="Nm-connection-editor"] floating enable
 # Disable titlebars entirely
 for_window [class="^.*"] border pixel 0
 # Window gap options
-gaps inner 12
-gaps outer 0 
+gaps inner 2
+gaps outer 1
 
 
 # control gap sizes
@@ -253,41 +233,25 @@ mode "$mode_gaps_outer" {
         bindsym Escape mode "default"
 }
 
-#smart_gaps on
+smart_gaps on
 smart_borders on
 
 # autostart applications
-# exec --no-startup-id compton
-exec --no-startup-id dunst &
-exec --no-startup-id lxpolkit &
-exec --no-startup-id nm-applet &
-exec_always --no-startup-id xrdb /home/ada/.XResources &
-exec --no-startup-id tilda &
-exec_always --no-startup-id feh --bg-fill /home/ada/Pictures/wallpaper/DockerDesktop2.png &
-exec --no-startup-id volumeicon &
-exec --no-startup-id cbatticon &
-exec --no-startup-id compton --config ~/.config/compton.conf -b &
-# exec synergy
-exec --no-startup-id devdocs-desktop &
-exec --no-startup-id blueberry-tray &
-# exec kitty
-#exec tmux new -s weechat -d && tmux send -t weechat weechat ENTER
+exec --no-startup-id lxpolkit
+exec --no-startup-id nm-applet
+exec xrdb /home/ada/.XResources
+exec tilda
+exec_always nitrogen --restore
+exec --no-startup-id volumeicon
+exec --no-startup-id cbatticon
+# exec --no-startup-id compton --config ~/.config/compton.conf -b
+exec synergy
+exec --no-startup-id blueberry-tray
+exec termite 
+exec tmux new -s weechat -d && tmux send -t weechat weechat ENTER
 
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +5% #increase sound volume
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -5% #decrease sound volume
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 1 toggle # mute sound
 
-# Sreen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
-
-# Media player controls
-bindsym XF86AudioPlay exec playerctl play
-bindsym XF86AudioPause exec playerctl pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
-
-# increase/decrease keyboard brightness
-#bindsym XF86KbdBrightnessUp exec kbdbacklight up
-#bindsym XF86KbdBrightnessDown exec kbdbacklight down
