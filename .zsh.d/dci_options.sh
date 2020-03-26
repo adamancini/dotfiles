@@ -1,3 +1,7 @@
+# now doing `docker cluster` options instead
+
+export CLUSTER_ORGANIZATION='dockereng'
+export CLUSTER_TAG='v1.2.0'
 # export DCI_CLOUD=aws
 
 ## for local development
