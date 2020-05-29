@@ -1,0 +1,6 @@
+#!/bin/sh
+[[ -f ~/.zshenv ]] && source ~/.zshenv
+
+xrdb -DSOLARIZED_DARK -load ~/.Xresources
+# xrdb /home/ada/.XResources &
+feh --bg-fill /home/ada/wallpaper/triangle-1583561775989-3659.jpg &i

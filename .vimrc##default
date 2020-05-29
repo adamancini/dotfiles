@@ -25,18 +25,29 @@ else
 endif
 syntax on
 filetype plugin indent on
-if &term == "screen-256color"
-    map <esc>[1;5D <C-Left>
-    map <esc>[1;5C <C-Right>
-    map <esc>[1;5A <C-Up>
-    map <esc>[1;5B <C-Down>
-endif
+
+" need all 8 lines to make ctrl-arrow work in insert mode
+" for my combination of terminal and window manager
+" i3 & alacritty, TERM=xterm-256color
+"
+map <ESC>[1;5A <C-Up>
+map <ESC>[1;5B <C-Down>
+map <ESC>[1;5D <C-Left>
+map <ESC>[1;5C <C-Right>
+execute "set <xUp>=\e[1;*A"
+execute "set <xDown>=\e[1;*B"
+execute "set <xRight>=\e[1;*C"
+execute "set <xLeft>=\e[1;*D"
+
 
 " disable recording mode
 map q <Nop>
 
+" make sure solarized plugin is installed - antigen
 set background=dark
 colorscheme solarized
+
+
 set nocompatible
 set nonumber
 set wrap
@@ -62,6 +73,10 @@ set whichwrap+=<,>,h,l
 set showcmd
 set wildmenu
 let mapleader=","       " leader is comma
+
+" Show absolute line numbers in insert mode and relative numbers otherwise
+autocmd InsertEnter * :set relativenumber& number
+autocmd InsertLeave * :set relativenumber number
 
 " enable persistent undo
 try

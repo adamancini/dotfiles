@@ -1,17 +1,28 @@
 [user]
-	name = ada
-	email = adab3ta@gmail.com
+	name = ada mancini
+  email = adab3ta@gmail.com
+[color]
+branch = auto
+  diff = auto
+  interactive = auto
+  pager = true
+  status = auto
+  ui = true
 [pull]
   rebase = true
 [push]
-  default = upstream
+	default = current
 [rebase]
   autoStash = true
 [core]
+  editor = vim
 	excludesfile = /home/ada/.gitignore_global
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
 [alias]
-        graph = log --graph --oneline --decorate --all --date-order
-        gram = log --graph --decorate --all --date-order --format=format:'%C(auto)%h%C(reset) - %C(dim white)(%ar)%C(reset) %C(auto)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
+  co = checkout
+  graph = log --graph --oneline --decorate --all --date-order
+  gram = log --graph --decorate --all --date-order --format=format:'%C(auto)%h%C(reset) - %C(dim white)(%ar)%C(reset) %C(auto)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
+  st = status -sb
+  lg = log --graph --pretty=format:'%C(yellow)%h%C(auto)%d%Creset %s %C(white)- %an, %ar%Creset'

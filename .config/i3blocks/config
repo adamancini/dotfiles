@@ -1,4 +1,4 @@
-# i3blocks config file
+#i3blocks config file
 #
 # Please see man i3blocks for a complete reference!
 # The man page is also hosted at http://vivien.github.io/i3blocks
@@ -24,8 +24,9 @@
 #
 # The top properties below are applied to every block, but can be overridden.
 # Each block command defaults to the script name to avoid boilerplate.
-command=/usr/lib/i3blocks/$BLOCK_NAME
+command=/usr/lib/i3blocks/$BLOCK_NAME/$BLOCK_NAME
 separator_block_width=15
+separator=true
 markup=none
 
 # Volume indicator
@@ -35,12 +36,10 @@ markup=none
 #command=~/.config/i3/scripts/microphone.sh
 
 [memory]
-label=
-separator=false
+label= 
 interval=1
 # command=/usr/lib/i3blocks/memory
 color=#dfe3ee
-separator=true
 
 #[memory]
 #label=
@@ -50,27 +49,22 @@ separator=true
 #color=#7ea1a5
 
 [disk]
-label=
+label= 
 instance=/
 interval=30
-separator=true
 color=#ffff00
-separator=true
 
 [disk]
-label=
+label= 
 instance=/home
 interval=30
-separator=true
 color=#ffff00
-separator=true
 
 [cpu_usage]
-label=
+label= 
 # command=/usr/lib/i3blocks/cpu_usage
 interval=1
 #min_width=CPU:100.00%
-separator=true
 color=#00ff7f
 
 # [temperature]
@@ -83,11 +77,10 @@ color=#00ff7f
 # separator=true
 
 [wifi]
-label=
-instance=wlp4s0
+label= 
+instance=wlp3s0
 color=#00FFFF
 interval=10
-separator=true
 # color=#adff00
 
 # [bandwidth]
@@ -97,23 +90,23 @@ separator=true
 # color=#83d0c9
 
 #[battery]
-#label=
+#label= 
 #interval=10
 #color=#83d0c9
 #separator=true
 
-[volume]
-label=
-interval=once
-# command=~/.config/i3/scripts/audio.sh
-color=#f19950
-separator=true
+#[volume]
+#label=
+#interval=once
+## command=~/.config/i3/scripts/audio.sh
+#color=#f19950
+#separator=true
 
 [time]
 command=date '+%Y/%m/%d  %H:%M:%S'
-label=
+label= 
 interval=1
-separator=false
+separator=true
 
 [zulutime]
 command=date --utc '+%H:%M:%SZ'

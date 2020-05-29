@@ -14,6 +14,7 @@ POWERLEVEL9K_CUSTOM_SWARM='[[ ! -z "$DOCKER_HOST" ]] && echo "${DOCKER_HOST}"'
 #MARKER_KEY_NEXT_PLACEHOLDER='\C-t'
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=10'
 ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH_TMUX_CONFIG=$HOME/.tmux.d/tmux.conf
 
 # load .zsh.d plugins
 if [[ -d $HOME/.zsh.d ]]; then
@@ -27,7 +28,6 @@ if [[ -d $HOME/.zsh.d ]]; then
     source $file
   done
 fi
-
 # install plugins
 # antigen bundle robbyrussell/oh-my-zsh
 antigen use oh-my-zsh
@@ -41,7 +41,7 @@ antigen bundle github
 antigen bundle gitignore
 antigen bundle history
 antigen bundle joel-porquet/zsh-dircolors-solarized.git
-antigen bundle kubectl
+# antigen bundle kubectl
 antigen bundle man
 antigen bundle mosh
 antigen bundle nmap
@@ -54,18 +54,27 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 antigen theme bhilburn/powerlevel9k powerlevel9k
 antigen apply
 
-stty -ixon  # disable Ctrl+S 'freeze terminal' keybind
-autoload -U +X compinit && compinit
-source <(kubectl completion zsh)
+# set up kubectl completion for zsh
+kubectl () {
+    command kubectl $*
+    if [[ -z $KUBECTL_COMPLETE ]]
+    then
+        source <(command kubectl completion zsh)
+        KUBECTL_COMPLETE=1 
+    fi
+}
 
-system_type=$(uname -s)
-if [[ "$system_type" = "Darwin" ]]; then
-  plugins+=(brew osx)
-  test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-else
-fi
+# conditionally load osx plugins
+#system_type=$(uname -s)
+#if [[ "$(uname -s)" = "Darwin" ]]; then
+#  antigen bundle brew
+#  antigen bundle osx
+#  test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+#else
+#fi
 
 setopt prompt_subst
+# setopt complete_aliases
 
 settitle() {
   printf "\033k$1\033\\"
@@ -77,30 +86,14 @@ ssh() {
   settitle "zsh"
 }
 
-path+=$HOME/bin
+path+=$HOME/bin:$GOPATH/bin
 typeset -U path
 
-if [[ -r ~/.bash_aliases ]]; then
-  source ~/.bash_aliases
-fi
+stty -ixon  # disable Ctrl+S 'freeze terminal' keybind
 
-# set up Marker
-# [[ -s "$HOME/.local/share/marker/marker.sh" ]] && source "$HOME/.local/share/marker/marker.sh"
-
-# [[ $(which jira) ]] && eval "$(jira --completion-script-zsh)"
-
-
-# source <(dci completion zsh)
-
-if [[ -r ~/.zsh/zsh-dircolors-solarized/zsh-dircolors-solarized.zsh ]]; then
-  source ~/.zsh/zsh-dircolors-solarized/zsh-dircolors-solarized.zsh
-fi
-
-#if [[ -r /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
-#  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-#fi
-
-if which rbenv > /dev/null; then
-  eval "$(rbenv init -)";
-fi
-
+fpath=(~/.zsh.d/completion $fpath)
+autoload -U +X compinit && compinit
+compdef k='kubectl'
+compdef d='docker'
+# make sure my aliases get priority
+source $HOME/.zsh.d/aliases.sh

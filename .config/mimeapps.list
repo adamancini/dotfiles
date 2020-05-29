@@ -15,6 +15,8 @@ application/x-extension-shtml=firefox.desktop
 application/xhtml+xml=firefox.desktop
 application/x-extension-xhtml=firefox.desktop
 application/x-extension-xht=firefox.desktop
+application/pdf=google-chrome.desktop
+video/mp4=vlc.desktop
 
 [Added Associations]
 application/octet-stream=sublime_text_3.desktop;
@@ -30,3 +32,5 @@ application/x-extension-shtml=firefox.desktop;
 application/xhtml+xml=firefox.desktop;
 application/x-extension-xhtml=firefox.desktop;
 application/x-extension-xht=firefox.desktop;
+application/pdf=google-chrome.desktop;
+video/mp4=vlc.desktop;

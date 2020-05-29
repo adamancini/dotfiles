@@ -1,8 +1,8 @@
 export GOPATH=$(go env GOPATH)
 if [ -n "$DISPLAY" ]; then
-    export BROWSER=chromium
+    export BROWSER=google-chrome-stable
 else
-    export BROWSER=lynx
+    export BROWSER=elinks
 fi
 export RUBYOPT="-W0"
 export LIBVIRT_DEFAULT_URI=qemu:///system
@@ -13,5 +13,6 @@ export LANG=en_US.UTF-8
 export EDITOR='vim'
 export VISUAL='vim'
 export SHELL='/usr/bin/zsh'
-export QT_AUTO_SCREEN_SCALE_FACTOR=1
+# 
+# export QT_AUTO_SCREEN_SCALE_FACTOR=1 # not needed on regular dpi screen
 #export QT_SCALE_FACTOR=0.6
