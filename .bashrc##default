@@ -54,3 +54,5 @@ else
 fi
 
 source ~/.bash_aliases
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

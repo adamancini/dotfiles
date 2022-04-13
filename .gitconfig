@@ -1,8 +1,8 @@
 [user]
-	name = ada mancini
+  name = ada mancini
   email = adab3ta@gmail.com
 [color]
-branch = auto
+  branch = auto
   diff = auto
   interactive = auto
   pager = true
@@ -11,15 +11,15 @@ branch = auto
 [pull]
   rebase = true
 [push]
-	default = current
+  default = current
 [rebase]
   autoStash = true
 [core]
   editor = vim
-	excludesfile = /home/ada/.gitignore_global
+  excludesfile = /home/ada/.gitignore_global
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+  path = 
 [alias]
   co = checkout
   graph = log --graph --oneline --decorate --all --date-order

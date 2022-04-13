@@ -1,18 +1,18 @@
-export GOPATH=$(go env GOPATH)
-if [ -n "$DISPLAY" ]; then
-    export BROWSER=google-chrome-stable
-else
-    export BROWSER=elinks
-fi
+export GOPATH=$HOME/go
+#if [ -n "$DISPLAY" ]; then
+#    export BROWSER=google-chrome-stable
+#else
+#    export BROWSER=elinks
+#fi
 export RUBYOPT="-W0"
-export LIBVIRT_DEFAULT_URI=qemu:///system
-export TERMINAL=alacritty
-[[ $TMUX != "" ]] && export TERM='tmux-256color'
+#export LIBVIRT_DEFAULT_URI=qemu:///system
+#export TERMINAL=alacritty
+[[ $TMUX != "" ]] && export TERM='screen-256color'
 # export TERM=xterm-256color
 export LANG=en_US.UTF-8
 export EDITOR='vim'
 export VISUAL='vim'
-export SHELL='/usr/bin/zsh'
+#export SHELL='/usr/bin/zsh'
 # 
 # export QT_AUTO_SCREEN_SCALE_FACTOR=1 # not needed on regular dpi screen
 #export QT_SCALE_FACTOR=0.6
