@@ -6,7 +6,7 @@ ENABLE_CORRECTION="false"
 COMPLETION_WAITING_DOTS="true"
 POWERLEVEL9K_DISABLE_RPROMPT=true
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(status host dir vcs custom_dci custom_swarm)
-POWERLEVEL9K_CUSTOM_DCI='[[ ! -z "$DCI_DEPLOYMENT" ]] && echo "${DCI_DEPLOYMENT}@${DCI_CLOUD}"' 
+# POWERLEVEL9K_CUSTOM_DCI='[[ ! -z "$DCI_DEPLOYMENT" ]] && echo "${DCI_DEPLOYMENT}@${DCI_CLOUD}"'
 POWERLEVEL9K_CUSTOM_SWARM='[[ ! -z "$DOCKER_HOST" ]] && echo "${DOCKER_HOST}"'
 #MARKER_KEY_GET='\C-f'
 #MARKER_KEY_MARK='\C-j'
@@ -27,12 +27,15 @@ if [[ -d $HOME/.zsh.d ]]; then
     source $file
   done
 fi
+
+antigen init ~/.antigenrc
+
 # install plugins
 # antigen bundle robbyrussell/oh-my-zsh
 #antigen use oh-my-zsh
 antigen use ohmyzsh/ohmyzsh
 antigen bundle aws
-antigen bundle docker 
+antigen bundle docker
 antigen bundle docker-compose
 antigen bundle fzf
 antigen bundle gcloud
@@ -66,13 +69,12 @@ antigen theme romkatv/powerlevel10k
 antigen apply
 
 # set up kubectl completion for zsh
-kubectl () {
-    command kubectl $*
-    if [[ -z $KUBECTL_COMPLETE ]]
-    then
-        source <(command kubectl completion zsh)
-        KUBECTL_COMPLETE=1 
-    fi
+kubectl() {
+  command kubectl $*
+  if [[ -z $KUBECTL_COMPLETE ]]; then
+    source <(command kubectl completion zsh)
+    KUBECTL_COMPLETE=1
+  fi
 }
 
 setopt prompt_subst
@@ -91,7 +93,7 @@ ssh() {
 path+=$HOME/bin:$GOPATH/bin
 typeset -U path
 
-stty -ixon  # disable Ctrl+S 'freeze terminal' keybind
+stty -ixon # disable Ctrl+S 'freeze terminal' keybind
 
 fpath=(~/.zsh.d/completion $fpath)
 autoload -U +X compinit && compinit
