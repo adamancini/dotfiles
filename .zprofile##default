@@ -1,8 +1,0 @@
-#typeset -U path
-#rubypath=( ~/.gem/ruby/2.6.0/bin ~/.gem/ruby/2.5.0/bin ~/.gem/ruby/2.4.0/bin)
-#gopath=(~/go/bin /usr/local/go/bin)
-#path=(~/bin $rubypath[@] $gopath[@] $path[@])
-
-#source /etc/profile.d/vte.sh
-
-#[[ ! $DISPLAY && $XDG_VTNR -eq 1 && $(id --group) -ne 0 ]] && startx
