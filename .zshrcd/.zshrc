@@ -30,8 +30,6 @@ setopt hist_ignore_space
 setopt hist_save_no_dups
 
 
-
-
 if [[ -d $ZDOTDIR/conf.d ]]; then
   for file in $ZDOTDIR/conf.d/*.zsh; do
     source $file
@@ -40,6 +38,7 @@ fi
 
 # load antigen
 if [ -f $ZDOTDIR/conf.d/antigen.zsh ]; then
+  typeset -a ANTIGEN_CHECK_FILES=(${ZDOTDIR:-~}/.zshrc ${ZDOTDIR:-~}/antigen.zsh)
   ADOTDIR=$HOME/.antigen
   ANTIGEN_LOG=$ADOTDIR/logs
   POWERLEVEL9K_DISABLE_RPROMPT=true
