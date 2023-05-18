@@ -12,6 +12,7 @@ fpath+=($ZDOTDIR/completions $fpath)
 if type brew &>/dev/null
 then
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+  path+="/opt/homebrew/sbin"
 fi
 
 # turn on completions
@@ -47,7 +48,7 @@ if [ -f $ZDOTDIR/conf.d/antigen.zsh ]; then
 fi
 
 # disable Ctrl+S 'freeze terminal' keybind
-stty -ixon 
+stty -ixon
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

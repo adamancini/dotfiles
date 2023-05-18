@@ -43,10 +43,8 @@ execute "set <xLeft>=\e[1;*D"
 " disable recording mode
 map q <Nop>
 
-" make sure solarized plugin is installed - antigen
-set background=dark
-colorscheme solarized
 
+set background=dark
 
 set nocompatible
 set nonumber
