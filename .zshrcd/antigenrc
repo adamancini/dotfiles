@@ -1,4 +1,5 @@
 antigen use ohmyzsh/ohmyzsh
+antigen bundle adamancini/oh-my-replicated@main
 antigen bundle aws
 antigen bundle docker
 antigen bundle docker-compose
