@@ -22,6 +22,15 @@ _comp_options+=(globdots) # With hidden files
 setopt prompt_subst
 setopt complete_aliases
 
+setopt inc_append_history
+setopt share_history
+setopt hist_ignore_dups
+setopt hist_ignore_space
+setopt hist_save_no_dups
+
+
+
+
 if [[ -d $ZDOTDIR/conf.d ]]; then
   for file in $ZDOTDIR/conf.d/*.zsh; do
     source $file
