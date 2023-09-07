@@ -1,2 +1,5 @@
 .ada/
 .DS_Store
+*.prof
+cpu.prof
+mem.prof
