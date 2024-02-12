@@ -16,13 +16,25 @@
   autoStash = true
 [core]
   editor = vim
-  excludesfile = /home/ada/.gitignore_global
+	excludesFile = /Users/ada/.gitignore_global
 [difftool "sourcetree"]
-  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-  path = 
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
 [alias]
   co = checkout
   graph = log --graph --oneline --decorate --all --date-order
   gram = log --graph --decorate --all --date-order --format=format:'%C(auto)%h%C(reset) - %C(dim white)(%ar)%C(reset) %C(auto)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
   st = status -sb
   lg = log --graph --pretty=format:'%C(yellow)%h%C(auto)%d%Creset %s %C(white)- %an, %ar%Creset'
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[init]
+	defaultBranch = main
+[hub]
+	protocol = ssh
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true

@@ -3,3 +3,12 @@
 *.prof
 cpu.prof
 mem.prof
+**/support-bundle*
+
+# OS generated files #
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

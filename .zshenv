@@ -3,17 +3,17 @@
 # xdg
 export XDG_CONFIG_HOME="$HOME/.config"
 
-# editor
-export LANG=en_US.UTF-8
-export EDITOR='vim'
-export VISUAL='subl -w'
-
 # zsh
 export ZDOTDIR=$HOME/.zshrcd
 export HISTFILE="$ZDOTDIR/.zhistory"    # History filepath
-export HISTSIZE=10000                   # Maximum events for internal history
-export SAVEHIST=10000                   # Maximum events in history file
+export HISTSIZE=100000                   # Maximum events for internal history
+export SAVEHIST=100000                   # Maximum events in history file
 
+
+# Ensure that a non-login, non-interactive shell has a defined environment.
+if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s ${ZDOTDIR:-~}/.zprofile ]]; then
+  source ${ZDOTDIR:-~}/.zprofile
+fi
 
 # golang
 export GOPATH=$HOME/go
