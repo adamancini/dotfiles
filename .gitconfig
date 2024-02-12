@@ -17,10 +17,7 @@
   autoStash = true
 [core]
   editor = vim
-	excludesFile = /Users/ada/.gitignore_global
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+	excludesFile = ~/.gitignore_global
 [alias]
   co = checkout
   graph = log --graph --oneline --decorate --all --date-order
@@ -36,8 +33,5 @@
 	defaultBranch = main
 [hub]
 	protocol = ssh
-[mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
 [commit]
   gpgsign = false
