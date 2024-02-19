@@ -2,6 +2,8 @@
   name = ada mancini
   email = adab3ta@gmail.com
   signingKey = 5EEFE54404E0F18C!
+[include]
+  path = .gitconfig.local
 [color]
   branch = auto
   diff = auto
