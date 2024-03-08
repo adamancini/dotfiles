@@ -5,6 +5,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 
 # zsh
 export ZDOTDIR=$HOME/.zshrcd
+export ZCONFDIR=$ZDOTDIR/conf.d
 export HISTFILE="$ZDOTDIR/.zhistory"    # History filepath
 export HISTSIZE=100000                   # Maximum events for internal history
 export SAVEHIST=100000                   # Maximum events in history file
