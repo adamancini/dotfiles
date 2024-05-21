@@ -27,9 +27,8 @@ git-clone-repo() {
   # Extract repo username and repo name from repo url
   if [[ $repo_url =~ ^git@github.com:([^/]+)/(.+)\.git$ ]]; then
     repo_username=${BASH_REMATCH[1]}
-
     repo_name=${BASH_REMATCH[2]}
-    echo "$repo_username/$repo_name"
+    # echo "$repo_username/$repo_name"
   else
     echo "Invalid git url: $repo_url"
     return 1
@@ -37,4 +36,5 @@ git-clone-repo() {
 
   # Clone the repo and add it to SRC_HOME
   echo "git clone $repo_url $src_home/$repo_username/$repo_name"
+  git clone $repo_url $src_home/$repo_username/$repo_name
 }
