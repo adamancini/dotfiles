@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+#   Note:
+#   --server https://acme-v02.api.letsencrypt.org/directory
+#   needed for v2 API for wildcard support
+
+##  employs manual DNS challenge -
+##  you must have access to your DNS provider
+##  to add an _acme-challenge TXT record
+
+##  I recommend setting a very short TTL on your
+##  TXT record at first, to ensure you don't have
+##  to wait very long if you make a mistake
+
+EMAIL="adab3ta@gmail.com"
+DOMAIN="*.local.antiskub.net"
+docker run -it --rm \
+  --name letsencrypt \
+  -v "${HOME}/letsencrypt:/etc/letsencrypt" \
+  -v "${HOME}/opt/letsencrypt:/var/log/letsencrypt" \
+  -v "${HOME}/opt/letsencrypt:/var/lib/letsencrypt" \
+  certbot/certbot:latest certonly \
+  --server https://acme-v02.api.letsencrypt.org/directory \
+  --manual --preferred-challenges dns \
+  -m "${EMAIL}" -d "${DOMAIN}" --agree-tos
+
+
+# # Examine certificate
+# openssl x509 -in cert.pem -text -noout
+
+# Check if certificate is issued by a given CA
+# openssl verify -verbose -CAFile ca.pem cert.pem
+

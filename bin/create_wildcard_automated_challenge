@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+#   Note:
+#   --server https://acme-v02.api.letsencrypt.org/directory
+#   needed for v2 API for wildcard support
+
+##  employs automated DNS challenge w/ google cloud dns -
+##  you must configure a service account w/ google cloud and provide the DNS Administrator role
+##  to support automatically setting TXT records
+
+if [ -z "$1" ]; then
+  echo "Supply a valid domain name argument."
+  exit 1
+fi
+
+domain="${1}"
+
+docker run -it --rm \
+  --name letsencrypt \
+  -v "${HOME}/letsencrypt:/etc/letsencrypt" \
+  -v "${HOME}/opt/letsencrypt/lib:/var/lib/letsencrypt" \
+  -v "${HOME}/opt/letsencrtpy/log:/var/log/letsencrypt" \
+  certbot/dns-google:latest \
+  --server https://acme-v02.api.letsencrypt.org/directory \
+  --dns-google-credentials "/etc/letsencrypt/antiskub.json" \
+  --dns-google \
+  -d "${domain}" \
+  certonly
