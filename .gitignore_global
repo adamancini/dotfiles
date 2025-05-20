@@ -1,4 +1,5 @@
 .ada/
+.envrc
 .DS_Store
 *.prof
 cpu.prof
