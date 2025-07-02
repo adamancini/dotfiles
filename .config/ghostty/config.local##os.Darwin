@@ -1,0 +1,3 @@
+# macOS-specific Ghostty configuration
+macos-icon = chalkboard
+# icon options: official,blueprint,chalkboard,microchip,glass,holographic,paper,retro,xray

@@ -26,6 +26,6 @@ export GOBIN=$HOME/go/bin
 typeset -aU path
 path+=$HOME/bin
 path+=$GOPATH/bin
-if [[ "$(uname -s)" = "Darwin" ]]; then
-  path+=/opt/homebrew/bin
-fi
+
+# Load OS-specific environment settings if available
+[[ -f ~/.zshenv.local ]] && source ~/.zshenv.local

@@ -34,9 +34,9 @@ cursor-style = block
 cursor-style-blink = true
 background-opacity = .98
 background-blur = true
-macos-icon = chalkboard
-# icon options =  
-# official,blueprint,chalkboard,microchip,glass,holographic,paper,retro,xray
+
+# Load OS-specific configuration if available
+config-file = ?~/.config/ghostty/config.local
 
 
 # Behavior options
@@ -46,3 +46,4 @@ mouse-hide-while-typing = true
 
 # Hotkeys
 
+keybind = shift+enter=text:\n
