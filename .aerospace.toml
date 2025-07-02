@@ -30,6 +30,59 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 # Also see: https://nikitabobko.github.io/AeroSpace/goodies#disable-hide-app
 automatically-unhide-macos-hidden-apps = false
 
+
+# Support tiling window manager aerospace
+# https://ghostty.org/docs/help/macos-tiling-wms
+[[on-window-detected]]
+if.app-id="com.mitchellh.ghostty"
+run= [
+  "layout tiling",
+]
+
+# Make Zoom windows always float
+[[on-window-detected]]
+if.app-id="us.zoom.xos"
+run= [
+  "layout floating",
+]
+
+# Make Claude Desktop windows always float
+[[on-window-detected]]
+if.app-id="com.anthropic.claude"
+run= [
+  "layout floating",
+]
+
+# Firefox default to workspace 1
+[[on-window-detected]]
+if.app-id="org.mozilla.firefox"
+run= [
+  "move-node-to-workspace 1",
+]
+
+# Cursor default to workspace 2
+[[on-window-detected]]
+if.app-id="com.todesktop.230313mzl4w4u92"
+run= [
+  "move-node-to-workspace 2",
+]
+
+# Slack default to workspace 3
+[[on-window-detected]]
+if.app-id="com.tinyspeck.slackmacgap"
+run= [
+  "move-node-to-workspace 3",
+]
+
+# Obsidian default to workspace 4
+[[on-window-detected]]
+if.app-id="md.obsidian"
+run= [
+  "move-node-to-workspace 4",
+]
+
+
+
 # Possible values: (qwerty|dvorak|colemak)
 # See https://nikitabobko.github.io/AeroSpace/guide#key-mapping
 [key-mapping]
@@ -78,11 +131,12 @@ automatically-unhide-macos-hidden-apps = false
     # You can uncomment the following lines to open up terminal with alt + enter shortcut
     # (like in i3)
     # alt-enter = '''exec-and-forget osascript -e '
-    # tell application "Terminal"
+    # tell application "Ghostty"
     #     do script
     #     activate
     # end tell'
     # '''
+    alt-enter = '''exec-and-forget open -a "Ghostty"'''
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#layout
     alt-slash = 'layout tiles horizontal vertical'
@@ -135,7 +189,7 @@ automatically-unhide-macos-hidden-apps = false
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#mode
     alt-shift-semicolon = 'mode service'
-    
+
     # Toggle floating on focused window
     alt-shift-f = 'layout floating tiling'
 

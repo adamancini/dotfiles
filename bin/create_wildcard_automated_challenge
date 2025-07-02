@@ -21,6 +21,7 @@ docker run -it --rm \
   -v "${HOME}/opt/letsencrypt/lib:/var/lib/letsencrypt" \
   -v "${HOME}/opt/letsencrtpy/log:/var/log/letsencrypt" \
   certbot/dns-google:latest \
+  --key-type rsa \
   --server https://acme-v02.api.letsencrypt.org/directory \
   --dns-google-credentials "/etc/letsencrypt/antiskub.json" \
   --dns-google \

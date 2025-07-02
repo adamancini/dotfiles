@@ -56,3 +56,6 @@ fi
 source ~/.bash_aliases
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# Load direnv
+eval "$(direnv hook bash)"

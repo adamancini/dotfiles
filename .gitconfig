@@ -1,6 +1,6 @@
 [user]
   name = ada mancini
-  email = adab3ta@gmail.com
+  email = ada@replicated.com
   signingKey = 5EEFE54404E0F18C!
 [include]
   path = .gitconfig.local
@@ -19,7 +19,7 @@
   autoStash = true
 [core]
   editor = vim
-	excludesFile = ~/.gitignore_global
+  excludesFile = ~/.gitignore_global
 [alias]
   co = checkout
   graph = log --graph --oneline --decorate --all --date-order
@@ -27,13 +27,21 @@
   st = status -sb
   lg = log --graph --pretty=format:'%C(yellow)%h%C(auto)%d%Creset %s %C(white)- %an, %ar%Creset'
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
 [init]
-	defaultBranch = main
+  defaultBranch = main
 [hub]
-	protocol = ssh
+  protocol = ssh
 [commit]
   gpgsign = false
+[gpg]
+  format = openpgp
+  program = gpg
+[tag]
+  forceSignAnnotated = false
+[gpg "ssh"]
+  program = ssh-keygen
+  allowedSignersFile = ""
