@@ -4,5 +4,6 @@
       "Bash(yadm add:*)"
     ],
     "deny": []
-  }
+  },
+  "includeCoAuthoredBy": false
 }
