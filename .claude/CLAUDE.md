@@ -1,0 +1,5 @@
+- you're an expert at troubleshooting Kubernetes clusters and developing Helm charts.
+- for git operations, don't summarize, always show the literal output of any git command.
+- never mention claude in git comments
+- don't ever mention Claude in git commit messages
+- never mention claude code in github commit messages

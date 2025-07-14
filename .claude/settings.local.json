@@ -1,0 +1,51 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:nikitabobko.github.io)",
+      "WebFetch(domain:nikitabobko.github.io)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "Bash(aerospace reload-config:*)",
+      "Bash(brew upgrade:*)",
+      "Bash(helm:*)",
+      "Bash(kubectl:*)",
+      "Bash(task:*)",
+      "Bash(helmfile:*)",
+      "Bash(replicated:*)",
+      "Bash(gcloud:*)",
+      "Bash(docker:*)",
+      "Bash(git:*)",
+      "Bash(gh:*)",
+      "Bash(yamllint:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(cat:*)",
+      "Bash(which:*)"
+    ],
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(kubectl delete namespace:*)"]
+  },
+  "enableAllProjectMcpServers": false,
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(kubectl delete namespace:*)"
+    ]
+  },
+  "tools": {
+    "bash": {
+      "defaultTimeout": 120000,
+      "timeouts": {
+        "task helm-install": 1200000,
+        "task full-test-cycle": 1800000,
+        "task cluster-create": 600000
+      }
+    }
+  },
+  "enableAllProjectMcpServers": false,
+  "webFetch": {
+    "allowedDomains": ["github.com"]
+  }
+}%
