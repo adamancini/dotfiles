@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:nikitabobko.github.io)",
+      "WebFetch(domain:nikitabobko.github.io)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "Bash(aerospace reload-config:*)",
+      "Bash(brew upgrade:*)"
+    ],
+    "deny": []
+  },
+  "enableAllProjectMcpServers": false
+}
