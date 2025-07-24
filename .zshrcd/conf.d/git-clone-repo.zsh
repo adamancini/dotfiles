@@ -25,9 +25,14 @@ git-clone-repo() {
   fi
 
   # Extract repo username and repo name from repo url
-  if [[ $repo_url =~ ^git@github.com:([^/]+)/(.+)\.git$ ]]; then
+  # Support both SSH and HTTPS formats, with or without .git extension
+  if [[ $repo_url =~ ^git@github.com:([^/]+)/(.+)(\.git)?$ ]]; then
     repo_username=${BASH_REMATCH[1]}
-    repo_name=${BASH_REMATCH[2]}
+    repo_name=${BASH_REMATCH[2]%.git}  # Remove .git if present
+    # echo "$repo_username/$repo_name"
+  elif [[ $repo_url =~ ^https://github.com/([^/]+)/(.+)(\.git)?/?$ ]]; then
+    repo_username=${BASH_REMATCH[1]}
+    repo_name=${BASH_REMATCH[2]%.git}  # Remove .git if present
     # echo "$repo_username/$repo_name"
   else
     echo "Invalid git url: $repo_url"
