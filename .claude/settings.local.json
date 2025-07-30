@@ -1,9 +1,32 @@
 {
   "permissions": {
     "allow": [
+      "WebFetch(domain:github.com)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "Bash(aerospace reload-config:*)",
+      "Bash(brew upgrade:*)",
+      "Bash(helm:*)",
+      "Bash(kubectl:*)",
+      "Bash(task:*)",
+      "Bash(helmfile:*)",
+      "Bash(replicated:*)",
+      "Bash(gcloud:*)",
+      "Bash(docker:*)",
+      "Bash(git:*)",
+      "Bash(gh:*)",
+      "Bash(yamllint:*)",
+      "Bash(grep:*)",
+      "Bash(mkdir:*)",
+      "Bash(cat:*)",
+      "Bash(which:*)",
       "Bash(yadm add:*)"
     ],
-    "deny": []
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(kubectl delete namespace:*)"
+    ]
   },
+  "enableAllProjectMcpServers": false,
   "includeCoAuthoredBy": false
 }
