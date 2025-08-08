@@ -1,4 +1,5 @@
 {
+  "includeCoAuthoredBy": false,
   "permissions": {
     "allow": [
       "WebFetch(domain:github.com)",
@@ -20,13 +21,14 @@
       "Bash(mkdir:*)",
       "Bash(cat:*)",
       "Bash(which:*)",
-      "Bash(yadm add:*)"
+      "Bash(yadm add:*)",
+      "Bash(yadm log:*)",
+      "Bash(yadm show:*)"
     ],
     "deny": [
       "Bash(rm -rf:*)",
       "Bash(kubectl delete namespace:*)"
     ]
   },
-  "enableAllProjectMcpServers": false,
-  "includeCoAuthoredBy": false
+  "enableAllProjectMcpServers": false
 }

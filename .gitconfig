@@ -1,7 +1,7 @@
 [user]
   name = ada mancini
   email = ada@replicated.com
-  signingKey = 5EEFE54404E0F18C!
+	signingkey = adab3ta@gmail.com
 [include]
   path = .gitconfig.local
 [color]
@@ -36,10 +36,10 @@
 [hub]
   protocol = ssh
 [commit]
-  gpgsign = false
+	gpgsign = true
 [gpg]
   format = openpgp
-  program = gpg
+	program = /Users/ada/bin/gpg-wrapper.sh
 [tag]
   forceSignAnnotated = false
 [gpg "ssh"]

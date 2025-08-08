@@ -1,3 +1,5 @@
+
+
 DISABLE_AUTO_UPDATE="true"
 ENABLE_CORRECTION="false"
 COMPLETION_WAITING_DOTS="true"
@@ -24,6 +26,11 @@ setopt prompt_subst
 setopt complete_aliases
 
 export HISTTIMEFORMAT="[%F %T] "
+setopt append_history
+setopt autocd
+setopt extendedglob
+setopt nomatch
+setopt notify
 setopt inc_append_history
 setopt share_history
 setopt hist_ignore_all_dups
@@ -51,6 +58,9 @@ fi
 
 # disable Ctrl+S 'freeze terminal' keybind
 stty -ixon
+
+# enable emacs keybindings (disable vi mode)
+bindkey -e
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
