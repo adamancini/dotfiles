@@ -53,6 +53,20 @@ run= [
   "layout floating",
 ]
 
+# Make Notes windows always float
+[[on-window-detected]]
+if.app-id="com.apple.Notes"
+run= [
+  "layout floating",
+]
+
+# Make Finder windows always float
+[[on-window-detected]]
+if.app-id="com.apple.finder"
+run= [
+  "layout floating",
+]
+
 # Firefox default to workspace 1
 [[on-window-detected]]
 if.app-id="org.mozilla.firefox"
@@ -70,6 +84,13 @@ run= [
 # Slack default to workspace 3
 [[on-window-detected]]
 if.app-id="com.tinyspeck.slackmacgap"
+run= [
+  "move-node-to-workspace 3",
+]
+
+# Superhuman default to workspace 3
+[[on-window-detected]]
+if.app-id="com.superhuman.electron"
 run= [
   "move-node-to-workspace 3",
 ]
