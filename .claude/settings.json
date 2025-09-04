@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "includeCoAuthoredBy": false,
   "permissions": {
     "allow": [
@@ -21,14 +22,19 @@
       "Bash(mkdir:*)",
       "Bash(cat:*)",
       "Bash(which:*)",
-      "Bash(yadm add:*)",
-      "Bash(yadm log:*)",
-      "Bash(yadm show:*)"
+      "Bash(yadm:*)"
     ],
     "deny": [
       "Bash(rm -rf:*)",
       "Bash(kubectl delete namespace:*)"
     ]
   },
-  "enableAllProjectMcpServers": false
+  "model": "opusplan",
+  "enableAllProjectMcpServers": false,
+  "feedbackSurveyState": {
+    "lastShownTime": 1754064217555
+  },
+  "allowList": [
+    "yadm:*"
+  ]
 }
