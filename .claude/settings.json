@@ -1,5 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "BASH_DEFAULT_TIMEOUT_MS": "300000",
+    "BASH_MAX_TIMEOUT_MS": "1860000"
+  },
   "includeCoAuthoredBy": false,
   "permissions": {
     "allow": [
@@ -29,12 +33,25 @@
       "Bash(kubectl delete namespace:*)"
     ]
   },
-  "model": "opusplan",
   "enableAllProjectMcpServers": false,
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/user-prompt-submit-mcp-reminder.py"
+          }
+        ]
+      }
+    ]
+  },
   "feedbackSurveyState": {
     "lastShownTime": 1754064217555
   },
   "allowList": [
     "yadm:*"
-  ]
+  ],
+  "model": "sonnet[1m]"
 }
