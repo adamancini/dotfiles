@@ -1,0 +1,34 @@
+# Claude Code History and Session Data
+# These files are machine-specific and can get large
+# Only sync configs, plugins, hooks, and skills
+
+# Large history files (30MB+ and growing)
+.claude/projects/
+.claude/history.jsonl
+.claude/file-history/
+
+# Session and runtime data
+.claude/session-env/
+.claude/debug/
+.claude/shell-snapshots/
+.claude/todos/
+
+# Plans (can be machine-specific)
+.claude/plans/
+
+# Local settings (may contain machine-specific paths)
+.claude/settings.local.json
+
+# Temporary downloads
+.claude/downloads/
+
+# IDE-specific cache
+.claude/ide/
+
+# Statsig telemetry
+.claude/statsig/
+
+# Plugin git repositories (managed separately)
+**/.claude/plugins/cache/**
+**/.claude/plugins/marketplaces/**
+**/.claude/plugins/repos/**

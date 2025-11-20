@@ -1,0 +1,117 @@
+{
+  "version": 1,
+  "plugins": {
+    "superpowers@superpowers-marketplace": {
+      "version": "3.4.1",
+      "installedAt": "2025-11-19T16:08:11.511Z",
+      "lastUpdated": "2025-11-19T16:08:11.511Z",
+      "installPath": "/Users/ada/.claude/plugins/cache/superpowers",
+      "gitCommitSha": "02c87670de64b236ffd3239305dd71190983679d",
+      "isLocal": false
+    },
+    "agent-sdk-dev@claude-code-plugins": {
+      "version": "1.0.0",
+      "installedAt": "2025-11-19T16:09:46.702Z",
+      "lastUpdated": "2025-11-19T16:09:46.702Z",
+      "installPath": "/Users/ada/.claude/plugins/marketplaces/claude-code-plugins/plugins/agent-sdk-dev",
+      "gitCommitSha": "13a258a3feca92a360e9cec5150dc61666429927",
+      "isLocal": true
+    },
+    "pr-review-toolkit@claude-code-plugins": {
+      "version": "1.0.0",
+      "installedAt": "2025-11-19T16:09:46.702Z",
+      "lastUpdated": "2025-11-19T16:09:46.702Z",
+      "installPath": "/Users/ada/.claude/plugins/marketplaces/claude-code-plugins/plugins/pr-review-toolkit",
+      "gitCommitSha": "13a258a3feca92a360e9cec5150dc61666429927",
+      "isLocal": true
+    },
+    "commit-commands@claude-code-plugins": {
+      "version": "1.0.0",
+      "installedAt": "2025-11-19T16:09:46.702Z",
+      "lastUpdated": "2025-11-19T16:09:46.702Z",
+      "installPath": "/Users/ada/.claude/plugins/marketplaces/claude-code-plugins/plugins/commit-commands",
+      "gitCommitSha": "13a258a3feca92a360e9cec5150dc61666429927",
+      "isLocal": true
+    },
+    "feature-dev@claude-code-plugins": {
+      "version": "1.0.0",
+      "installedAt": "2025-11-19T16:09:46.702Z",
+      "lastUpdated": "2025-11-19T16:09:46.702Z",
+      "installPath": "/Users/ada/.claude/plugins/marketplaces/claude-code-plugins/plugins/feature-dev",
+      "gitCommitSha": "13a258a3feca92a360e9cec5150dc61666429927",
+      "isLocal": true
+    },
+    "security-guidance@claude-code-plugins": {
+      "version": "1.0.0",
+      "installedAt": "2025-11-19T16:09:46.702Z",
+      "lastUpdated": "2025-11-19T16:09:46.702Z",
+      "installPath": "/Users/ada/.claude/plugins/marketplaces/claude-code-plugins/plugins/security-guidance",
+      "gitCommitSha": "13a258a3feca92a360e9cec5150dc61666429927",
+      "isLocal": true
+    },
+    "code-review@claude-code-plugins": {
+      "version": "1.0.0",
+      "installedAt": "2025-11-19T16:09:46.702Z",
+      "lastUpdated": "2025-11-19T16:09:46.702Z",
+      "installPath": "/Users/ada/.claude/plugins/marketplaces/claude-code-plugins/plugins/code-review",
+      "gitCommitSha": "13a258a3feca92a360e9cec5150dc61666429927",
+      "isLocal": true
+    },
+    "explanatory-output-style@claude-code-plugins": {
+      "version": "1.0.0",
+      "installedAt": "2025-11-19T16:09:46.702Z",
+      "lastUpdated": "2025-11-19T16:09:46.702Z",
+      "installPath": "/Users/ada/.claude/plugins/marketplaces/claude-code-plugins/plugins/explanatory-output-style",
+      "gitCommitSha": "13a258a3feca92a360e9cec5150dc61666429927",
+      "isLocal": true
+    },
+    "learning-output-style@claude-code-plugins": {
+      "version": "1.0.0",
+      "installedAt": "2025-11-19T16:09:46.702Z",
+      "lastUpdated": "2025-11-19T16:09:46.702Z",
+      "installPath": "/Users/ada/.claude/plugins/marketplaces/claude-code-plugins/plugins/learning-output-style",
+      "gitCommitSha": "13a258a3feca92a360e9cec5150dc61666429927",
+      "isLocal": true
+    },
+    "frontend-design@claude-code-plugins": {
+      "version": "1.0.0",
+      "installedAt": "2025-11-19T16:09:46.702Z",
+      "lastUpdated": "2025-11-19T16:09:46.702Z",
+      "installPath": "/Users/ada/.claude/plugins/marketplaces/claude-code-plugins/plugins/frontend-design",
+      "gitCommitSha": "13a258a3feca92a360e9cec5150dc61666429927",
+      "isLocal": true
+    },
+    "ralph-wiggum@claude-code-plugins": {
+      "version": "1.0.0",
+      "installedAt": "2025-11-19T16:09:46.702Z",
+      "lastUpdated": "2025-11-19T16:09:46.702Z",
+      "installPath": "/Users/ada/.claude/plugins/marketplaces/claude-code-plugins/plugins/ralph-wiggum",
+      "gitCommitSha": "13a258a3feca92a360e9cec5150dc61666429927",
+      "isLocal": true
+    },
+    "hookify@claude-code-plugins": {
+      "version": "0.1.0",
+      "installedAt": "2025-11-19T16:09:46.702Z",
+      "lastUpdated": "2025-11-19T16:09:46.702Z",
+      "installPath": "/Users/ada/.claude/plugins/marketplaces/claude-code-plugins/plugins/hookify",
+      "gitCommitSha": "13a258a3feca92a360e9cec5150dc61666429927",
+      "isLocal": true
+    },
+    "plugin-dev@claude-code-plugins": {
+      "version": "unknown",
+      "installedAt": "2025-11-19T16:09:46.702Z",
+      "lastUpdated": "2025-11-19T16:09:46.702Z",
+      "installPath": "/Users/ada/.claude/plugins/marketplaces/claude-code-plugins/plugins/plugin-dev",
+      "gitCommitSha": "13a258a3feca92a360e9cec5150dc61666429927",
+      "isLocal": true
+    },
+    "devops-toolkit@local": {
+      "version": "1.0.0",
+      "installedAt": "2025-11-20T10:03:00.000Z",
+      "lastUpdated": "2025-11-20T10:03:00.000Z",
+      "installPath": "/Users/ada/.claude/plugins/repos/devops-toolkit",
+      "gitCommitSha": "cb84d382983b388b9b3987dcca0d30b88c127b2c",
+      "isLocal": true
+    }
+  }
+}
