@@ -105,11 +105,11 @@
       "gitCommitSha": "13a258a3feca92a360e9cec5150dc61666429927",
       "isLocal": true
     },
-    "devops-toolkit@local": {
+    "devops-toolkit@devops-toolkit": {
       "version": "1.0.0",
       "installedAt": "2025-11-20T10:03:00.000Z",
-      "lastUpdated": "2025-11-20T10:03:00.000Z",
-      "installPath": "/Users/ada/.claude/plugins/repos/devops-toolkit",
+      "lastUpdated": "2025-11-20T10:10:00.000Z",
+      "installPath": "/Users/ada/.claude/plugins/repos/devops-toolkit/plugins/devops-toolkit",
       "gitCommitSha": "cb84d382983b388b9b3987dcca0d30b88c127b2c",
       "isLocal": true
     }
