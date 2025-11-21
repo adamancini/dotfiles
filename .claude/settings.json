@@ -53,5 +53,5 @@
   "allowList": [
     "yadm:*"
   ],
-  "model": "sonnet[1m]"
+  "alwaysThinkingEnabled": false
 }

@@ -71,3 +71,4 @@ fi
 
 # bun completions
 [ -s "/Users/ada/.bun/_bun" ] && source "/Users/ada/.bun/_bun"
+export PATH="$HOME/.local/bin:$PATH"
