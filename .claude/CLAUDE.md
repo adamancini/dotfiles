@@ -19,18 +19,25 @@
 
 ### Mandatory Agent Workflow
 
-**ALWAYS complete this checklist at the end of EVERY todo list:**
+**For coding projects - ALWAYS complete this checklist at the end of EVERY todo list:**
 
 1. ☐ Use `claudemd-compliance-checker` agent to verify compliance
 2. ☐ For code changes: Use appropriate quality control agent
 3. ☐ Mark compliance check as final todo item
 
-**Quality Control Agents - Use at logical stop points:**
+**Quality Control Agents - Use at logical stop points for coding projects:**
 
 - After completing a feature implementation
 - Before creating commits or PRs
 - When finishing a significant refactor
 - After adding new configurations or manifests
+
+**NOT for system maintenance tasks:**
+- File system reorganization
+- yadm/git dotfile syncing
+- Installing packages or tools
+- General housekeeping tasks
+- Repository organization
 
 ### Available Specialized Agents
 
@@ -107,13 +114,19 @@
 #### Validation & Compliance Agents
 
 **claudemd-compliance-checker**
-- **When to use:**
-  - **MANDATORY:** At the end of every todo list
+- **When to use (coding projects only):**
+  - **MANDATORY:** At the end of every coding project todo list
   - After writing/modifying code subject to project standards
-  - Before creating git commits
+  - Before creating git commits in coding projects
   - When installing/configuring MCP servers
   - After configuration changes (build systems, CI/CD, deployment manifests)
   - After modifying Helm charts or Kubernetes manifests
+- **When NOT to use:**
+  - File system reorganization
+  - yadm/git dotfile syncing
+  - Installing packages or tools
+  - General housekeeping tasks
+  - Repository organization
 - **Purpose:** Verifies compliance with project-specific instructions in CLAUDE.md/AGENTS.md
 - **Scope:** Code standards, git workflows, MCP security, Helm templating, infrastructure configs
 - **Tools:** Full tool access
@@ -207,25 +220,29 @@
 When uncertain which agent to use:
 1. Check available agents list above
 2. Use `Explore` agent for general codebase questions
-3. Use `claudemd-compliance-checker` as final quality gate
+3. Use `claudemd-compliance-checker` as final quality gate for coding projects
 
 ## Workflow Integration
 
 ### Todo List Structure
 
-Every todo list MUST end with:
+Every coding project todo list MUST end with:
 ```
 - [pending] Verify CLAUDE.md compliance using claudemd-compliance-checker
 ```
 
-### Quality Gates
+For system maintenance tasks (file reorganization, yadm syncing, package installation), the compliance check is optional.
+
+### Quality Gates (for coding projects)
 
 - **Before commits:** Run `pr-review-toolkit:code-reviewer`
 - **After features:** Run `feature-dev:code-reviewer` or `superpowers:code-reviewer`
 - **Before PRs:** Run `pr-review-toolkit:pr-test-analyzer` for test coverage
 - **Final step:** Run `claudemd-compliance-checker`
 
-### Progressive Agent Usage
+These quality gates do not apply to system maintenance tasks.
+
+### Progressive Agent Usage (for coding projects)
 
 1. **Exploration phase:** Use `Explore` or `feature-dev:code-explorer`
 2. **Design phase:** Use `feature-dev:code-architect`
