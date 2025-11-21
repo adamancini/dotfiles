@@ -17,8 +17,8 @@
   },
   "devops-toolkit": {
     "source": {
-      "source": "github",
-      "repo": "adamancini/devops-toolkit"
+      "source": "local",
+      "path": "/Users/ada/.claude/plugins/repos/devops-toolkit"
     },
     "installLocation": "/Users/ada/.claude/plugins/repos/devops-toolkit",
     "lastUpdated": "2025-11-21T21:34:00.000Z"
