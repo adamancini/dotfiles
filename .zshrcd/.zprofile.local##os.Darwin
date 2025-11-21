@@ -18,6 +18,7 @@ fi
 
 # macOS-specific PATH additions
 path=(
+  $HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin
   $HOMEBREW_PREFIX/{bin,sbin}
   $HOMEBREW_PREFIX/opt/curl/bin
   $HOMEBREW_PREFIX/opt/go/libexec/bin
