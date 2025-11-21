@@ -1,0 +1,242 @@
+#!/bin/bash
+#
+# YADM Bootstrap Script
+# Orchestrates modular bootstrap phases for new laptop setup
+#
+# This script runs automatically after 'yadm clone' or can be invoked manually.
+# It executes phase scripts from ~/.config/yadm/bootstrap.d/ in numerical order.
+#
+# Usage:
+#   ~/.config/yadm/bootstrap                    # Run all phases
+#   SKIP_PHASES="30,40" ~/.config/yadm/bootstrap  # Skip SSH and GPG phases
+#   ONLY_PHASES="50" ~/.config/yadm/bootstrap     # Run only Brewfile phase
+#   DEBUG=1 ~/.config/yadm/bootstrap              # Verbose output
+#
+
+set -uo pipefail
+
+# Configuration
+BOOTSTRAP_DIR="$HOME/.config/yadm/bootstrap.d"
+LOG_DIR="$HOME/.bootstrap-logs"
+LOG_FILE="$LOG_DIR/bootstrap-$(date +%Y%m%d-%H%M%S).log"
+MARKER_DIR="$HOME/.bootstrap-markers"
+
+# Colors for output
+if [[ -t 1 ]]; then
+    RED=$(tput setaf 1)
+    GREEN=$(tput setaf 2)
+    YELLOW=$(tput setaf 3)
+    BLUE=$(tput setaf 4)
+    CYAN=$(tput setaf 6)
+    BOLD=$(tput bold)
+    RESET=$(tput sgr0)
+else
+    RED="" GREEN="" YELLOW="" BLUE="" CYAN="" BOLD="" RESET=""
+fi
+
+# Initialize logging
+mkdir -p "$LOG_DIR" "$MARKER_DIR"
+
+# Logging functions
+log() {
+    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    echo "${timestamp} $*" | tee -a "$LOG_FILE"
+}
+
+info() {
+    local msg="$*"
+    echo "${GREEN}[INFO]${RESET} $msg" | tee -a "$LOG_FILE"
+}
+
+warn() {
+    local msg="$*"
+    echo "${YELLOW}[WARN]${RESET} $msg" | tee -a "$LOG_FILE"
+}
+
+error() {
+    local msg="$*"
+    echo "${RED}[ERROR]${RESET} $msg" | tee -a "$LOG_FILE"
+}
+
+success() {
+    local msg="$*"
+    echo "${GREEN}[✓]${RESET} $msg" | tee -a "$LOG_FILE"
+}
+
+debug() {
+    [[ -n "${DEBUG:-}" ]] && echo "${CYAN}[DEBUG]${RESET} $*" | tee -a "$LOG_FILE"
+}
+
+# Phase management
+mark_phase_complete() {
+    local phase="$1"
+    touch "$MARKER_DIR/$phase.complete"
+    debug "Marked phase $phase as complete"
+}
+
+is_phase_complete() {
+    local phase="$1"
+    [[ -f "$MARKER_DIR/$phase.complete" ]]
+}
+
+should_skip_phase() {
+    local phase_num="$1"
+
+    # Check ONLY_PHASES environment variable
+    if [[ -n "${ONLY_PHASES:-}" ]]; then
+        [[ ! "$ONLY_PHASES" =~ (^|,)${phase_num}(,|$) ]] && return 0
+    fi
+
+    # Check SKIP_PHASES environment variable
+    if [[ -n "${SKIP_PHASES:-}" ]]; then
+        [[ "$SKIP_PHASES" =~ (^|,)${phase_num}(,|$) ]] && return 0
+    fi
+
+    return 1
+}
+
+# Main execution
+main() {
+    echo ""
+    echo "${BOLD}${BLUE}╔═══════════════════════════════════════════════════════╗${RESET}"
+    echo "${BOLD}${BLUE}║                                                       ║${RESET}"
+    echo "${BOLD}${BLUE}║         LAPTOP BOOTSTRAP SYSTEM                       ║${RESET}"
+    echo "${BOLD}${BLUE}║                                                       ║${RESET}"
+    echo "${BOLD}${BLUE}╚═══════════════════════════════════════════════════════╝${RESET}"
+    echo ""
+
+    info "Bootstrap started at $(date)"
+    info "Logging to: $LOG_FILE"
+    echo ""
+
+    # Check if bootstrap.d directory exists
+    if [[ ! -d "$BOOTSTRAP_DIR" ]]; then
+        error "Bootstrap directory not found: $BOOTSTRAP_DIR"
+        exit 1
+    fi
+
+    # Find all phase scripts
+    local phase_scripts=()
+    while IFS= read -r -d '' script; do
+        phase_scripts+=("$script")
+    done < <(find "$BOOTSTRAP_DIR" -name "*.sh" -type f -print0 | sort -z)
+
+    if [[ ${#phase_scripts[@]} -eq 0 ]]; then
+        warn "No phase scripts found in $BOOTSTRAP_DIR"
+        exit 0
+    fi
+
+    info "Found ${#phase_scripts[@]} phase scripts"
+    echo ""
+
+    # Execute each phase
+    local failed_phases=()
+    local skipped_phases=()
+    local completed_phases=()
+
+    for script in "${phase_scripts[@]}"; do
+        local phase_name=$(basename "$script" .sh)
+        local phase_num=$(echo "$phase_name" | grep -oE '^[0-9]+')
+
+        echo "${BOLD}${CYAN}────────────────────────────────────────────────────────${RESET}"
+        echo "${BOLD}Phase: $phase_name${RESET}"
+        echo "${BOLD}${CYAN}────────────────────────────────────────────────────────${RESET}"
+
+        # Check if phase should be skipped
+        if should_skip_phase "$phase_num"; then
+            warn "Skipping phase $phase_name (SKIP_PHASES or ONLY_PHASES set)"
+            skipped_phases+=("$phase_name")
+            echo ""
+            continue
+        fi
+
+        # Check if phase already completed
+        if is_phase_complete "$phase_name"; then
+            info "Phase $phase_name already completed (marker exists)"
+            info "To re-run, remove: $MARKER_DIR/$phase_name.complete"
+            completed_phases+=("$phase_name (cached)")
+            echo ""
+            continue
+        fi
+
+        # Make script executable
+        chmod +x "$script"
+
+        # Execute phase script
+        log "Executing: $script"
+        if bash "$script"; then
+            success "Phase $phase_name completed successfully"
+            mark_phase_complete "$phase_name"
+            completed_phases+=("$phase_name")
+        else
+            local exit_code=$?
+            error "Phase $phase_name failed with exit code $exit_code"
+            failed_phases+=("$phase_name")
+
+            # Ask if we should continue
+            if [[ -t 0 ]]; then
+                read -p "Continue with remaining phases? (y/N): " -n 1 -r
+                echo
+                if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+                    error "Bootstrap aborted by user"
+                    exit 1
+                fi
+            else
+                warn "Non-interactive mode, continuing despite failure..."
+            fi
+        fi
+
+        echo ""
+    done
+
+    # Summary report
+    echo ""
+    echo "${BOLD}${BLUE}═══════════════════════════════════════════════════════${RESET}"
+    echo "${BOLD}                 BOOTSTRAP SUMMARY${RESET}"
+    echo "${BOLD}${BLUE}═══════════════════════════════════════════════════════${RESET}"
+    echo ""
+
+    if [[ ${#completed_phases[@]} -gt 0 ]]; then
+        success "Completed phases (${#completed_phases[@]}):"
+        for phase in "${completed_phases[@]}"; do
+            echo "  ${GREEN}✓${RESET} $phase"
+        done
+        echo ""
+    fi
+
+    if [[ ${#skipped_phases[@]} -gt 0 ]]; then
+        warn "Skipped phases (${#skipped_phases[@]}):"
+        for phase in "${skipped_phases[@]}"; do
+            echo "  ${YELLOW}⊘${RESET} $phase"
+        done
+        echo ""
+    fi
+
+    if [[ ${#failed_phases[@]} -gt 0 ]]; then
+        error "Failed phases (${#failed_phases[@]}):"
+        for phase in "${failed_phases[@]}"; do
+            echo "  ${RED}✗${RESET} $phase"
+        done
+        echo ""
+        info "Check log file for details: $LOG_FILE"
+        exit 1
+    fi
+
+    # Final status
+    if [[ ${#failed_phases[@]} -eq 0 ]]; then
+        echo "${BOLD}${GREEN}Bootstrap completed successfully!${RESET}"
+        echo ""
+        info "Next steps:"
+        echo "  1. Review log file: $LOG_FILE"
+        echo "  2. Open a new terminal to load updated shell config"
+        echo "  3. Complete any manual steps noted in phase outputs"
+        echo ""
+    fi
+
+    info "Bootstrap finished at $(date)"
+    info "Total phases: ${#phase_scripts[@]}"
+    info "Completed: ${#completed_phases[@]}, Skipped: ${#skipped_phases[@]}, Failed: ${#failed_phases[@]}"
+}
+
+# Run main function
+main "$@"

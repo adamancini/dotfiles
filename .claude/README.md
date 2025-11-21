@@ -196,3 +196,174 @@ yadm ls-files | grep "^\.claude"
 4. **Marketplaces** - Don't track (they're cloned from upstream)
 5. **Cache** - Never track (regenerated automatically)
 6. **Secrets** - Never track (use `.local.md` files ignored by yadm)
+
+## Bootstrap System
+
+The laptop bootstrap system automates the setup of a fresh machine with all essential tools and configurations. The system is modular, idempotent, and can be run multiple times safely.
+
+### Architecture
+
+The bootstrap system uses a modular phase-based approach:
+
+```
+~/.config/yadm/
+  ├── bootstrap                    # Main orchestrator (runs automatically after yadm clone)
+  └── bootstrap.d/                 # Modular phase scripts
+      ├── 00-prerequisites.sh      # Verify prerequisites (GPG key, internet, etc.)
+      ├── 10-core-tools.sh         # Install Homebrew and essential tools
+      ├── 20-shell-config.sh       # Setup shell environment and YADM templates
+      ├── 30-ssh-keys.sh           # Interactive SSH key setup
+      ├── 40-gpg-passstore.sh      # Configure GPG and password-store
+      ├── 50-brewfile.sh           # Install packages from Brewfile
+      ├── 60-claude-plugins.sh     # Setup Claude Code plugins
+      └── 90-finalize.sh           # Health checks and final report
+
+~/bin/
+  └── bootstrap-laptop.sh          # Convenient wrapper for manual invocation
+```
+
+### Prerequisites
+
+Before running bootstrap, ensure:
+
+1. **GPG Key Restored**
+   - Your GPG private key must be imported: `gpg --import /path/to/key.asc`
+   - Trust the key: `gpg --edit-key adab3ta@gmail.com` → `trust` → `5` → `quit`
+
+2. **Internet Connection**
+   - Required for downloading tools and cloning repositories
+
+3. **macOS (or Linux experimental)**
+   - Currently optimized for macOS, Linux support is experimental
+
+### Usage
+
+#### Automatic Bootstrap (Recommended)
+
+When you clone your dotfiles with YADM, bootstrap runs automatically:
+
+```bash
+# Clone dotfiles (bootstrap runs automatically)
+yadm clone git@github.com:adamancini/dotfiles.git
+```
+
+#### Manual Bootstrap
+
+```bash
+# Run full bootstrap
+~/.config/yadm/bootstrap
+
+# Or use the convenient wrapper
+~/bin/bootstrap-laptop.sh
+```
+
+#### Selective Phase Execution
+
+```bash
+# Skip specific phases (e.g., SSH and GPG if already configured)
+SKIP_PHASES="30,40" ~/.config/yadm/bootstrap
+
+# Run only specific phases
+ONLY_PHASES="50,60" ~/.config/yadm/bootstrap   # Only Brewfile and Claude plugins
+
+# Verbose debug output
+DEBUG=1 ~/.config/yadm/bootstrap
+```
+
+### Phase Details
+
+**00-prerequisites:** Verifies GPG key presence, internet connectivity, sudo access, OS compatibility
+
+**10-core-tools:** Installs Xcode CLI tools, Homebrew, git, gnupg, yadm, pass
+
+**20-shell-config:** Runs `yadm alt` to create template symlinks, verifies shell configuration
+
+**30-ssh-keys:** Interactive prompt to generate new SSH keys or import existing ones, creates symlinks
+
+**40-gpg-passstore:** Configures gpg-agent, tests GPG signing, clones password-store repository
+
+**50-brewfile:** Installs packages from `~/.zshrcd/conf.d/Brewfile`, handles errors gracefully
+
+**60-claude-plugins:** Updates marketplaces, installs superpowers plugins, clones devops-toolkit
+
+**90-finalize:** Runs health checks, verifies configurations, generates completion report
+
+### Idempotency
+
+The bootstrap system is designed to be idempotent:
+
+- Each phase checks if work is already done before proceeding
+- Phases create marker files in `~/.bootstrap-markers/` when completed
+- Re-running bootstrap skips completed phases
+- To force re-run a phase: `rm ~/.bootstrap-markers/NN-phase-name.sh.complete`
+
+### Logs and Reports
+
+- **Logs:** Saved to `~/.bootstrap-logs/bootstrap-YYYYMMDD-HHMMSS.log`
+- **Reports:** Generated in `~/.bootstrap-report-YYYYMMDD-HHMMSS.txt`
+- Both contain detailed information about what was installed and configured
+
+### Extending the Bootstrap System
+
+To add new phases:
+
+1. Create a new script: `~/.config/yadm/bootstrap.d/NN-phase-name.sh`
+2. Make it executable: `chmod +x ~/.config/yadm/bootstrap.d/NN-phase-name.sh`
+3. The orchestrator will automatically discover and run it in numerical order
+
+Example phase template:
+
+```bash
+#!/bin/bash
+set -uo pipefail
+
+# Color output helpers
+info() { echo "[INFO] $*"; }
+warn() { echo "[WARN] $*"; }
+error() { echo "[ERROR] $*"; }
+success() { echo "[✓] $*"; }
+
+main() {
+    info "Running my custom phase..."
+
+    # Check if work already done (idempotency)
+    if [[ -f ~/.my-phase-complete ]]; then
+        success "Phase already completed"
+        return 0
+    fi
+
+    # Do the work...
+
+    # Mark as complete
+    touch ~/.my-phase-complete
+    success "Phase completed"
+    return 0
+}
+
+main "$@"
+```
+
+### Troubleshooting
+
+**Bootstrap fails at prerequisites:**
+- Ensure GPG key is imported: `gpg --list-secret-keys adab3ta@gmail.com`
+- Check internet connection: `ping github.com`
+
+**SSH key setup fails:**
+- Run phase manually: `~/.config/yadm/bootstrap.d/30-ssh-keys.sh`
+- Generate keys manually: `ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_moira`
+
+**Brewfile installation has errors:**
+- Normal for some packages (e.g., wireshark-app)
+- Check what failed: `brew bundle --file=~/.zshrcd/conf.d/Brewfile check`
+- Install failed packages manually
+
+**Claude plugins don't install:**
+- Ensure Claude Code app is installed: `ls /Applications/Claude.app`
+- Launch Claude Code first, then re-run phase 60
+
+### See Also
+
+- **YADM Bootstrap Documentation:** `~/.config/yadm/README.md`
+- **Bootstrap Logs:** `~/.bootstrap-logs/`
+- **Phase Scripts:** `~/.config/yadm/bootstrap.d/`
