@@ -37,7 +37,6 @@ This document explains what Claude Code files are synced via yadm and why.
 
 ### Plugin Configuration
 - **`.claude/plugins/config.json`** - Plugin system configuration
-- **`.claude/plugins/installed_plugins.json`** - Installed plugins registry
 - **`.claude/plugins/known_marketplaces.json`** - Registered plugin marketplaces
 
 ### Scripts
@@ -47,6 +46,7 @@ This document explains what Claude Code files are synced via yadm and why.
 
 ### Cache and Temporary Files
 - `.claude/plugins/cache/` - Downloaded plugin cache (regenerated from marketplaces)
+- `.claude/plugins/installed_plugins.json` - Plugin install registry (regenerated, has timestamps/paths)
 - `.claude/plugins/marketplaces/` - Marketplace repositories (cloned from remote)
 - `.claude/file-history/` - File edit history (session-specific)
 - `.claude/debug/` - Debug logs (temporary)
@@ -160,6 +160,7 @@ When setting up a new machine with yadm:
 
 ### Why NOT Track These Files?
 - **Cache** - Regenerated automatically, wastes space
+- **installed_plugins.json** - Contains timestamps/paths that change frequently, regenerated on install
 - **Project history** - Machine-specific paths, privacy concerns
 - **Debug logs** - Temporary, large, not useful across machines
 - **Session state** - Only relevant to active sessions
