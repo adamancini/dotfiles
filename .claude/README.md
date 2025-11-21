@@ -78,6 +78,36 @@ git clone https://github.com/your-org/devops-toolkit.git
 claude plugin install /path/to/devops-toolkit
 ```
 
+## Current Plugin Configuration
+
+### Installed Marketplaces
+- **superpowers-marketplace** (obra/superpowers-marketplace)
+- **claude-code-plugins** (anthropics/claude-code)
+
+### Installed & Enabled Plugins
+
+**From claude-code-plugins:**
+- agent-sdk-dev
+- pr-review-toolkit
+- commit-commands
+- feature-dev
+- security-guidance
+- code-review
+- explanatory-output-style
+- learning-output-style
+- frontend-design
+- ralph-wiggum
+- hookify
+- plugin-dev
+
+**From superpowers-marketplace:**
+- superpowers (v3.4.1) - Core skills library with TDD, debugging, collaboration patterns
+- elements-of-style - Writing guidance based on Strunk's Elements of Style
+- superpowers-developing-for-claude-code - Skills for developing Claude Code plugins/MCP servers
+
+**Custom:**
+- devops-toolkit - Custom DevOps automation toolkit
+
 ## Setup on New Machine
 
 When setting up a new machine with yadm:
@@ -90,19 +120,28 @@ When setting up a new machine with yadm:
 2. **Install Claude Code:**
    Follow Claude Code installation instructions
 
-3. **Install plugin marketplaces:**
+3. **Update and install plugin marketplaces:**
    ```bash
-   cd ~/.claude/plugins/marketplaces
-   # Marketplaces are automatically installed from known_marketplaces.json
+   claude plugin marketplace update
    ```
 
-4. **Install custom plugin repos:**
+4. **Install plugins from marketplaces:**
+   ```bash
+   # Superpowers marketplace plugins
+   claude plugin install superpowers@superpowers-marketplace
+   claude plugin install elements-of-style@superpowers-marketplace
+   claude plugin install superpowers-developing-for-claude-code@superpowers-marketplace
+
+   # Claude Code plugins are installed automatically from known_marketplaces.json
+   ```
+
+5. **Install custom plugin repos:**
    ```bash
    cd ~/.claude/plugins/repos
    git clone <your-custom-plugin-repo-url>
    ```
 
-5. **Verify configuration:**
+6. **Verify configuration:**
    ```bash
    ls ~/.claude/agents/          # Custom agents
    ls ~/.claude/skills/          # Custom skills

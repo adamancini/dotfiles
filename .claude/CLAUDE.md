@@ -232,3 +232,57 @@ Every todo list MUST end with:
 3. **Implementation phase:** Write code
 4. **Review phase:** Use relevant quality control agents
 5. **Compliance phase:** Use `claudemd-compliance-checker`
+
+## Configuration Management & Maintenance
+
+### Plugin and Marketplace Updates
+
+When plugins, marketplaces, or configurations are added/modified:
+
+1. **Update documentation:** Always update `~/.claude/README.md` with:
+   - New marketplaces in the "Installed Marketplaces" section
+   - New plugins in the "Installed & Enabled Plugins" section
+   - Updated setup instructions if workflow changes
+
+2. **Synchronize with yadm:**
+   ```bash
+   yadm add ~/.claude/README.md
+   yadm add ~/.claude/plugins/config.json
+   yadm add ~/.claude/plugins/installed_plugins.json
+   yadm add ~/.claude/plugins/known_marketplaces.json
+   yadm add ~/.claude/settings.json  # if modified
+   yadm commit -m "Update plugin configuration"
+   yadm push
+   ```
+
+3. **Track custom configurations:**
+   - Custom agents: `~/.claude/agents/*.md`
+   - Custom skills: `~/.claude/skills/*/`
+   - Hookify rules: `~/.claude/hookify.*.local.md`
+   - Custom hooks: `~/.claude/hooks/*`
+
+### Configuration Change Workflow
+
+When user requests plugin/marketplace/config updates:
+
+1. Perform the requested changes
+2. Update `~/.claude/README.md` to reflect current state
+3. Use yadm to commit and sync changes
+4. Confirm synchronization complete
+
+### What to Track vs. Not Track
+
+**Always track (commit to yadm):**
+- README.md (documentation)
+- settings.json (user preferences)
+- plugins/config.json (plugin system config)
+- plugins/installed_plugins.json (plugin registry)
+- plugins/known_marketplaces.json (marketplace registry)
+- Custom agents, skills, hooks, hookify rules
+
+**Never track (local only):**
+- plugins/cache/ (regenerated)
+- plugins/marketplaces/ (cloned from remote)
+- file-history/ (session-specific)
+- projects/ (machine-specific paths)
+- debug/ (temporary logs)

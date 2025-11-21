@@ -48,6 +48,10 @@
       }
     ]
   },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline-command.sh"
+  },
   "enabledPlugins": {
     "superpowers@superpowers-marketplace": true,
     "agent-sdk-dev@claude-code-plugins": true,
@@ -61,7 +65,9 @@
     "frontend-design@claude-code-plugins": true,
     "ralph-wiggum@claude-code-plugins": true,
     "hookify@claude-code-plugins": true,
-    "plugin-dev@claude-code-plugins": true
+    "plugin-dev@claude-code-plugins": true,
+    "elements-of-style@superpowers-marketplace": true,
+    "superpowers-developing-for-claude-code@superpowers-marketplace": true
   },
   "alwaysThinkingEnabled": false,
   "feedbackSurveyState": {
@@ -69,9 +75,5 @@
   },
   "allowList": [
     "yadm:*"
-  ],
-  "statusLine": {
-    "type": "command",
-    "command": "~/.claude/statusline-command.sh"
-  }
+  ]
 }
