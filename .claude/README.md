@@ -137,8 +137,9 @@ When setting up a new machine with yadm:
 
 5. **Install custom plugin repos:**
    ```bash
+   # Clone devops-toolkit plugin (contains replicated-cli skill)
    cd ~/.claude/plugins/repos
-   git clone <your-custom-plugin-repo-url>
+   git clone git@github.com:adamancini/devops-toolkit.git
    ```
 
 6. **Verify configuration:**
