@@ -13,6 +13,7 @@ This document explains what Claude Code files are synced via yadm and why.
 - **`.claude/agents/*.md`** - Custom agents for specialized tasks:
   - `claudemd-compliance-checker.md` - Verifies compliance with project CLAUDE.md
   - `helm-chart-developer.md` - Helm chart development and review
+  - `home-manager.md` - Home directory organization, dotfiles management, repository organization
   - `markdown-writer.md` - Markdown document creation and improvement
   - `mcp-security-validator.md` - MCP server security validation
   - `quality-control-enforcer.md` - Code quality review
@@ -34,6 +35,8 @@ This document explains what Claude Code files are synced via yadm and why.
   - `SKILL.md` - Main skill definition
   - `references/*.md` - CLI commands, VM management, release workflows
   - `examples/Makefile.*` - Example integration patterns
+- **`.claude/skills/yadm-utilities/`** - YADM dotfiles management
+  - `SKILL.md` - YADM operations, bootstrap, alternates, Brewfile integration
 
 ### Plugin Configuration
 - **`.claude/plugins/config.json`** - Plugin system configuration
