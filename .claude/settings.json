@@ -69,7 +69,7 @@
     "elements-of-style@superpowers-marketplace": true,
     "superpowers-developing-for-claude-code@superpowers-marketplace": true
   },
-  "alwaysThinkingEnabled": false,
+  "alwaysThinkingEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754064217555
   },
