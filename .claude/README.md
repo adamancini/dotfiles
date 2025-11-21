@@ -86,6 +86,7 @@ claude plugin install /path/to/devops-toolkit
 ### Installed Marketplaces
 - **superpowers-marketplace** (obra/superpowers-marketplace)
 - **claude-code-plugins** (anthropics/claude-code)
+- **devops-toolkit** (adamancini/devops-toolkit)
 
 ### Installed & Enabled Plugins
 
@@ -108,8 +109,10 @@ claude plugin install /path/to/devops-toolkit
 - elements-of-style - Writing guidance based on Strunk's Elements of Style
 - superpowers-developing-for-claude-code - Skills for developing Claude Code plugins/MCP servers
 
-**Custom:**
-- devops-toolkit - Custom DevOps automation toolkit
+**From devops-toolkit:**
+- devops-toolkit (v1.0.0) - DevOps toolkit with:
+  - aerospace-config-manager - AeroSpace window manager configuration management
+  - ssl-cert-manager - SSL/TLS certificate management with Let's Encrypt
 
 ## Setup on New Machine
 
