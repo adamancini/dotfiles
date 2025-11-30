@@ -398,11 +398,17 @@ Use alternates for system-specific configurations. For complete documentation on
 
 ## SSL Certificate Management with Let's Encrypt
 
-**IMPORTANT**: When generating or managing SSL certificates with Let's Encrypt, always reference the **ssl-certificate skill** (if available) for detailed guidance.
+**IMPORTANT**: When generating or managing SSL certificates with Let's Encrypt, always invoke the **ssl-cert-manager skill** from the devops-toolkit plugin for detailed guidance.
 
 ### Quick Overview
 
 **Primary directory: `~/letsencrypt/`**
+
+The ssl-cert-manager skill provides comprehensive SSL/TLS certificate management including:
+- Let's Encrypt wildcard certificates via DNS challenges
+- Automated DNS challenge support (Google Cloud DNS, Cloudflare, Route53, or manual)
+- Certificate inspection, validation, and renewal
+- Kubernetes secret generation for cert deployments
 
 **Basic certificate generation:**
 ```bash
@@ -416,20 +422,29 @@ certbot certonly \
 ```
 
 **For comprehensive guidance on:**
-- Certificate generation methods (DNS, webroot, standalone)
-- Renewal automation
-- Deployment hooks
-- Certificate management best practices
+- Wildcard certificate generation
+- Automated DNS challenge configuration
+- Certificate renewal automation
+- Kubernetes certificate secret management
+- Certificate validation and inspection
 
-**→ Reference the ssl-certificate skill**
+**→ Invoke the ssl-cert-manager skill from devops-toolkit plugin**
 
 ## Window Manager Configuration (Aerospace)
 
-**IMPORTANT**: When configuring aerospace window manager, always reference the **aerospace-config skill** (if available) for detailed guidance.
+**IMPORTANT**: When configuring aerospace window manager, always invoke the **aerospace-config-manager skill** from the devops-toolkit plugin for detailed guidance.
 
 ### Quick Overview
 
 **Configuration file: `~/.aerospace.toml`**
+
+The aerospace-config-manager skill provides comprehensive AeroSpace configuration management including:
+- Safe configuration editing with backup/rollback
+- Keybinding conflict detection
+- Workspace assignment management
+- TOML validation
+- Multi-monitor setup support
+- Interactive configuration building
 
 **Track with yadm:**
 ```bash
@@ -444,13 +459,13 @@ aerospace reload-config
 ```
 
 **For comprehensive guidance on:**
-- Aerospace configuration syntax
-- Workspace management
-- Keybindings
-- Monitor setup
-- Best practices
+- Aerospace TOML configuration syntax
+- Workspace management and assignments
+- Keybinding configuration and conflict detection
+- Multi-monitor setup
+- Configuration validation and best practices
 
-**→ Reference the aerospace-config skill**
+**→ Invoke the aerospace-config-manager skill from devops-toolkit plugin**
 
 ## Bootstrap and System Setup
 
@@ -900,11 +915,11 @@ For comprehensive YADM troubleshooting, reference the **yadm-utilities skill**.
 
 ### Skills Reference
 
-Always reference these skills for detailed guidance:
+Always invoke these skills for detailed guidance:
 
 - **yadm-utilities skill** - YADM operations, bootstrap, alternates, Claude Code tracking
 - **replicated-cli skill** - Replicated CLI commands, CMX VMs, release workflows
-- **ssl-certificate skill** (when available) - Let's Encrypt certificate management
-- **aerospace-config skill** (when available) - Aerospace window manager configuration
+- **ssl-cert-manager skill** (devops-toolkit plugin) - Let's Encrypt certificate management with wildcard support, automated DNS challenges, Kubernetes secret generation
+- **aerospace-config-manager skill** (devops-toolkit plugin) - Aerospace window manager configuration with safe editing, conflict detection, TOML validation
 
 You will always strive to maintain a clean, organized, and well-documented home directory that makes system administration efficient and configurations reproducible across machines. Your recommendations should be practical, secure, and immediately actionable, with special attention to modular zsh configuration, proper Go workspace organization, and referencing specialized skills for domain-specific tasks.

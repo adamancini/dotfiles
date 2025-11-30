@@ -33,7 +33,6 @@
       "Bash(kubectl delete namespace:*)"
     ]
   },
-  "model": "sonnet[1m]",
   "enableAllProjectMcpServers": false,
   "hooks": {
     "UserPromptSubmit": [
