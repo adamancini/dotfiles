@@ -17,7 +17,7 @@
   },
   "devops-toolkit": {
     "source": {
-      "source": "local",
+      "source": "directory",
       "path": "/Users/ada/.claude/plugins/repos/devops-toolkit"
     },
     "installLocation": "/Users/ada/.claude/plugins/repos/devops-toolkit",
