@@ -1,0 +1,115 @@
+#!/usr/bin/env bash
+#
+# Vault Credentials Helper for password-store (pass)
+#
+# This script acts as a credentials helper for HashiCorp Vault,
+# allowing it to retrieve tokens and credentials from pass.
+#
+# Usage:
+#   vault-pass-helper get [key]
+#   vault-pass-helper store [key]
+#   vault-pass-helper erase [key]
+#
+# Setup:
+#   1. Make this script executable: chmod +x vault-pass-helper
+#   2. Configure Vault to use it:
+#      vault config set -credential-helper="!/path/to/vault-pass-helper"
+#
+# Pass structure:
+#   vault/token          - Default Vault token
+#   vault/[namespace]    - Token for specific namespace
+#
+
+set -euo pipefail
+
+PASS_PREFIX="vault"
+
+# Function to get credentials from pass
+get() {
+    local key="${1:-token}"
+    local pass_path="${PASS_PREFIX}/${key}"
+
+    if pass show "${pass_path}" &>/dev/null; then
+        # Get the password (first line)
+        local secret
+        secret=$(pass show "${pass_path}" | head -n1)
+
+        # Output in the format Vault expects (JSON)
+        cat <<EOF
+{
+  "token": "${secret}"
+}
+EOF
+    else
+        # Return empty if not found
+        echo "{}"
+    fi
+}
+
+# Function to store credentials in pass
+store() {
+    local key="${1:-token}"
+    local pass_path="${PASS_PREFIX}/${key}"
+
+    # Read JSON from stdin
+    local json
+    json=$(cat)
+
+    # Extract token from JSON
+    local token
+    token=$(echo "${json}" | grep -o '"token":"[^"]*"' | cut -d'"' -f4)
+
+    if [[ -n "${token}" ]]; then
+        # Store in pass
+        echo "${token}" | pass insert -m "${pass_path}" >/dev/null
+        echo "Stored token in ${pass_path}"
+    fi
+}
+
+# Function to erase credentials from pass
+erase() {
+    local key="${1:-token}"
+    local pass_path="${PASS_PREFIX}/${key}"
+
+    if pass show "${pass_path}" &>/dev/null; then
+        pass rm -f "${pass_path}" >/dev/null
+        echo "Erased ${pass_path}"
+    fi
+}
+
+# Main command dispatcher
+main() {
+    local command="${1:-}"
+    local key="${2:-token}"
+
+    case "${command}" in
+        get)
+            get "${key}"
+            ;;
+        store)
+            store "${key}"
+            ;;
+        erase)
+            erase "${key}"
+            ;;
+        *)
+            cat >&2 <<EOF
+Usage: vault-pass-helper <command> [key]
+
+Commands:
+  get [key]    - Retrieve credentials from pass (default key: token)
+  store [key]  - Store credentials in pass (default key: token)
+  erase [key]  - Remove credentials from pass (default key: token)
+
+Examples:
+  vault-pass-helper get
+  vault-pass-helper get prod
+  vault-pass-helper store dev
+  vault-pass-helper erase staging
+EOF
+            exit 1
+            ;;
+    esac
+}
+
+main "$@"
