@@ -67,6 +67,14 @@ run= [
   "layout floating",
 ]
 
+# Firefox PassFF extension window should always float
+[[on-window-detected]]
+if.app-id="org.mozilla.firefox"
+if.window-title-regex-substring="^Extension: \\(PassFF\\)"
+run= [
+  "layout floating",
+]
+
 # Firefox default to workspace 1
 [[on-window-detected]]
 if.app-id="org.mozilla.firefox"
