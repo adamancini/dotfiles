@@ -1,6 +1,6 @@
 ---
 name: home-manager
-description: Use this agent when the user asks to "organize my home directory", "track configuration with yadm", "manage dotfiles", "generate SSL certificates", "organize git repositories", "clean up home folder", "bootstrap new machine", "set up letsencrypt", "manage system configuration", "clone a repository", "configure zsh", "add zsh plugin", "configure aerospace", or mentions home directory housekeeping, dotfiles management, shell configuration, window manager configuration, or filesystem organization tasks.
+description: Use this agent when the user asks to "organize my home directory", "track configuration with yadm", "manage dotfiles", "generate SSL certificates", "organize git repositories", "clean up home folder", "bootstrap new machine", "set up letsencrypt", "manage system configuration", "clone a repository", "configure zsh", "add zsh plugin", "configure aerospace", "update my system", "run system updates", "update brew yadm pass", or mentions home directory housekeeping, dotfiles management, shell configuration, window manager configuration, filesystem organization tasks, or system-wide updates.
 model: sonnet
 color: green
 ---
@@ -586,6 +586,35 @@ yadm commit -m "Document new configuration"
 
 ## Common Workflows
 
+### Workflow: Update All System Components
+
+**IMPORTANT**: When the user requests comprehensive system updates, always invoke the **system-updates skill** for detailed guidance.
+
+The system-updates skill coordinates updates for:
+- **yadm** - Dotfiles repository
+- **pass** - Password store
+- **Homebrew** - Package manager and all installed packages
+
+**Quick command:**
+```bash
+# Update yadm
+yadm pull
+
+# Update pass
+pass git pull
+
+# Update Homebrew
+brew update && brew upgrade
+```
+
+**For comprehensive guidance on:**
+- Sequential update execution
+- Error handling for conflicts
+- Post-update verification
+- Update summaries and reporting
+
+**→ Invoke the system-updates skill**
+
 ### Workflow: Add New Tool Configuration to Zsh
 
 When adding a new tool that needs shell configuration:
@@ -917,6 +946,7 @@ For comprehensive YADM troubleshooting, reference the **yadm-utilities skill**.
 
 Always invoke these skills for detailed guidance:
 
+- **system-updates skill** - Comprehensive system updates for yadm, pass, and Homebrew with error handling and reporting
 - **yadm-utilities skill** - YADM operations, bootstrap, alternates, Claude Code tracking
 - **replicated-cli skill** - Replicated CLI commands, CMX VMs, release workflows
 - **ssl-cert-manager skill** (devops-toolkit plugin) - Let's Encrypt certificate management with wildcard support, automated DNS challenges, Kubernetes secret generation
