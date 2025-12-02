@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+#
+# Ansible Vault Password Script for password-store (pass)
+#
+# This script retrieves ansible-vault passwords from pass.
+# Ansible calls this script and expects the password on stdout.
+#
+# Usage in ansible.cfg:
+#   vault_password_file = ~/bin/ansible-vault-pass
+#
+# Usage in command line:
+#   ansible-vault encrypt --vault-id @~/bin/ansible-vault-pass secrets.yml
+#   ansible-playbook --vault-id @~/bin/ansible-vault-pass playbook.yml
+#
+# Pass structure:
+#   annarchy.net/vault      - Ansible-vault password
+#
+
+set -euo pipefail
+
+PASS_PATH="annarchy.net/vault"
+
+# Retrieve password from pass and output to stdout
+# Ansible expects just the password, nothing else
+if pass show "${PASS_PATH}" &>/dev/null; then
+    pass show "${PASS_PATH}" | head -n1
+else
+    echo "Error: Password not found in pass at ${PASS_PATH}" >&2
+    exit 1
+fi
