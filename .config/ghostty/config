@@ -41,7 +41,7 @@ config-file = ?~/.config/ghostty/config.local
 
 # Behavior options
 auto-update = download
-shell-integration-features = cursor,sudo,title,ssh-terminfo,ssh-env
+shell-integration-features = cursor,sudo,title,ssh-env,ssh-terminfo
 cursor-click-to-move = false
 mouse-hide-while-typing = true
 # quit-after-last-window-closed = true
