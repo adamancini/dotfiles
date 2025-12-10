@@ -15,6 +15,27 @@
   - GitHub commit messages
   - PR descriptions (unless explicitly discussing Claude Code features)
 
+## Makefile Invocation Guidelines
+
+**CRITICAL: Bash permission patterns use prefix matching with `:*` wildcard only at the end.**
+
+When invoking make targets with environment variables, ALWAYS use this pattern:
+
+```bash
+make TARGET_NAME VARIABLE1=value1 VARIABLE2=value2 ...
+```
+
+**✅ CORRECT Examples:**
+- `make vm-3node CLUSTER_PREFIX=adamancini`
+- `make replicated-release CHANNEL=beta VERSION=1.2.3`
+- `make vm-download-ec-binary CLUSTER_PREFIX=test-cluster EC_DOWNLOAD_URL=https://example.com/archive.tgz EC_AUTH_TOKEN=secret123`
+
+**❌ INCORRECT Examples (will not match Bash permissions):**
+- `CLUSTER_PREFIX=adamancini make vm-3node` (env var before make)
+- `EC_DOWNLOAD_URL=https://example.com make vm-download-ec-binary` (env var before make)
+
+**Why:** The permission `Bash(make:*)` matches commands starting with `make`, followed by anything. Environment variables BEFORE `make` don't match this pattern and will require user approval for every invocation.
+
 ## Agent Usage Guidelines
 
 ### Mandatory Agent Workflow

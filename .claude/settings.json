@@ -26,7 +26,16 @@
       "Bash(mkdir:*)",
       "Bash(cat:*)",
       "Bash(which:*)",
-      "Bash(yadm:*)"
+      "Bash(yadm:*)",
+      "Bash(make:*)",
+      "Bash(CLUSTER_PREFIX=:* make:*)",
+      "Bash(EC_DOWNLOAD_URL=:* make:*)",
+      "Bash(EC_AUTH_TOKEN=:* make:*)",
+      "Bash(EC_DOWNLOAD_URL=:* EC_AUTH_TOKEN=:* make:*)",
+      "Bash(CLUSTER_PREFIX=:* EC_DOWNLOAD_URL=:* make:*)",
+      "Bash(CLUSTER_PREFIX=:* EC_AUTH_TOKEN=:* make:*)",
+      "Bash(EC_DOWNLOAD_URL=:* EC_AUTH_TOKEN=:* CLUSTER_PREFIX=:* make:*)",
+      "Bash(CLUSTER_PREFIX=:* EC_DOWNLOAD_URL=:* EC_AUTH_TOKEN=:* make:*)"
     ],
     "deny": [
       "Bash(rm -rf:*)",
