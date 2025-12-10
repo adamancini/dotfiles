@@ -13,3 +13,10 @@ mem.prof
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Editor stuff
+.cursorindexingignore
+.cursorrules
+
+# claude
+.claude/settings.local.json
