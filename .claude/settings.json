@@ -5,43 +5,6 @@
     "BASH_MAX_TIMEOUT_MS": "1860000"
   },
   "includeCoAuthoredBy": false,
-  "permissions": {
-    "allow": [
-      "WebFetch(domain:github.com)",
-      "Bash(find:*)",
-      "Bash(ls:*)",
-      "Bash(aerospace reload-config:*)",
-      "Bash(brew upgrade:*)",
-      "Bash(helm:*)",
-      "Bash(kubectl:*)",
-      "Bash(task:*)",
-      "Bash(helmfile:*)",
-      "Bash(replicated:*)",
-      "Bash(gcloud:*)",
-      "Bash(docker:*)",
-      "Bash(git:*)",
-      "Bash(gh:*)",
-      "Bash(yamllint:*)",
-      "Bash(grep:*)",
-      "Bash(mkdir:*)",
-      "Bash(cat:*)",
-      "Bash(which:*)",
-      "Bash(yadm:*)",
-      "Bash(make:*)",
-      "Bash(CLUSTER_PREFIX=:* make:*)",
-      "Bash(EC_DOWNLOAD_URL=:* make:*)",
-      "Bash(EC_AUTH_TOKEN=:* make:*)",
-      "Bash(EC_DOWNLOAD_URL=:* EC_AUTH_TOKEN=:* make:*)",
-      "Bash(CLUSTER_PREFIX=:* EC_DOWNLOAD_URL=:* make:*)",
-      "Bash(CLUSTER_PREFIX=:* EC_AUTH_TOKEN=:* make:*)",
-      "Bash(EC_DOWNLOAD_URL=:* EC_AUTH_TOKEN=:* CLUSTER_PREFIX=:* make:*)",
-      "Bash(CLUSTER_PREFIX=:* EC_DOWNLOAD_URL=:* EC_AUTH_TOKEN=:* make:*)"
-    ],
-    "deny": [
-      "Bash(rm -rf:*)",
-      "Bash(kubectl delete namespace:*)"
-    ]
-  },
   "enableAllProjectMcpServers": false,
   "hooks": {
     "UserPromptSubmit": [
@@ -83,6 +46,37 @@
     "lastShownTime": 1754064217555
   },
   "allowList": [
-    "yadm:*"
+    "WebSearch(query:*)",
+    "WebFetch(domain:*)",
+    "Bash(find:*)",
+    "Bash(ls:*)",
+    "Bash(aerospace reload-config:*)",
+    "Bash(brew upgrade:*)",
+    "Bash(helm:*)",
+    "Bash(kubectl:*)",
+    "Bash(task:*)",
+    "Bash(helmfile:*)",
+    "Bash(replicated:*)",
+    "Bash(gcloud:*)",
+    "Bash(docker:*)",
+    "Bash(git:*)",
+    "Bash(gh:*)",
+    "Bash(yamllint:*)",
+    "Bash(grep:*)",
+    "Bash(mkdir:*)",
+    "Bash(cat:*)",
+    "Bash(which:*)",
+    "Bash(yadm:*)",
+    "Bash(claude plugin list:*)",
+    "Skill(yadm-utilities)",
+    "Bash(aerospace list-workspaces:*)",
+    "Bash(aerospace:*)",
+    "WebFetch(domain:hyper3d.ai)",
+    "WebFetch(domain:steamcommunity.com)",
+    "WebFetch(domain:angel-legion.fandom.com)"
+  ],
+  "denyList": [
+    "Bash(rm -rf:*)",
+    "Bash(kubectl delete namespace:*)"
   ]
 }

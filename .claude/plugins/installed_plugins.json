@@ -1,5 +1,6 @@
 {
   "version": 1,
+<<<<<<< HEAD
   "plugins": {
     "superpowers@superpowers-marketplace": {
       "version": "3.4.1",

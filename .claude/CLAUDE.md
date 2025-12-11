@@ -324,3 +324,4 @@ When user requests plugin/marketplace/config updates:
 - file-history/ (session-specific)
 - projects/ (machine-specific paths)
 - debug/ (temporary logs)
+- NEVER attempt to change or suggest changing the public/private flag on a github repo (or any other git repo in a hosted environment, such as BitBucket, etc.)

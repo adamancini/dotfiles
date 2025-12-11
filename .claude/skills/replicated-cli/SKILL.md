@@ -1,7 +1,7 @@
 ---
 name: Replicated CLI
-description: This skill should be used when the user asks to "create a Replicated release", "promote a release", "manage CMX VMs", "create a CMX cluster", "SSH to a CMX VM", "install Embedded Cluster", "lint Replicated manifests", "execute commands on CMX VMs", or mentions Replicated release workflows, VM testing, or compatibility matrix operations.
-version: 0.1.0
+description: This skill should be used when the user asks to "create a Replicated release", "promote a release", "manage CMX VMs", "create a CMX cluster", "SSH to a CMX VM", "install Embedded Cluster", "lint Replicated manifests", "execute commands on CMX VMs", "monitor cluster status", or mentions Replicated release workflows, VM testing, or compatibility matrix operations.
+version: 0.2.0
 ---
 
 # Replicated CLI
@@ -135,15 +135,98 @@ replicated release promote <sequence> <channel> \
 - Match version to git branch or commit for traceability
 - Include metadata in version labels when helpful (e.g., `main-abc123`)
 
-### Managing CMX Clusters
+### Managing CMX Cloud Clusters
 
-#### Creating Multi-Node Clusters
+CMX supports two cluster types:
+1. **Cloud clusters** (EKS, GKE, AKS, OKE) - Fully managed Kubernetes
+2. **VM-based clusters** (kind, k3s, RKE2, OpenShift, Embedded Cluster) - Self-managed on VMs
+
+#### Creating Cloud Provider Clusters
+
+**Create EKS cluster:**
+```bash
+replicated cluster create \
+  --distribution eks \
+  --version 1.32 \
+  --instance-type m5.xlarge \
+  --nodes 1 \
+  --ttl 8h \
+  --name my-eks-cluster
+```
+
+**Create GKE cluster:**
+```bash
+replicated cluster create \
+  --distribution gke \
+  --version 1.33 \
+  --instance-type n2-standard-4 \
+  --nodes 3 \
+  --ttl 8h \
+  --name my-gke-cluster
+```
+
+**Create VM-based cluster (kind, k3s, etc.):**
+```bash
+replicated cluster create \
+  --distribution kind \
+  --version 1.32.8 \
+  --instance-type r1.medium \
+  --disk 100 \
+  --ttl 8h \
+  --name my-kind-cluster
+```
+
+#### Monitoring Cluster Status
+
+**IMPORTANT: Use --watch flag to monitor cluster creation in real-time:**
+
+```bash
+# Watch all clusters (updates every 2 seconds)
+replicated cluster ls --watch
+
+# List clusters in JSON format for programmatic use
+replicated cluster ls --output json
+```
+
+**Cluster status progression:**
+- `queued` - Initial state after creation
+- `assigned` - Resources allocated
+- `provisioning` - Kubernetes cluster being built
+- `running` - Cluster ready, kubeconfig accessible
+- `error` - Creation failed
+
+**Timing:**
+- Cloud clusters (EKS/GKE/AKS): 10-15 minutes
+- VM-based clusters: 5-10 minutes
+
+#### Accessing Clusters
+
+**Get kubeconfig:**
+```bash
+# Save to file
+replicated cluster kubeconfig <cluster-id> > ~/.kube/config-cmx
+
+# Use with kubectl
+export KUBECONFIG=~/.kube/config-cmx
+kubectl get nodes
+```
+
+**Open interactive shell with kubeconfig automatically configured:**
+```bash
+replicated cluster shell <cluster-id>
+# Now kubectl commands work automatically
+kubectl get ns
+```
+
+#### Managing CMX VMs for Embedded Cluster
+
+#### Creating Multi-Node VM Clusters
 
 CMX VMs must be created sequentially to establish network connectivity:
 
-1. **Create first node** - Establishes the network
-2. **Get network ID** - Required for subsequent nodes
-3. **Create remaining nodes** - Attach to existing network
+1. **Create first VM** - Establishes the network
+2. **Get network ID** - Required for subsequent VMs
+3. **Create remaining VMs** - Attach to existing network
 
 **2-node cluster (1 control + 1 worker):**
 ```bash
@@ -227,17 +310,50 @@ replicated vm ssh $vm_id -- 'kubectl get nodes'
 - Checking cluster status: `replicated vm ssh $vm_id -- './embedded-cluster status'`
 - Retrieving kubeconfig: `replicated vm ssh $vm_id -- 'sudo cat /var/lib/embedded-cluster/k0s/pki/admin.conf' > kubeconfig.yaml`
 
-#### Port Exposure
+#### Monitoring VM Status
 
-Expose VM ports for external access (admin console, application endpoints):
+**IMPORTANT: Use --watch flag to monitor VM creation in real-time:**
 
 ```bash
-# Expose single port
-replicated vm port expose $vm_id --host-port 30000 --protocols http,https
+# Watch all VMs (updates every 2 seconds)
+replicated vm ls --watch
 
-# List exposed ports
-replicated vm port ls $vm_id
+# List VMs in JSON format
+replicated vm ls --output json
 ```
+
+**VM status progression:**
+- VMs typically reach `running` status within 2-3 minutes
+- Once `running`, SSH access is available
+
+#### Port Exposure and Ingress
+
+**Expose VM ports for external access:**
+
+```bash
+# Expose port with automatic DNS and TLS
+replicated vm port expose <vm-id-or-name> --port 8080 --protocol http
+
+# Expose HTTPS port
+replicated vm port expose <vm-id-or-name> --port 443 --protocol https
+
+# List exposed ports with DNS endpoints
+replicated vm port ls <vm-id-or-name>
+
+# Remove exposed port
+replicated vm port rm <vm-id-or-name> --port 8080
+```
+
+**Supported protocols:**
+- `http`, `https` - Web traffic with automatic TLS
+- `ws`, `wss` - WebSocket connections
+- NOTE: gRPC and other protocols are not supported
+
+**Key features:**
+- DNS records automatically created (e.g., `abc123.cmx.replicated.com`)
+- TLS certificates automatically provisioned
+- Wildcard DNS entries not supported
+- Use for accessing Admin Console, application endpoints, etc.
 
 #### Cluster Cleanup
 
@@ -348,12 +464,20 @@ The `examples/` directory contains real Makefile recipes extracted from producti
 - Match release versions to git branches or commits for traceability
 - Promote to branch-named channels during development
 
-**CMX Cluster Management:**
+**CMX Cloud Cluster Management:**
+- Use `--watch` flag to monitor cluster creation in real-time (updates every 2 seconds)
+- Cloud clusters (EKS/GKE/AKS) take 10-15 minutes to provision
+- Use `replicated cluster shell <id>` for quick kubectl access without managing kubeconfig
+- Set appropriate TTL values (default 1h, max 48h for VMs, longer for cloud clusters)
+- Cloud clusters support auto-scaling and node groups
+
+**CMX VM Management:**
+- Use `--watch` flag to monitor VM creation (VMs ready in 2-3 minutes)
 - Use cluster prefixes (tags) to namespace resources and avoid collisions
-- Create first node, get network ID, then create remaining nodes on same network
-- Use parallel node creation (backgrounding with `&`) for faster multi-node setup
-- Set appropriate TTL values and clean up VMs when done
+- Create first VM, get network ID, then create remaining VMs on same network
+- Use parallel VM creation (backgrounding with `&`) for faster multi-node setup
 - Use r1.xlarge instance type for HA clusters (r1.medium for dev/test)
+- Clean up VMs when done to control costs
 
 **SSH and Command Execution:**
 - Use extended timeouts for slow operations (package installs, downloads)
@@ -399,10 +523,31 @@ The `examples/` directory contains real Makefile recipes extracted from producti
 replicated release create --app <app> --yaml-dir <dir> --lint --promote <channel> --version <version>
 ```
 
-**Create 3-node cluster:**
+**Create cloud cluster (EKS/GKE/AKS):**
 ```bash
-make vm-3node CLUSTER_PREFIX=<prefix>  # If using Makefile patterns
-# OR manually create first node, get network ID, create remaining nodes
+replicated cluster create --distribution eks --version 1.32 --instance-type m5.xlarge --nodes 1 --ttl 8h --name my-cluster
+```
+
+**Monitor cluster creation:**
+```bash
+replicated cluster ls --watch  # Real-time updates every 2 seconds
+```
+
+**Get kubeconfig:**
+```bash
+replicated cluster kubeconfig <cluster-id> > ~/.kube/config-cmx
+# OR use interactive shell
+replicated cluster shell <cluster-id>
+```
+
+**Create VM:**
+```bash
+replicated vm create --distribution ubuntu --version 24.04 --instance-type r1.medium --disk 100 --ttl 8h
+```
+
+**Monitor VM creation:**
+```bash
+replicated vm ls --watch  # Real-time updates every 2 seconds
 ```
 
 **SSH to VM:**
@@ -410,18 +555,21 @@ make vm-3node CLUSTER_PREFIX=<prefix>  # If using Makefile patterns
 replicated vm ssh <vm-id-or-name>
 ```
 
-**Expose ports:**
+**Expose VM ports:**
 ```bash
-replicated vm port expose <vm-id> --host-port <port> --protocols http,https
+replicated vm port expose <vm-id-or-name> --port 8080 --protocol http
+replicated vm port ls <vm-id-or-name>
 ```
 
-**List VMs:**
+**Clean up resources:**
 ```bash
-replicated vm ls
-```
+# Remove specific cluster
+replicated cluster rm <cluster-id>
 
-**Clean up cluster:**
-```bash
+# Remove specific VM
+replicated vm rm <vm-id>
+
+# Remove all VMs with tag
 replicated vm rm $(replicated vm ls --output json | jq -r '.[] | select(.tags.cluster == "<prefix>") | .id')
 ```
 
