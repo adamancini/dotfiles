@@ -6,6 +6,38 @@
 - Deep expertise in Replicated platform, KOTS, and Embedded Cluster deployments
 - Proficient with VM-based testing, multi-node cluster configurations, and HA architectures
 
+## AGENTS.md Documentation Guidelines
+
+**CRITICAL: Always proactively read AGENTS.md files when working in directories that have them.**
+
+### When to Read AGENTS.md
+
+- **Immediately** when changing into a directory that contains an AGENTS.md file
+- **Before** executing any commands or making changes in that directory
+- **After** a user asks you to work on something in a directory with an AGENTS.md
+- **Automatically** when exploring a codebase to understand workflows
+
+### Known AGENTS.md Locations
+
+Projects may have AGENTS.md files in subdirectories for workflow-specific documentation:
+- `helm/AGENTS.md` - Helm chart development, testing, packaging, and release workflows
+- `chef-replicated/chef-360/AGENTS.md` - Replicated distribution, VM management, EC installation workflows
+
+### Priority and Authority
+
+- **AGENTS.md has equal authority to CLAUDE.md** for its directory scope
+- When working in a subdirectory with AGENTS.md, follow its instructions for that subdirectory
+- AGENTS.md typically contains detailed "how-to" documentation
+- CLAUDE.md provides high-level architecture and cross-cutting concerns
+
+### Workflow
+
+1. Identify working directory from user request
+2. Check for AGENTS.md in that directory (use Read tool)
+3. If found, read and internalize the instructions
+4. Follow AGENTS.md instructions for all work in that directory
+5. Treat AGENTS.md as authoritative for subdirectory-specific workflows
+
 ## Git Operation Guidelines
 
 - **Always show literal output** - For git operations, never summarize; always show the complete, literal output of any git command
