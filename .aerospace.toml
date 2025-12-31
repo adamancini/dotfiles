@@ -74,6 +74,13 @@ run= [
   "layout floating",
 ]
 
+# Make Transmission windows always float
+[[on-window-detected]]
+if.app-id="org.m0k.transmission"
+run= [
+  "layout floating",
+]
+
 # Firefox PassFF extension window should always float
 [[on-window-detected]]
 if.app-id="org.mozilla.firefox"

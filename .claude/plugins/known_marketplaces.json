@@ -13,7 +13,7 @@
       "repo": "anthropics/claude-code"
     },
     "installLocation": "/Users/ada/.claude/plugins/marketplaces/claude-code-plugins",
-    "lastUpdated": "2025-12-31T07:37:03.503Z"
+    "lastUpdated": "2025-12-31T08:38:15.709Z"
   },
   "devops-toolkit": {
     "source": {
@@ -29,7 +29,7 @@
       "repo": "anthropics/claude-plugins-official"
     },
     "installLocation": "/Users/ada/.claude/plugins/marketplaces/claude-plugins-official",
-    "lastUpdated": "2025-12-31T08:07:48.621Z"
+    "lastUpdated": "2025-12-31T08:38:40.675Z"
   },
   "claude-code-workflows": {
     "source": {
@@ -37,6 +37,6 @@
       "repo": "wshobson/agents"
     },
     "installLocation": "/Users/ada/.claude/plugins/marketplaces/claude-code-workflows",
-    "lastUpdated": "2025-12-31T07:29:49.234Z"
+    "lastUpdated": "2025-12-31T08:40:58.722Z"
   }
 }
