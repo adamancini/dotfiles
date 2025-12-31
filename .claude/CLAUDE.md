@@ -303,6 +303,16 @@ These quality gates do not apply to system maintenance tasks.
 4. **Review phase:** Use relevant quality control agents
 5. **Compliance phase:** Use `claudemd-compliance-checker`
 
+## Settings Configuration
+
+**All permissions and settings changes go directly to `~/.claude/settings.json`.**
+
+This is a personal configuration that will never be shared outside this workstation, so there is no need for a separate `settings.local.json` file. The local settings file pattern exists for shared projects where you want machine-specific overrides - that doesn't apply here.
+
+When adding new permissions or modifying settings:
+1. Edit `~/.claude/settings.json` directly
+2. Sync with yadm after changes
+
 ## Configuration Management & Maintenance
 
 ### Plugin and Marketplace Updates
@@ -357,3 +367,47 @@ When user requests plugin/marketplace/config updates:
 - projects/ (machine-specific paths)
 - debug/ (temporary logs)
 - NEVER attempt to change or suggest changing the public/private flag on a github repo (or any other git repo in a hosted environment, such as BitBucket, etc.)
+
+### Personal Plugin Repository: devops-toolkit
+
+**Location:** `~/.claude/plugins/repos/devops-toolkit`
+**Remote:** `git@github.com:adamancini/devops-toolkit.git`
+
+The devops-toolkit plugin is a personal plugin repository that must be kept in sync across workstations.
+
+**MANDATORY: Sync devops-toolkit in these scenarios:**
+
+1. **After modifying agents or skills** in devops-toolkit:
+   ```bash
+   cd ~/.claude/plugins/repos/devops-toolkit
+   git add -A && git commit -m "Update [component]: [description]"
+   git push origin main
+   ```
+
+2. **During automatic Claude Code binary updates:**
+   ```bash
+   cd ~/.claude/plugins/repos/devops-toolkit
+   git fetch origin
+   git pull --rebase origin main  # Pull any upstream changes
+   git push origin main           # Push any local changes
+   ```
+
+3. **During automatic plugin updates:**
+   ```bash
+   cd ~/.claude/plugins/repos/devops-toolkit
+   git fetch origin
+   git status  # Check for divergence
+   git pull --rebase origin main
+   git push origin main
+   ```
+
+**Sync Workflow:**
+1. Check for uncommitted local changes
+2. Fetch remote changes
+3. Rebase local changes on top of remote (if any)
+4. Push to ensure remote is up to date
+5. Verify sync status: `git status` should show "up to date with origin/main"
+
+**Current Skills:**
+- `ssl-cert-manager` - SSL/TLS certificate management with Let's Encrypt
+- `aerospace-config-manager` - AeroSpace window manager configuration

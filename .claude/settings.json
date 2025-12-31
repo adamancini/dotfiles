@@ -10,13 +10,27 @@
       "Bash(tree:*)",
       "Skill(replicated-cli)",
       "Bash(chmod:*)",
-      "Bash(pgrep:*)"
+      "Bash(pgrep:*)",
+      "Bash(make:*)",
+      "Bash(ssh:*)",
+      "WebFetch(domain:docs.replicated.com)",
+      "WebFetch(domain:cloudnative-pg.io)",
+      "WebSearch",
+      "SlashCommand(/superpowers:brainstorm)",
+      "mcp__sequential-thinking",
+      "Skill(superpowers:executing-plans)",
+      "Bash(helm template:*)",
+      "Bash(ls:*)",
+      "Bash(python3:*)",
+      "Bash(yq eval:*)",
+      "Bash(yamllint:*)"
     ],
     "deny": [],
     "ask": [],
     "defaultMode": "default"
   },
-  "model": "sonnet[1m]",
+  "model": "opus",
+  "outputStyle": "default",
   "enableAllProjectMcpServers": false,
   "hooks": {
     "UserPromptSubmit": [
@@ -26,6 +40,17 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/user-prompt-submit-mcp-reminder.py"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude-code-docs/claude-docs-helper.sh hook-check"
           }
         ]
       }
@@ -50,8 +75,7 @@
     "hookify@claude-code-plugins": true,
     "plugin-dev@claude-code-plugins": true,
     "elements-of-style@superpowers-marketplace": true,
-    "superpowers-developing-for-claude-code@superpowers-marketplace": true,
-    "devops-toolkit@devops-toolkit": true
+    "superpowers-developing-for-claude-code@superpowers-marketplace": true
   },
   "feedbackSurveyState": {
     "lastShownTime": 1754064217555
