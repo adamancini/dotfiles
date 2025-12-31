@@ -115,6 +115,7 @@
   ],
   "denyList": [
     "Bash(rm -rf:*)",
-    "Bash(kubectl delete namespace:*)"
+    "Bash(kubectl delete namespace:*)",
+    "Bash(yadm rm:*)"
   ]
 }
