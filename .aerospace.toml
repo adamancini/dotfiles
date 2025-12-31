@@ -81,6 +81,13 @@ run= [
   "layout floating",
 ]
 
+# Make IINA video player windows always float
+[[on-window-detected]]
+if.app-id="com.colliderli.iina"
+run= [
+  "layout floating",
+]
+
 # Firefox PassFF extension window should always float
 [[on-window-detected]]
 if.app-id="org.mozilla.firefox"
