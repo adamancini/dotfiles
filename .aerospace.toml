@@ -67,6 +67,13 @@ run= [
   "layout floating",
 ]
 
+# Make Passwords app windows always float
+[[on-window-detected]]
+if.app-id="com.apple.Passwords"
+run= [
+  "layout floating",
+]
+
 # Firefox PassFF extension window should always float
 [[on-window-detected]]
 if.app-id="org.mozilla.firefox"
