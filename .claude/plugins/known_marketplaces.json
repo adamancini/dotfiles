@@ -13,15 +13,7 @@
       "repo": "anthropics/claude-code"
     },
     "installLocation": "/Users/ada/.claude/plugins/marketplaces/claude-code-plugins",
-    "lastUpdated": "2025-12-31T08:38:15.709Z"
-  },
-  "devops-toolkit": {
-    "source": {
-      "source": "directory",
-      "path": "/Users/ada/.claude/plugins/repos/devops-toolkit"
-    },
-    "installLocation": "/Users/ada/.claude/plugins/repos/devops-toolkit",
-    "lastUpdated": "2025-11-21T21:34:00.000Z"
+    "lastUpdated": "2025-12-31T16:05:48.431Z"
   },
   "claude-plugins-official": {
     "source": {
@@ -29,7 +21,7 @@
       "repo": "anthropics/claude-plugins-official"
     },
     "installLocation": "/Users/ada/.claude/plugins/marketplaces/claude-plugins-official",
-    "lastUpdated": "2025-12-31T08:38:40.675Z"
+    "lastUpdated": "2025-12-31T16:05:50.896Z"
   },
   "claude-code-workflows": {
     "source": {
