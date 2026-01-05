@@ -23,7 +23,14 @@
       "Bash(ls:*)",
       "Bash(python3:*)",
       "Bash(yq eval:*)",
-      "Bash(yamllint:*)"
+      "Bash(yamllint:*)",
+      "Bash(mdls:*)",
+      "Bash(osascript:*)",
+      "Bash(yadm status:*)",
+      "Bash(yadm diff:*)",
+      "Bash(yadm add:*)",
+      "Bash(yadm commit:*)",
+      "Bash(yadm push:*)"
     ],
     "deny": [],
     "ask": [],
@@ -116,6 +123,7 @@
     "unit-testing@claude-code-workflows": true
   },
   "outputStyle": "default",
+  "spinnerTipsEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754064217555
   },
