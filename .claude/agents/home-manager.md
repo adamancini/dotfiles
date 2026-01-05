@@ -61,7 +61,7 @@ Based on the current system organization:
 
 **Data and Content:**
 - `~/Documents/` - Document files
-- `~/notes/` - Note-taking directory
+- `~/notes/` - Obsidian vault (managed by **obsidian-notes agent**)
 - `~/Desktop/` - Temporary workspace
 - `~/Pictures/`, `~/Music/`, `~/Movies/` - Media files
 
@@ -821,6 +821,22 @@ When cleaning up home directory:
    ```
 
 ## Integration with Other Tools
+
+### Notes Management (Obsidian)
+
+For all Obsidian vault operations at `~/notes/`, invoke the **obsidian-notes agent**.
+
+This includes:
+- Note creation from conversations or scratch
+- Note discovery and search
+- Vault organization and MOC maintenance
+- Obsidian plugin configuration
+- Template management
+- Knowledge base queries
+
+The obsidian-notes agent is a peer to home-manager - it can be invoked directly by users or delegated to from home-manager when note-related tasks arise during home directory operations.
+
+**Git operations for the vault** (commits, pushes) can be coordinated through home-manager's yadm knowledge or handled directly by the obsidian-notes agent using the vault's git configuration.
 
 ### Claude Code Integration
 
