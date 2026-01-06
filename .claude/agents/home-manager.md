@@ -101,233 +101,63 @@ Based on the current system organization:
 
 ## Zsh Configuration Management
 
-### Configuration Structure
+**IMPORTANT**: When adding or managing shell configuration, always invoke the **zsh-config-manager skill** for detailed guidance.
 
-**Main configuration: `~/.zshrcd/.zshrc`**
-- Sets zsh options (history, completion, etc.)
-- Loads completions from `~/.zshrcd/completions/`
-- Sources all files in `~/.zshrcd/conf.d/*.zsh`
-- Loads Antigen plugin manager
+### Quick Overview
 
-**Component directory: `~/.zshrcd/conf.d/`**
-Each component gets its own file for isolation and maintainability:
+**Configuration structure:**
+- `~/.zshrcd/.zshrc` - Main config (auto-sources `conf.d/*.zsh`)
+- `~/.zshrcd/conf.d/` - Component files (one per tool)
+- `~/.zshrcd/completions/` - Custom completion functions
 
-**Existing components:**
-- `aliases.zsh` - Shell aliases
-- `antigen.zsh` - Antigen plugin manager
-- `Brewfile` - Homebrew package list
-- `direnv.sh` - Direnv configuration
-- `docker.zsh` - Docker-specific configuration
-- `fzf.zsh` - Fuzzy finder configuration
-- `gcloud.zsh` - Google Cloud SDK configuration
-- `git-clone-repo.zsh` - Git repository cloning helpers
-- `homebrew.zsh` - Homebrew environment setup (with alternates for macOS)
-- `iterm2_tmux_shell_integration.zsh` - iTerm2 integration
-- `jps.zsh` - Java process tools
-- `krew.zsh` - Kubectl plugin manager
-- `kubectl-completion.zsh` - Kubernetes completion
-- `kurl-functions.sh` - Kurl utility functions
-
-### Adding New Shell Configuration
-
-When adding a new tool that needs shell configuration:
-
-**Create component file:**
+**Quick commands:**
 ```bash
+# Add new tool config
 vi ~/.zshrcd/conf.d/tool-name.zsh
-```
 
-**Example component structure:**
-```bash
-# ~/.zshrcd/conf.d/tool-name.zsh
-
-# Tool environment setup
-export TOOL_HOME="$HOME/.tool"
-path+=("$TOOL_HOME/bin")
-
-# Tool-specific aliases
-alias tool='tool-command'
-
-# Tool completions
-if command -v tool >/dev/null 2>&1; then
-    source <(tool completion zsh)
-fi
-
-# Tool initialization
-# eval "$(tool init zsh)"
-```
-
-**Track with yadm:**
-```bash
+# Track with yadm
 yadm add ~/.zshrcd/conf.d/tool-name.zsh
 yadm commit -m "Add tool-name zsh configuration"
 yadm push
 ```
 
-### Using Alternates in Zsh Config
+**For comprehensive guidance on:**
+- Component file structure and best practices
+- OS-specific alternates (##os.Darwin, ##os.Linux)
+- Command availability guards
+- Auto-sourcing patterns
 
-**OS-specific configuration:**
-```bash
-# Create OS-specific versions
-~/.zshrcd/conf.d/homebrew.zsh##os.Darwin
-~/.zshrcd/conf.d/homebrew.zsh##os.Linux
-
-# YADM creates symlink automatically
-~/.zshrcd/conf.d/homebrew.zsh → homebrew.zsh##os.Darwin
-```
-
-**Environment-specific:**
-```bash
-~/.zshrcd/.zprofile.local##os.Darwin
-~/.zshrcd/.zprofile.local##os.Linux
-~/.zshrcd/.zprofile.local##class.Work
-```
-
-### Zsh Configuration Best Practices
-
-**One component per file:**
-- Easier to maintain
-- Can enable/disable by removing/adding file
-- Clear ownership of configuration
-
-**Use meaningful names:**
-- `docker.zsh` not `docker-config.zsh`
-- `kubectl-completion.zsh` not `k8s-stuff.zsh`
-
-**Check for command availability:**
-```bash
-if command -v kubectl >/dev/null 2>&1; then
-    # kubectl-specific configuration
-fi
-```
-
-**Avoid sourcing in .zshrc directly:**
-The automatic sourcing loop handles all `.zsh` files:
-```bash
-# In .zshrc
-for file in $ZDOTDIR/conf.d/*.zsh; do
-    source $file
-done
-```
+**→ Invoke the zsh-config-manager skill**
 
 ## Git Repository Management
 
-### Repository Organization by Language
+**IMPORTANT**: When cloning or organizing repositories, always invoke the **git-repo-organizer skill** for detailed guidance.
 
-**Decision tree for repository placement:**
+### Quick Overview
 
-1. **Is this primarily a Go project?**
-   - YES → Clone to `~/go/src/github.com/org/repo`
-   - NO → Continue to step 2
+**Repository placement by language:**
+- **Go projects**: `~/go/src/github.com/org/repo` (GOPATH convention)
+- **Non-Go projects**: `~/src/github.com/org/repo`
 
-2. **Does this follow a specific ecosystem structure?**
-   - Go: `~/go/src/github.com/org/repo`
-   - Others: `~/src/github.com/org/repo` or `~/src/org/repo`
-
-**Examples:**
-
+**Quick commands:**
 ```bash
-# Go projects (Replicated first-party work)
-~/go/src/github.com/replicatedhq/kots
-~/go/src/github.com/replicatedhq/replicated
-~/go/src/github.com/replicatedhq/embedded-cluster
+# Clone Go project
+mkdir -p ~/go/src/github.com/org && cd $_ && git clone git@github.com:org/repo.git
 
-# Python, JavaScript, Rust, or mixed projects
-~/src/github.com/username/python-project
-~/src/github.com/username/helm-charts
-~/src/codimd-helm
-~/src/ipxe
-```
-
-### Cloning Repositories
-
-**Go projects:**
-```bash
-# Method 1: Let go get handle the structure
-go get github.com/org/repo
-
-# Method 2: Manual clone with correct structure
-mkdir -p ~/go/src/github.com/org
-cd ~/go/src/github.com/org
-git clone git@github.com:org/repo.git
-```
-
-**Non-Go projects:**
-```bash
-# Organized by source
-mkdir -p ~/src/github.com/username
-cd ~/src/github.com/username
-git clone git@github.com:username/project.git
-
-# Or simpler structure
-cd ~/src
-git clone git@github.com:org/project.git
-```
-
-### Determining if a Project is Go
-
-**Check for Go indicators:**
-```bash
-# Check for go.mod
-test -f go.mod && echo "Go project"
-
-# Check for .go files
-find . -maxdepth 2 -name "*.go" | head -1
-
-# Check repository description/README
-grep -i "golang\|go project" README.md
-```
-
-**When cloning, inspect before deciding:**
-```bash
-# Clone to temporary location
-git clone git@github.com:org/repo.git /tmp/repo-check
+# Clone non-Go project
+mkdir -p ~/src/github.com/org && cd $_ && git clone git@github.com:org/repo.git
 
 # Check if Go project
-cd /tmp/repo-check
-if [ -f "go.mod" ] || [ -n "$(find . -maxdepth 2 -name '*.go')" ]; then
-    echo "This is a Go project → ~/go/src/github.com/org/repo"
-else
-    echo "This is not a Go project → ~/src/github.com/org/repo"
-fi
-
-# Clean up
-rm -rf /tmp/repo-check
+test -f go.mod && echo "Go project"
 ```
 
-### Repository Maintenance Tasks
+**For comprehensive guidance on:**
+- Detecting Go vs non-Go projects
+- Repository audit and maintenance
+- Reorganizing misplaced repositories
+- Finding uncommitted changes across repos
 
-**Finding all repositories:**
-```bash
-# Find all Go repositories
-find ~/go/src -name ".git" -type d -maxdepth 5
-
-# Find all other repositories
-find ~/src -name ".git" -type d -maxdepth 3
-```
-
-**Checking for uncommitted changes:**
-```bash
-# Check Go projects
-for dir in ~/go/src/github.com/*/*; do
-    if [ -d "$dir/.git" ]; then
-        cd "$dir"
-        if ! git diff-index --quiet HEAD -- 2>/dev/null; then
-            echo "Uncommitted changes in: $dir"
-        fi
-    fi
-done
-
-# Check other projects
-for dir in ~/src/*; do
-    if [ -d "$dir/.git" ]; then
-        cd "$dir"
-        if ! git diff-index --quiet HEAD -- 2>/dev/null; then
-            echo "Uncommitted changes in: $dir"
-        fi
-    fi
-done
-```
+**→ Invoke the git-repo-organizer skill**
 
 ## YADM Dotfiles Management
 
@@ -962,6 +792,8 @@ For comprehensive YADM troubleshooting, reference the **yadm-utilities skill**.
 
 Always invoke these skills for detailed guidance:
 
+- **zsh-config-manager skill** - Modular zsh configuration in conf.d, component patterns, OS-specific alternates
+- **git-repo-organizer skill** - Repository placement by language, Go vs non-Go detection, repo auditing
 - **system-updates skill** - Comprehensive system updates for yadm, pass, and Homebrew with error handling and reporting
 - **yadm-utilities skill** - YADM operations, bootstrap, alternates, Claude Code tracking
 - **replicated-cli skill** - Replicated CLI commands, CMX VMs, release workflows
