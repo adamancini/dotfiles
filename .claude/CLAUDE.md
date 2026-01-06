@@ -249,16 +249,38 @@ make TARGET_NAME VARIABLE1=value1 VARIABLE2=value2 ...
 
 #### MCP Integration Agents
 
-**linear-assistant**
-- **When to use:** For ALL Linear MCP operations to preserve main context window
+**linear-assistant** ⚠️ MANDATORY DELEGATION
+- **CRITICAL:** NEVER call Linear MCP tools directly - ALWAYS delegate to this agent
+- **When to use:** For **ANY AND ALL** Linear MCP operations, **NO EXCEPTIONS**
   - Querying issues, projects, teams, cycles
   - Creating or updating issues
   - Searching the Linear workspace
   - Checking project/sprint status
+  - Getting issue details before working on them
 - **Purpose:** Processes verbose Linear MCP responses and returns concise summaries
-- **Context optimization:** Keeps large JSON responses out of main conversation
+- **Context optimization:** Keeps large JSON responses (30+ lines) out of main conversation
 - **Output format:** Tables, brief summaries, actionable information only
 - **Tools:** `mcp__plugin_linear_linear__*`
+
+**⚠️ IMPORTANT - Multi-Agent Scenarios:**
+When a user request mentions BOTH Linear (e.g., "work on ANN-41") AND another agent (e.g., "using golang-pro"):
+1. **FIRST:** Invoke `linear-assistant` to fetch issue details
+2. **THEN:** Invoke the requested agent with those details
+3. **NEVER:** Call Linear MCP tools directly to "quickly" get info before delegating
+
+**Example - CORRECT workflow:**
+```
+User: "Work on ANN-41 using golang-pro"
+Step 1: Task(subagent_type="linear-assistant", prompt="Get details for ANN-41")
+Step 2: [Receive summary from linear-assistant]
+Step 3: Task(subagent_type="golang-pro", prompt="Implement [issue details from step 2]")
+```
+
+**Example - WRONG workflow (PROHIBITED):**
+```
+User: "Work on ANN-41 using golang-pro"
+WRONG: mcp__plugin_linear_linear__get_issue(id="ANN-41")  ← NEVER DO THIS
+```
 
 **Pattern:** This agent demonstrates context-efficient MCP usage. For other verbose MCP servers, consider creating similar wrapper agents that process responses internally and return summaries.
 
@@ -288,8 +310,10 @@ make TARGET_NAME VARIABLE1=value1 VARIABLE2=value2 ...
 - **Repository cloning:** Use `home-manager` agent (delegates to git-repo-organizer skill)
 - **Notes/vault:** Use `obsidian-notes` agent - never modify ~/notes/ directly
 
-**For verbose MCP servers (delegate to preserve context):**
-- **Linear:** Use `linear-assistant` agent - returns concise summaries instead of raw JSON
+**For verbose MCP servers (MANDATORY delegation to preserve context):**
+- **Linear:** ⚠️ **ALWAYS** use `linear-assistant` agent - NEVER call Linear MCP tools directly
+  - This applies even when other agents are requested for the main task
+  - Sequence: linear-assistant FIRST, then other agents with the retrieved details
 
 **For codebase exploration:**
 - Use `Explore` agent with appropriate thoroughness level
