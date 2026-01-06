@@ -222,6 +222,31 @@ make TARGET_NAME VARIABLE1=value1 VARIABLE2=value2 ...
 - **Use cases:** Documentation, README files, technical guides
 - **Tools:** Edit, write, read, web search
 
+#### System Maintenance & Personal Agents
+
+**home-manager**
+- **When to use:** **MANDATORY** for ALL yadm operations, dotfiles management, home directory tasks
+  - Any `yadm` command (status, add, commit, push, pull, diff)
+  - Syncing dotfiles or configuration changes
+  - Shell configuration (zsh, conf.d components)
+  - Cloning or organizing git repositories
+  - Home directory cleanup or organization
+  - SSL certificate generation
+  - Aerospace window manager configuration
+  - System updates (brew, yadm, pass)
+- **Purpose:** Expert management of home directory structure, dotfiles, and system configuration
+- **Delegation:** References specialized skills (zsh-config-manager, git-repo-organizer, yadm-utilities, ssl-cert-manager, aerospace-config-manager)
+- **Tools:** All tools
+
+**obsidian-notes**
+- **When to use:** **MANDATORY** for ALL Obsidian vault operations
+  - Creating, finding, or organizing notes
+  - Vault configuration or plugin setup
+  - MOC maintenance or knowledge base queries
+  - Notion sync operations (with privacy constraints)
+- **Purpose:** Expert Obsidian knowledge management at `~/notes/`
+- **Tools:** All tools
+
 #### Development Workflow Agents
 
 **superpowers:code-reviewer**
@@ -241,6 +266,12 @@ make TARGET_NAME VARIABLE1=value1 VARIABLE2=value2 ...
 - **Tools:** All tools
 
 ### Agent Selection Guidelines
+
+**For system maintenance (ALWAYS delegate):**
+- **yadm/dotfiles:** Use `home-manager` agent - never run yadm commands directly
+- **Shell config:** Use `home-manager` agent (delegates to zsh-config-manager skill)
+- **Repository cloning:** Use `home-manager` agent (delegates to git-repo-organizer skill)
+- **Notes/vault:** Use `obsidian-notes` agent - never modify ~/notes/ directly
 
 **For codebase exploration:**
 - Use `Explore` agent with appropriate thoroughness level
