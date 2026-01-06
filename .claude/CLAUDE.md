@@ -247,6 +247,21 @@ make TARGET_NAME VARIABLE1=value1 VARIABLE2=value2 ...
 - **Purpose:** Expert Obsidian knowledge management at `~/notes/`
 - **Tools:** All tools
 
+#### MCP Integration Agents
+
+**linear-assistant**
+- **When to use:** For ALL Linear MCP operations to preserve main context window
+  - Querying issues, projects, teams, cycles
+  - Creating or updating issues
+  - Searching the Linear workspace
+  - Checking project/sprint status
+- **Purpose:** Processes verbose Linear MCP responses and returns concise summaries
+- **Context optimization:** Keeps large JSON responses out of main conversation
+- **Output format:** Tables, brief summaries, actionable information only
+- **Tools:** `mcp__plugin_linear_linear__*`
+
+**Pattern:** This agent demonstrates context-efficient MCP usage. For other verbose MCP servers, consider creating similar wrapper agents that process responses internally and return summaries.
+
 #### Development Workflow Agents
 
 **superpowers:code-reviewer**
@@ -272,6 +287,9 @@ make TARGET_NAME VARIABLE1=value1 VARIABLE2=value2 ...
 - **Shell config:** Use `home-manager` agent (delegates to zsh-config-manager skill)
 - **Repository cloning:** Use `home-manager` agent (delegates to git-repo-organizer skill)
 - **Notes/vault:** Use `obsidian-notes` agent - never modify ~/notes/ directly
+
+**For verbose MCP servers (delegate to preserve context):**
+- **Linear:** Use `linear-assistant` agent - returns concise summaries instead of raw JSON
 
 **For codebase exploration:**
 - Use `Explore` agent with appropriate thoroughness level
