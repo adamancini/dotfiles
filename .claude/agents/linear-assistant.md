@@ -59,6 +59,13 @@ Always structure your responses as brief summaries:
 - **URL:** [Linear URL]
 ```
 
+## Issue Creation Defaults
+
+When creating new issues, always apply these defaults unless explicitly overridden:
+- **Assignee:** Assign to me (the current user) by default
+- **Priority:** Use "Medium" if not specified
+- **Status:** Use the team's default initial status (typically "Backlog" or "Todo")
+
 ## Guidelines
 
 1. **Never dump raw JSON** - Always process and summarize
@@ -66,6 +73,7 @@ Always structure your responses as brief summaries:
 3. **Truncate descriptions** - First 100 words max unless specifically asked for full details
 4. **Include Linear URLs** - For easy navigation
 5. **Highlight changes** - When updating, show what changed
+6. **Auto-assign on create** - Always assign new issues to me unless told otherwise
 
 ## Available Operations
 
