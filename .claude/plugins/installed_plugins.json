@@ -339,80 +339,70 @@
     "context7@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/ada/.claude/plugins/cache/claude-plugins-official/context7/15b07b46dab3",
-        "version": "15b07b46dab3",
+        "installPath": "/Users/ada/.claude/plugins/cache/claude-plugins-official/context7/883f2ba69e50",
+        "version": "883f2ba69e50",
         "installedAt": "2025-12-31T13:17:05.761Z",
-        "lastUpdated": "2026-01-05T17:56:48.591Z",
+        "lastUpdated": "2026-01-06T19:36:44.425Z",
         "isLocal": true
       }
     ],
     "frontend-design@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/ada/.claude/plugins/cache/claude-plugins-official/frontend-design/15b07b46dab3",
-        "version": "15b07b46dab3",
+        "installPath": "/Users/ada/.claude/plugins/cache/claude-plugins-official/frontend-design/883f2ba69e50",
+        "version": "883f2ba69e50",
         "installedAt": "2025-12-31T13:21:25.596Z",
-        "lastUpdated": "2026-01-05T17:56:48.588Z",
-        "isLocal": true
-      }
-    ],
-    "github@claude-plugins-official": [
-      {
-        "scope": "user",
-        "installPath": "/Users/ada/.claude/plugins/cache/claude-plugins-official/github/15b07b46dab3",
-        "version": "15b07b46dab3",
-        "installedAt": "2025-12-31T13:21:25.633Z",
-        "lastUpdated": "2026-01-05T17:56:48.593Z",
+        "lastUpdated": "2026-01-06T19:36:44.433Z",
         "isLocal": true
       }
     ],
     "feature-dev@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/ada/.claude/plugins/cache/claude-plugins-official/feature-dev/15b07b46dab3",
-        "version": "15b07b46dab3",
+        "installPath": "/Users/ada/.claude/plugins/cache/claude-plugins-official/feature-dev/883f2ba69e50",
+        "version": "883f2ba69e50",
         "installedAt": "2025-12-31T13:21:25.664Z",
-        "lastUpdated": "2026-01-05T17:56:48.590Z",
+        "lastUpdated": "2026-01-06T19:36:44.445Z",
         "isLocal": true
       }
     ],
     "code-review@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/ada/.claude/plugins/cache/claude-plugins-official/code-review/15b07b46dab3",
-        "version": "15b07b46dab3",
+        "installPath": "/Users/ada/.claude/plugins/cache/claude-plugins-official/code-review/883f2ba69e50",
+        "version": "883f2ba69e50",
         "installedAt": "2025-12-31T13:21:25.688Z",
-        "lastUpdated": "2026-01-05T17:56:48.595Z",
+        "lastUpdated": "2026-01-06T19:36:44.435Z",
         "isLocal": true
       }
     ],
     "commit-commands@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/ada/.claude/plugins/cache/claude-plugins-official/commit-commands/15b07b46dab3",
-        "version": "15b07b46dab3",
+        "installPath": "/Users/ada/.claude/plugins/cache/claude-plugins-official/commit-commands/883f2ba69e50",
+        "version": "883f2ba69e50",
         "installedAt": "2025-12-31T13:21:25.710Z",
-        "lastUpdated": "2026-01-05T17:56:48.597Z",
+        "lastUpdated": "2026-01-06T19:36:44.421Z",
         "isLocal": true
       }
     ],
     "security-guidance@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/ada/.claude/plugins/cache/claude-plugins-official/security-guidance/15b07b46dab3",
-        "version": "15b07b46dab3",
+        "installPath": "/Users/ada/.claude/plugins/cache/claude-plugins-official/security-guidance/883f2ba69e50",
+        "version": "883f2ba69e50",
         "installedAt": "2025-12-31T13:21:25.731Z",
-        "lastUpdated": "2026-01-05T17:56:48.598Z",
+        "lastUpdated": "2026-01-06T19:36:44.428Z",
         "isLocal": true
       }
     ],
     "agent-sdk-dev@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/ada/.claude/plugins/cache/claude-plugins-official/agent-sdk-dev/15b07b46dab3",
-        "version": "15b07b46dab3",
+        "installPath": "/Users/ada/.claude/plugins/cache/claude-plugins-official/agent-sdk-dev/883f2ba69e50",
+        "version": "883f2ba69e50",
         "installedAt": "2025-12-31T13:21:25.755Z",
-        "lastUpdated": "2026-01-05T17:56:48.600Z",
+        "lastUpdated": "2026-01-06T19:36:44.441Z",
         "isLocal": true
       }
     ],
@@ -430,20 +420,20 @@
     "pr-review-toolkit@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/ada/.claude/plugins/cache/claude-plugins-official/pr-review-toolkit/15b07b46dab3",
-        "version": "15b07b46dab3",
+        "installPath": "/Users/ada/.claude/plugins/cache/claude-plugins-official/pr-review-toolkit/883f2ba69e50",
+        "version": "883f2ba69e50",
         "installedAt": "2025-12-31T13:21:26.785Z",
-        "lastUpdated": "2026-01-05T17:56:48.602Z",
+        "lastUpdated": "2026-01-06T19:36:44.456Z",
         "isLocal": true
       }
     ],
     "playwright@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/ada/.claude/plugins/cache/claude-plugins-official/playwright/15b07b46dab3",
-        "version": "15b07b46dab3",
+        "installPath": "/Users/ada/.claude/plugins/cache/claude-plugins-official/playwright/883f2ba69e50",
+        "version": "883f2ba69e50",
         "installedAt": "2025-12-31T13:21:26.810Z",
-        "lastUpdated": "2026-01-05T17:56:48.606Z",
+        "lastUpdated": "2026-01-06T19:36:44.451Z",
         "isLocal": true
       }
     ],
@@ -461,20 +451,20 @@
     "linear@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/ada/.claude/plugins/cache/claude-plugins-official/linear/15b07b46dab3",
-        "version": "15b07b46dab3",
+        "installPath": "/Users/ada/.claude/plugins/cache/claude-plugins-official/linear/883f2ba69e50",
+        "version": "883f2ba69e50",
         "installedAt": "2025-12-31T13:21:27.855Z",
-        "lastUpdated": "2026-01-05T17:56:48.611Z",
+        "lastUpdated": "2026-01-06T19:36:44.468Z",
         "isLocal": true
       }
     ],
     "hookify@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/ada/.claude/plugins/cache/claude-plugins-official/hookify/15b07b46dab3",
-        "version": "15b07b46dab3",
+        "installPath": "/Users/ada/.claude/plugins/cache/claude-plugins-official/hookify/883f2ba69e50",
+        "version": "883f2ba69e50",
         "installedAt": "2025-12-31T13:21:27.921Z",
-        "lastUpdated": "2026-01-05T17:56:48.610Z",
+        "lastUpdated": "2026-01-06T19:36:44.466Z",
         "isLocal": true
       }
     ],
