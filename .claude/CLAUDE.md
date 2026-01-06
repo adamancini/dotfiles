@@ -268,6 +268,34 @@ When a user request mentions BOTH Linear (e.g., "work on ANN-41") AND another ag
 2. **THEN:** Invoke the requested agent with those details
 3. **NEVER:** Call Linear MCP tools directly to "quickly" get info before delegating
 
+**⚠️ CRITICAL - Agent Failure Recovery:**
+If `linear-assistant` returns with **0 tool uses** or incomplete/empty results:
+1. **NEVER** fall back to direct MCP tool calls - the delegation rule still applies
+2. **Re-invoke the agent** with an explicit, action-oriented prompt:
+   ```
+   "List all backlog issues for project 'Project Name'.
+   You MUST use the list_issues MCP tool to fetch this data and return results."
+   ```
+3. **Use the `resume` parameter** if the agent has context that should be preserved
+4. **Prompt best practices** for ensuring agent tool usage:
+   - Be explicit: "Use the [tool_name] tool to..."
+   - Specify expected output: "Return a table of..."
+   - Include action verbs: "Fetch", "Query", "Create", "Update"
+   - Avoid ambiguous requests like "get info about" - be specific
+
+**Example - CORRECT failure recovery:**
+```
+# First attempt returns 0 tool uses
+Task(subagent_type="linear-assistant", prompt="List backlog issues")
+→ Agent returns with 0 tool uses
+
+# CORRECT: Re-invoke with explicit prompt
+Task(subagent_type="linear-assistant", prompt="Query the Linear API using list_issues tool to fetch all issues in Backlog state for the Obsidian-Notion Sync project. Return results as a markdown table.")
+
+# WRONG: Bypass agent with direct call
+mcp__plugin_linear_linear__list_issues(...)  ← NEVER DO THIS, EVEN AFTER AGENT FAILURE
+```
+
 **Example - CORRECT workflow:**
 ```
 User: "Work on ANN-41 using golang-pro"
