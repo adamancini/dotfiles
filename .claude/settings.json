@@ -58,7 +58,6 @@
       "WebFetch(domain:steamcommunity.com)",
       "WebFetch(domain:*)",
       "WebSearch",
-      "WebSearch(query:*)",
       "Write(file_path:/Users/ada/notes/*)"
     ],
     "deny": [
