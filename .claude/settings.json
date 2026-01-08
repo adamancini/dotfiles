@@ -19,6 +19,8 @@
       "Bash(gcloud:*)",
       "Bash(gh:*)",
       "Bash(git:*)",
+      "Bash(go:*)",
+      "Bash(golangci-lint:*)",
       "Bash(grep:*)",
       "Bash(helm template:*)",
       "Bash(helm:*)",
@@ -68,7 +70,7 @@
     "ask": [],
     "defaultMode": "default"
   },
-  "model": "opus",
+  "model": "sonnet[1m]",
   "enableAllProjectMcpServers": false,
   "hooks": {
     "UserPromptSubmit": [
@@ -106,8 +108,8 @@
     "feature-dev@claude-code-plugins": false,
     "security-guidance@claude-code-plugins": false,
     "code-review@claude-code-plugins": false,
-    "explanatory-output-style@claude-code-plugins": true,
-    "learning-output-style@claude-code-plugins": true,
+    "explanatory-output-style@claude-code-plugins": false,
+    "learning-output-style@claude-code-plugins": false,
     "frontend-design@claude-code-plugins": false,
     "ralph-wiggum@claude-code-plugins": true,
     "hookify@claude-code-plugins": false,
@@ -136,7 +138,7 @@
     "pr-review-toolkit@claude-plugins-official": true,
     "playwright@claude-plugins-official": false,
     "Notion@claude-plugins-official": false,
-    "linear@claude-plugins-official": false,
+    "linear@claude-plugins-official": true,
     "hookify@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true,
     "agent-orchestration@claude-code-workflows": true,
