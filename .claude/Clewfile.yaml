@@ -1,5 +1,15 @@
 version: 1
 sources:
+  - name: claude-code-plugins
+    kind: marketplace
+    source:
+      type: github
+      url: anthropics/claude-code
+  - name: claude-plugins-official
+    kind: marketplace
+    source:
+      type: github
+      url: anthropics/claude-plugins-official
   - name: claude-code-workflows
     kind: marketplace
     source:
@@ -15,16 +25,6 @@ sources:
     source:
       type: github
       url: obra/superpowers-marketplace
-  - name: claude-code-plugins
-    kind: marketplace
-    source:
-      type: github
-      url: anthropics/claude-code
-  - name: claude-plugins-official
-    kind: marketplace
-    source:
-      type: github
-      url: anthropics/claude-plugins-official
 plugins:
   - name: agent-sdk-dev@claude-code-plugins
     enabled: false
