@@ -1,104 +1,115 @@
 version: 1
-marketplaces:
-  claude-code-plugins:
-    source: github
-    repo: anthropics/claude-code
-  claude-code-workflows:
-    source: github
-    repo: wshobson/agents
-  claude-plugins-official:
-    source: github
-    repo: anthropics/claude-plugins-official
-  superpowers-marketplace:
-    source: github
-    repo: obra/superpowers-marketplace
+sources:
+  - name: claude-code-workflows
+    kind: marketplace
+    source:
+      type: github
+      url: wshobson/agents
+  - name: devops-toolkit
+    kind: plugin
+    source:
+      type: local
+      path: /Users/ada/.claude/plugins/repos/devops-toolkit
+  - name: superpowers-marketplace
+    kind: marketplace
+    source:
+      type: github
+      url: obra/superpowers-marketplace
+  - name: claude-code-plugins
+    kind: marketplace
+    source:
+      type: github
+      url: anthropics/claude-code
+  - name: claude-plugins-official
+    kind: marketplace
+    source:
+      type: github
+      url: anthropics/claude-plugins-official
 plugins:
-  - name: kubernetes-operations@claude-code-workflows
-    scope: project
-  - name: code-review@claude-plugins-official
-  - name: gopls-lsp@claude-plugins-official
-  - name: devops-toolkit@devops-toolkit
-  - name: codebase-cleanup@claude-code-workflows
-    scope: project
-  - name: linear@claude-plugins-official
-  - name: Notion@claude-plugins-official
-  - name: feature-dev@claude-code-plugins
+  - name: agent-sdk-dev@claude-code-plugins
     enabled: false
     scope: project
-  - name: cicd-automation@claude-code-workflows
-    scope: project
-  - name: security-compliance@claude-code-workflows
-  - name: frontend-design@claude-code-plugins
-    enabled: false
-    scope: project
-  - name: elements-of-style@superpowers-marketplace
-    scope: project
-  - name: cloud-infrastructure@claude-code-workflows
-    scope: project
-  - name: context7@claude-plugins-official
   - name: code-review@claude-code-plugins
     enabled: false
     scope: project
-  - name: plugin-dev@claude-code-plugins
-    scope: project
-  - name: full-stack-orchestration@claude-code-workflows
-  - name: developer-essentials@claude-code-workflows
+  - name: commit-commands@claude-code-plugins
+    enabled: false
     scope: project
   - name: explanatory-output-style@claude-code-plugins
     enabled: false
     scope: project
-  - name: feature-dev@claude-plugins-official
-  - name: ralph-wiggum@claude-code-plugins
-    scope: project
-  - name: code-refactoring@claude-code-workflows
-    scope: project
-  - name: error-debugging@claude-code-workflows
-    scope: project
-  - name: security-scanning@claude-code-workflows
-  - name: security-guidance@claude-code-plugins
+  - name: feature-dev@claude-code-plugins
     enabled: false
     scope: project
-  - name: pr-review-toolkit@claude-plugins-official
-  - name: episodic-memory@superpowers-marketplace
-  - name: distributed-debugging@claude-code-workflows
+  - name: frontend-design@claude-code-plugins
+    enabled: false
     scope: project
-  - name: frontend-design@claude-plugins-official
-  - name: hookify@claude-plugins-official
   - name: hookify@claude-code-plugins
     enabled: false
     scope: project
   - name: learning-output-style@claude-code-plugins
     enabled: false
     scope: project
-  - name: agent-sdk-dev@claude-code-plugins
-    enabled: false
+  - name: plugin-dev@claude-code-plugins
     scope: project
-  - name: commit-commands@claude-code-plugins
-    enabled: false
-    scope: project
-  - name: agent-sdk-dev@claude-plugins-official
-  - name: superpowers@superpowers-marketplace
-    scope: project
-  - name: code-documentation@claude-code-workflows
-    scope: project
-  - name: git-pr-workflows@claude-code-workflows
-  - name: security-guidance@claude-plugins-official
-  - name: context-management@claude-code-workflows
-  - name: error-diagnostics@claude-code-workflows
-    scope: project
-  - name: commit-commands@claude-plugins-official
   - name: pr-review-toolkit@claude-code-plugins
     enabled: false
     scope: project
+  - name: ralph-wiggum@claude-code-plugins
+    scope: project
+  - name: security-guidance@claude-code-plugins
+    enabled: false
+    scope: project
+  - name: agent-orchestration@claude-code-workflows
+  - name: cicd-automation@claude-code-workflows
+    scope: project
+  - name: cloud-infrastructure@claude-code-workflows
+    scope: project
+  - name: code-documentation@claude-code-workflows
+    scope: project
+  - name: code-refactoring@claude-code-workflows
+    scope: project
+  - name: codebase-cleanup@claude-code-workflows
+    scope: project
+  - name: context-management@claude-code-workflows
+  - name: debugging-toolkit@claude-code-workflows
+  - name: developer-essentials@claude-code-workflows
+    scope: project
+  - name: distributed-debugging@claude-code-workflows
+    scope: project
   - name: documentation-generation@claude-code-workflows
+    scope: project
+  - name: error-debugging@claude-code-workflows
+    scope: project
+  - name: error-diagnostics@claude-code-workflows
+    scope: project
+  - name: full-stack-orchestration@claude-code-workflows
+  - name: git-pr-workflows@claude-code-workflows
+  - name: kubernetes-operations@claude-code-workflows
+    scope: project
+  - name: observability-monitoring@claude-code-workflows
+  - name: security-compliance@claude-code-workflows
+  - name: security-scanning@claude-code-workflows
+  - name: shell-scripting@claude-code-workflows
     scope: project
   - name: systems-programming@claude-code-workflows
   - name: unit-testing@claude-code-workflows
+  - name: Notion@claude-plugins-official
+  - name: agent-sdk-dev@claude-plugins-official
+  - name: code-review@claude-plugins-official
+  - name: commit-commands@claude-plugins-official
+  - name: context7@claude-plugins-official
+  - name: feature-dev@claude-plugins-official
+  - name: frontend-design@claude-plugins-official
+  - name: gopls-lsp@claude-plugins-official
+  - name: hookify@claude-plugins-official
+  - name: pr-review-toolkit@claude-plugins-official
+  - name: security-guidance@claude-plugins-official
+  - name: devops-toolkit@devops-toolkit
+  - name: elements-of-style@superpowers-marketplace
+    scope: project
+  - name: episodic-memory@superpowers-marketplace
   - name: superpowers-developing-for-claude-code@superpowers-marketplace
     scope: project
-  - name: debugging-toolkit@claude-code-workflows
-  - name: agent-orchestration@claude-code-workflows
-  - name: python-development@claude-code-workflows
-  - name: shell-scripting@claude-code-workflows
+  - name: superpowers@superpowers-marketplace
     scope: project
-  - name: observability-monitoring@claude-code-workflows
