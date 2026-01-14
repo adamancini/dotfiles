@@ -1,10 +1,20 @@
 version: 1
 sources:
+  - name: superpowers-marketplace
+    kind: marketplace
+    source:
+      type: github
+      url: obra/superpowers-marketplace
   - name: claude-code-plugins
     kind: marketplace
     source:
       type: github
       url: anthropics/claude-code
+  - name: devops-toolkit
+    kind: plugin
+    source:
+      type: local
+      path: /Users/ada/.claude/plugins/repos/devops-toolkit
   - name: claude-plugins-official
     kind: marketplace
     source:
@@ -15,16 +25,6 @@ sources:
     source:
       type: github
       url: wshobson/agents
-  - name: devops-toolkit
-    kind: plugin
-    source:
-      type: local
-      path: /Users/ada/.claude/plugins/repos/devops-toolkit
-  - name: superpowers-marketplace
-    kind: marketplace
-    source:
-      type: github
-      url: obra/superpowers-marketplace
 plugins:
   - name: agent-sdk-dev@claude-code-plugins
     enabled: false
