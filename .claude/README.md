@@ -10,15 +10,9 @@ This document explains what Claude Code files are synced via yadm and why.
 - **`.claude/settings.local.json`** - Local settings overrides
 
 ### Custom Agents
-- **`.claude/agents/*.md`** - Custom agents for specialized tasks:
-  - `claudemd-compliance-checker.md` - Verifies compliance with project CLAUDE.md
-  - `helm-chart-developer.md` - Helm chart development and review
-  - `home-manager.md` - Home directory organization, dotfiles management, repository organization
-  - `markdown-writer.md` - Markdown document creation and improvement
-  - `mcp-security-validator.md` - MCP server security validation
-  - `quality-control-enforcer.md` - Code quality review
-  - `shell-code-optimizer.md` - Shell script optimization
-  - `yaml-kubernetes-validator.md` - YAML and Kubernetes manifest validation
+**Note:** Custom agents have been moved to the `devops-toolkit` plugin repository and are no longer stored in `.claude/agents/`. This allows agents to be synced via git and shared across workstations through the plugin system.
+
+See the "Plugin Repositories" section below for the devops-toolkit repository location.
 
 ### Hooks
 - **`.claude/hooks/user-prompt-submit-mcp-reminder.py`** - Reminds about MCP security validation
@@ -110,9 +104,9 @@ claude plugin install /path/to/devops-toolkit
 - superpowers-developing-for-claude-code - Skills for developing Claude Code plugins/MCP servers
 
 **From devops-toolkit:**
-- devops-toolkit (v1.0.0) - DevOps toolkit with:
-  - aerospace-config-manager - AeroSpace window manager configuration management
-  - ssl-cert-manager - SSL/TLS certificate management with Let's Encrypt
+- devops-toolkit (v1.2.0) - Comprehensive DevOps agents and skills:
+  - **Agents**: claudemd-compliance-checker, helm-chart-developer, home-manager, linear-assistant, markdown-writer, mcp-security-validator, obsidian-notes, quality-control-enforcer, shell-code-optimizer, yaml-kubernetes-validator
+  - **Skills**: aerospace-config-manager, ssl-cert-manager, linear-mcp-operations
 
 ## Setup on New Machine
 
@@ -143,15 +137,16 @@ When setting up a new machine with yadm:
 
 5. **Install custom plugin repos:**
    ```bash
-   # Clone devops-toolkit plugin (contains replicated-cli skill)
+   # Clone devops-toolkit plugin (contains agents and skills)
    cd ~/.claude/plugins/repos
    git clone git@github.com:adamancini/devops-toolkit.git
    ```
 
 6. **Verify configuration:**
    ```bash
-   ls ~/.claude/agents/          # Custom agents
-   ls ~/.claude/skills/          # Custom skills
+   ls ~/.claude/plugins/repos/devops-toolkit/agents/  # Custom agents
+   ls ~/.claude/plugins/repos/devops-toolkit/skills/  # DevOps skills
+   ls ~/.claude/skills/          # Other custom skills
    ls ~/.claude/hookify.*.local.md  # Hookify rules
    cat ~/.claude/settings.json   # Settings
    ```
@@ -159,9 +154,9 @@ When setting up a new machine with yadm:
 ## Rationale
 
 ### Why Track These Files?
-- **Custom agents** - Represent significant work and specialized workflows
+- **Custom agents** - Now managed via devops-toolkit plugin repository (separate git repo)
 - **Hookify rules** - Enforce consistency across all machines
-- **Custom skills** - Domain-specific knowledge and automation
+- **Custom skills** - Domain-specific knowledge and automation (non-plugin skills)
 - **Settings** - Personal preferences and configurations
 - **Plugin config** - Which plugins/marketplaces to use
 
@@ -196,12 +191,13 @@ yadm ls-files | grep "^\.claude"
 
 ## Best Practices
 
-1. **Custom agents and skills** - Always track these (they're your work)
-2. **Hookify rules** - Track to maintain consistency across machines
-3. **Plugin repos** - Manage as separate git repositories
-4. **Marketplaces** - Don't track (they're cloned from upstream)
-5. **Cache** - Never track (regenerated automatically)
-6. **Secrets** - Never track (use `.local.md` files ignored by yadm)
+1. **Custom agents** - Manage via plugin repositories (like devops-toolkit) for better organization and git sync
+2. **Custom skills** - Track standalone skills in `.claude/skills/`, or add to plugin repos for shared workflows
+3. **Hookify rules** - Track to maintain consistency across machines
+4. **Plugin repos** - Manage as separate git repositories (agents and skills live here)
+5. **Marketplaces** - Don't track (they're cloned from upstream)
+6. **Cache** - Never track (regenerated automatically)
+7. **Secrets** - Never track (use `.local.md` files ignored by yadm)
 
 ## Bootstrap System
 
@@ -290,7 +286,7 @@ DEBUG=1 ~/.config/yadm/bootstrap
 
 **50-brewfile:** Installs packages from `~/.zshrcd/conf.d/Brewfile`, handles errors gracefully
 
-**60-claude-plugins:** Updates marketplaces, installs superpowers plugins, clones devops-toolkit
+**60-claude-plugins:** Updates marketplaces, installs superpowers plugins, clones devops-toolkit (contains agents and skills)
 
 **90-finalize:** Runs health checks, verifies configurations, generates completion report
 
