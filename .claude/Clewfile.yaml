@@ -13,8 +13,8 @@ sources:
   - name: devops-toolkit
     kind: plugin
     source:
-      type: local
-      path: /Users/ada/.claude/plugins/repos/devops-toolkit
+      type: github
+      url: git@github.com:adamancini/devops-toolkit.git
   - name: claude-plugins-official
     kind: marketplace
     source:
