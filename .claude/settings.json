@@ -112,7 +112,6 @@
     "explanatory-output-style@claude-code-plugins": false,
     "learning-output-style@claude-code-plugins": false,
     "frontend-design@claude-code-plugins": false,
-    "ralph-wiggum@claude-code-plugins": true,
     "hookify@claude-code-plugins": false,
     "plugin-dev@claude-code-plugins": true,
     "elements-of-style@superpowers-marketplace": true,
