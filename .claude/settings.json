@@ -50,7 +50,7 @@
       "mcp__sequential-thinking",
       "Read(file_path:/Users/ada/notes/*)",
       "Skill(replicated-cli)",
-      "Skill(superpowers:executing-plans)",
+      "Skill(superpowers:*)",
       "Skill(yadm-utilities)",
       "SlashCommand(/superpowers:brainstorm)",
       "WebFetch(domain:angel-legion.fandom.com)",
@@ -70,7 +70,7 @@
     "ask": [],
     "defaultMode": "default"
   },
-  "model": "sonnet[1m]",
+  "model": "opus",
   "enableAllProjectMcpServers": false,
   "hooks": {
     "UserPromptSubmit": [
