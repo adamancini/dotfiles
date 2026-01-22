@@ -45,10 +45,10 @@
       {
         "scope": "user",
         "installPath": "/Users/ada/.claude/plugins/repos/devops-toolkit",
-        "version": "1.2.2",
+        "version": "1.3.0",
         "installedAt": "2025-11-21T21:59:00.000Z",
-        "lastUpdated": "2026-01-22T17:29:00.000Z",
-        "gitCommitSha": "39a0fe8"
+        "lastUpdated": "2026-01-22T23:00:00.000Z",
+        "gitCommitSha": "b600994"
       }
     ],
     "context7@claude-plugins-official": [

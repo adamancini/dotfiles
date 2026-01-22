@@ -9,10 +9,11 @@ This document explains what Claude Code files are synced via yadm and why.
 - **`.claude/settings.json`** - Claude Code settings (statusline, allowlist, etc.)
 - **`.claude/settings.local.json`** - Local settings overrides
 
-### Custom Agents
-**Note:** Custom agents have been moved to the `devops-toolkit` plugin repository and are no longer stored in `.claude/agents/`. This allows agents to be synced via git and shared across workstations through the plugin system.
+### Custom Agents & Skills
 
-See the "Plugin Repositories" section below for the devops-toolkit repository location.
+**Note:** All custom agents and skills are now managed in the `devops-toolkit` plugin repository (no longer stored in `.claude/agents/` or `.claude/skills/`). This allows agents and skills to be synced via git and shared across workstations through the plugin system.
+
+See the "Plugin Repositories" section below for the devops-toolkit repository location and complete list of agents and skills.
 
 ### Hooks
 - **`.claude/hooks/user-prompt-submit-mcp-reminder.py`** - Reminds about MCP security validation
@@ -23,14 +24,6 @@ See the "Plugin Repositories" section below for the devops-toolkit repository lo
 - **`.claude/hookify.validate-helm-templates.local.md`** - Validates Helm template syntax
 - **`.claude/hookify.validate-markdown.local.md`** - Lints markdown files
 - **`.claude/hookify.validate-yaml-indentation.local.md`** - Checks YAML indentation
-
-### Custom Skills
-- **`.claude/skills/replicated-cli/`** - Replicated CLI workflow automation
-  - `SKILL.md` - Main skill definition
-  - `references/*.md` - CLI commands, VM management, release workflows
-  - `examples/Makefile.*` - Example integration patterns
-- **`.claude/skills/yadm-utilities/`** - YADM dotfiles management
-  - `SKILL.md` - YADM operations, bootstrap, alternates, Brewfile integration
 
 ### Plugin Configuration
 - **`.claude/plugins/config.json`** - Plugin system configuration
@@ -131,9 +124,9 @@ claude plugin install /path/to/devops-toolkit
 - unit-testing (v1.2.0)
 
 **From devops-toolkit (local repo):**
-- devops-toolkit (v1.2.2) - Comprehensive DevOps agents and skills:
-  - **Agents**: claudemd-compliance-checker, helm-chart-developer, home-manager, linear-assistant, markdown-writer, mcp-security-validator, obsidian-notes, quality-control-enforcer, shell-code-optimizer, yaml-kubernetes-validator
-  - **Skills**: aerospace-config-manager, ssl-cert-manager
+- devops-toolkit (v1.3.0) - Comprehensive DevOps agents and skills:
+  - **Agents**: claudemd-compliance-checker, helm-chart-developer, home-manager, linear-assistant, markdown-writer, mcp-security-validator, obsidian-notes, quality-control-enforcer, shell-code-optimizer, yaml-kubernetes-validator, codebase-analyzer, codebase-locator, codebase-pattern-finder, web-search-researcher, repl-* agents
+  - **Skills**: aerospace-config-manager, git-repo-organizer, linear-mcp-operations, notion-sync, replicated-cli, ssl-cert-manager, system-updates, yadm-utilities, zsh-config-manager
 
 ## Setup on New Machine
 
