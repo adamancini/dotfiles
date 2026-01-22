@@ -79,12 +79,12 @@ claude plugin install /path/to/devops-toolkit
 
 ### Installed Marketplaces
 - **superpowers-marketplace** (obra/superpowers-marketplace)
-- **claude-code-plugins** (anthropics/claude-code)
-- **devops-toolkit** (adamancini/devops-toolkit)
+- **claude-plugins-official** (anthropics/claude-plugins-official)
+- **claude-code-workflows** (wshobson/agents)
 
 ### Installed & Enabled Plugins
 
-**From claude-code-plugins:**
+**From claude-plugins-official:**
 - agent-sdk-dev
 - pr-review-toolkit
 - commit-commands
@@ -94,19 +94,46 @@ claude plugin install /path/to/devops-toolkit
 - explanatory-output-style
 - learning-output-style
 - frontend-design
-- ralph-wiggum
 - hookify
 - plugin-dev
+- context7
+- Notion (v0.1.0)
+- gopls-lsp (v1.0.0)
 
 **From superpowers-marketplace:**
-- superpowers (v3.4.1) - Core skills library with TDD, debugging, collaboration patterns
-- elements-of-style - Writing guidance based on Strunk's Elements of Style
-- superpowers-developing-for-claude-code - Skills for developing Claude Code plugins/MCP servers
+- superpowers (v4.0.3) - Core skills library with TDD, debugging, collaboration patterns
+- elements-of-style (v1.0.0) - Writing guidance based on Strunk's Elements of Style
+- superpowers-developing-for-claude-code (v0.3.1) - Skills for developing Claude Code plugins/MCP servers
+- episodic-memory (v1.0.15) - Cross-session memory and conversation search
 
-**From devops-toolkit:**
-- devops-toolkit (v1.2.0) - Comprehensive DevOps agents and skills:
+**From claude-code-workflows:**
+- cicd-automation (v1.2.1)
+- cloud-infrastructure (v1.2.2)
+- code-documentation (v1.2.0)
+- code-refactoring (v1.2.0)
+- codebase-cleanup (v1.2.0)
+- developer-essentials (v1.0.1)
+- distributed-debugging (v1.2.0)
+- documentation-generation (v1.2.1)
+- error-debugging (v1.2.0)
+- error-diagnostics (v1.2.0)
+- kubernetes-operations (v1.2.1)
+- shell-scripting (v1.2.1)
+- agent-orchestration (v1.2.0)
+- context-management (v1.2.0)
+- debugging-toolkit (v1.2.0)
+- full-stack-orchestration (v1.2.1)
+- git-pr-workflows (v1.2.1)
+- observability-monitoring (v1.2.1)
+- security-compliance (v1.2.0)
+- security-scanning (v1.2.3)
+- systems-programming (v1.2.1)
+- unit-testing (v1.2.0)
+
+**From devops-toolkit (local repo):**
+- devops-toolkit (v1.2.2) - Comprehensive DevOps agents and skills:
   - **Agents**: claudemd-compliance-checker, helm-chart-developer, home-manager, linear-assistant, markdown-writer, mcp-security-validator, obsidian-notes, quality-control-enforcer, shell-code-optimizer, yaml-kubernetes-validator
-  - **Skills**: aerospace-config-manager, ssl-cert-manager, linear-mcp-operations
+  - **Skills**: aerospace-config-manager, ssl-cert-manager
 
 ## Setup on New Machine
 
@@ -131,8 +158,10 @@ When setting up a new machine with yadm:
    claude plugin install superpowers@superpowers-marketplace
    claude plugin install elements-of-style@superpowers-marketplace
    claude plugin install superpowers-developing-for-claude-code@superpowers-marketplace
+   claude plugin install episodic-memory@superpowers-marketplace
 
-   # Claude Code plugins are installed automatically from known_marketplaces.json
+   # Plugins from claude-plugins-official and claude-code-workflows
+   # are installed automatically from known_marketplaces.json
    ```
 
 5. **Install custom plugin repos:**
