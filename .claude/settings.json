@@ -70,7 +70,7 @@
     "ask": [],
     "defaultMode": "default"
   },
-  "model": "opus",
+  "model": "sonnet[1m]",
   "enableAllProjectMcpServers": false,
   "hooks": {
     "UserPromptSubmit": [
@@ -101,6 +101,7 @@
     "command": "~/.claude/statusline-command.sh"
   },
   "enabledPlugins": {
+    "devops-toolkit@local": true,
     "superpowers@superpowers-marketplace": true,
     "agent-sdk-dev@claude-code-plugins": false,
     "pr-review-toolkit@claude-code-plugins": false,
