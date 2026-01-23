@@ -225,25 +225,27 @@ make TARGET_NAME VARIABLE1=value1 VARIABLE2=value2 ...
 #### System Maintenance & Personal Agents
 
 **home-manager**
-- **When to use:** **MANDATORY** for ALL yadm operations, dotfiles management, home directory tasks
-  - Any `yadm` command (status, add, commit, push, pull, diff)
-  - Syncing dotfiles or configuration changes
-  - Shell configuration (zsh, conf.d components)
-  - Cloning or organizing git repositories
-  - Home directory cleanup or organization
-  - SSL certificate generation
+- **When to use:** Recommended for complex home directory operations
+  - Multi-step yadm workflows (syncing across multiple files)
+  - Initial shell configuration setup
+  - Organizing multiple git repositories
+  - Complex home directory reorganization
+  - SSL certificate generation workflows
   - Aerospace window manager configuration
-  - System updates (brew, yadm, pass)
+  - Coordinated system updates across multiple tools
+- **Direct operations OK for:** Simple yadm commands (status, add, commit, push), single file edits
 - **Purpose:** Expert management of home directory structure, dotfiles, and system configuration
 - **Delegation:** References specialized skills (zsh-config-manager, git-repo-organizer, yadm-utilities, ssl-cert-manager, aerospace-config-manager)
 - **Tools:** All tools
 
 **obsidian-notes**
-- **When to use:** **MANDATORY** for ALL Obsidian vault operations
-  - Creating, finding, or organizing notes
+- **When to use:** Recommended for vault-wide operations and complex queries
+  - Organizing multiple notes or restructuring vault
   - Vault configuration or plugin setup
-  - MOC maintenance or knowledge base queries
+  - MOC maintenance and knowledge graph queries
   - Notion sync operations (with privacy constraints)
+  - Complex searches across the entire knowledge base
+- **Direct operations OK for:** Reading/editing individual notes, simple file operations in ~/notes/
 - **Purpose:** Expert Obsidian knowledge management at `~/notes/`
 - **Tools:** All tools
 
@@ -332,11 +334,12 @@ WRONG: mcp__plugin_linear_linear__get_issue(id="ANN-41")  ← NEVER DO THIS
 
 ### Agent Selection Guidelines
 
-**For system maintenance (ALWAYS delegate):**
-- **yadm/dotfiles:** Use `home-manager` agent - never run yadm commands directly
-- **Shell config:** Use `home-manager` agent (delegates to zsh-config-manager skill)
-- **Repository cloning:** Use `home-manager` agent (delegates to git-repo-organizer skill)
-- **Notes/vault:** Use `obsidian-notes` agent - never modify ~/notes/ directly
+**For system maintenance (recommended for complex operations):**
+- **Complex yadm workflows:** Use `home-manager` agent for multi-file operations
+- **Shell configuration setup:** Use `home-manager` agent (delegates to zsh-config-manager skill)
+- **Multi-repo organization:** Use `home-manager` agent (delegates to git-repo-organizer skill)
+- **Vault-wide operations:** Use `obsidian-notes` agent for restructuring or complex queries
+- **Simple operations:** Direct commands OK for basic yadm/git operations, single file edits in ~/notes/
 
 **For verbose MCP servers (MANDATORY delegation to preserve context):**
 - **Linear:** ⚠️ **ALWAYS** use `linear-assistant` agent - NEVER call Linear MCP tools directly

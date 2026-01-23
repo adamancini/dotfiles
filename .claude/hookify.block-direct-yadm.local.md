@@ -1,6 +1,6 @@
 ---
 name: block-direct-yadm
-enabled: true
+enabled: false
 event: bash
 pattern: ^yadm\s+
 action: block
