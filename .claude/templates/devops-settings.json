@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "enabledPlugins": {
+    "cicd-automation@claude-code-workflows": true,
+    "cloud-infrastructure@claude-code-workflows": true,
+    "kubernetes-operations@claude-code-workflows": true,
+    "shell-scripting@claude-code-workflows": true,
+    "security-scanning@claude-code-workflows": true,
+    "security-compliance@claude-code-workflows": true,
+    "observability-monitoring@claude-code-workflows": true,
+    "full-stack-orchestration@claude-code-workflows": true,
+    "pr-review-toolkit@claude-plugins-official": true,
+    "feature-dev@claude-plugins-official": true
+  }
+}

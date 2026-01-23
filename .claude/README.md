@@ -70,63 +70,85 @@ claude plugin install /path/to/devops-toolkit
 
 ## Current Plugin Configuration
 
+### Plugin Architecture
+
+**All plugins are installed at USER SCOPE** (globally available on each workstation).
+
+**Installation Strategy:**
+- Plugins installed at **user scope** via `claude plugin install PLUGIN@MARKETPLACE --scope user`
+- Available globally across all projects on a workstation
+- Each workstation can have different plugins enabled
+
+**Enablement Strategy:**
+- **User default:** Most plugins are **disabled by default** in `~/.claude/settings.json`
+- **Core plugins enabled:** Only 5 essential plugins enabled by default (see below)
+- **Per-project override:** Enable specific plugins in project `.claude/settings.json`
+
+**Benefits:**
+- ✅ Minimal context usage by default (only 5 core plugins loaded)
+- ✅ Selective enablement per project type
+- ✅ Different plugin sets per workstation
+- ✅ Template-based configuration for common project types
+
 ### Installed Marketplaces
 - **superpowers-marketplace** (obra/superpowers-marketplace)
 - **claude-plugins-official** (anthropics/claude-plugins-official)
 - **claude-code-workflows** (wshobson/agents)
+- **devops-toolkit** (adamancini/devops-toolkit) - Local repository
 
-### Installed & Enabled Plugins
+### Plugins Enabled by Default (User Scope)
+
+These 5 plugins are enabled in `~/.claude/settings.json`:
+
+1. **superpowers@superpowers-marketplace** - Core skills library
+2. **episodic-memory@superpowers-marketplace** - Cross-session memory
+3. **superpowers-developing-for-claude-code@superpowers-marketplace** - Development docs
+4. **devops-toolkit@devops-toolkit** - Personal DevOps toolkit
+5. **hookify@claude-plugins-official** - Hook management
+
+### Plugins Available (Disabled by Default)
+
+All 35+ other plugins are available but disabled by default. Enable them per-project as needed.
 
 **From claude-plugins-official:**
-- agent-sdk-dev
-- pr-review-toolkit
-- commit-commands
-- feature-dev
-- security-guidance
-- code-review
-- explanatory-output-style
-- learning-output-style
-- frontend-design
-- hookify
-- plugin-dev
-- context7
-- Notion (v0.1.0)
-- gopls-lsp (v1.0.0)
+- pr-review-toolkit, commit-commands, feature-dev, code-review
+- security-guidance, context7, frontend-design, gopls-lsp
+- plugin-dev, Notion, explanatory-output-style, learning-output-style
 
 **From superpowers-marketplace:**
-- superpowers (v4.0.3) - Core skills library with TDD, debugging, collaboration patterns
-- elements-of-style (v1.0.0) - Writing guidance based on Strunk's Elements of Style
-- superpowers-developing-for-claude-code (v0.3.1) - Skills for developing Claude Code plugins/MCP servers
-- episodic-memory (v1.0.15) - Cross-session memory and conversation search
+- elements-of-style
 
 **From claude-code-workflows:**
-- cicd-automation (v1.2.1)
-- cloud-infrastructure (v1.2.2)
-- code-documentation (v1.2.0)
-- code-refactoring (v1.2.0)
-- codebase-cleanup (v1.2.0)
-- developer-essentials (v1.0.1)
-- distributed-debugging (v1.2.0)
-- documentation-generation (v1.2.1)
-- error-debugging (v1.2.0)
-- error-diagnostics (v1.2.0)
-- kubernetes-operations (v1.2.1)
-- shell-scripting (v1.2.1)
-- agent-orchestration (v1.2.0)
-- context-management (v1.2.0)
-- debugging-toolkit (v1.2.0)
-- full-stack-orchestration (v1.2.1)
-- git-pr-workflows (v1.2.1)
-- observability-monitoring (v1.2.1)
-- security-compliance (v1.2.0)
-- security-scanning (v1.2.3)
-- systems-programming (v1.2.1)
-- unit-testing (v1.2.0)
+- cicd-automation, cloud-infrastructure, code-documentation
+- code-refactoring, codebase-cleanup, developer-essentials
+- distributed-debugging, documentation-generation
+- error-debugging, error-diagnostics, kubernetes-operations
+- shell-scripting, agent-orchestration, context-management
+- debugging-toolkit, full-stack-orchestration, git-pr-workflows
+- observability-monitoring, security-compliance, security-scanning
+- systems-programming, unit-testing
 
-**From devops-toolkit (local repo):**
-- devops-toolkit (v1.3.0) - Comprehensive DevOps agents and skills:
-  - **Agents**: claudemd-compliance-checker, helm-chart-developer, home-manager, linear-assistant, markdown-writer, mcp-security-validator, obsidian-notes, quality-control-enforcer, shell-code-optimizer, yaml-kubernetes-validator, codebase-analyzer, codebase-locator, codebase-pattern-finder, web-search-researcher, repl-* agents
-  - **Skills**: aerospace-config-manager, git-repo-organizer, linear-mcp-operations, notion-sync, replicated-cli, ssl-cert-manager, system-updates, yadm-utilities, zsh-config-manager
+### Per-Project Plugin Enablement
+
+Create `.claude/settings.json` in any project to enable additional plugins:
+
+```json
+{
+  "enabledPlugins": {
+    "kubernetes-operations@claude-code-workflows": true,
+    "shell-scripting@claude-code-workflows": true,
+    "pr-review-toolkit@claude-plugins-official": true
+  }
+}
+```
+
+**Project Templates Available:**
+- Kubernetes/Helm: `~/.claude/templates/kubernetes-settings.json`
+- Go Development: `~/.claude/templates/go-settings.json`
+- Shell Scripting: `~/.claude/templates/shell-settings.json`
+- DevOps/Infrastructure: `~/.claude/templates/devops-settings.json`
+
+See "Plugin Templates" section below for details.
 
 ## Setup on New Machine
 
@@ -145,33 +167,121 @@ When setting up a new machine with yadm:
    claude plugin marketplace update
    ```
 
-4. **Install plugins from marketplaces:**
+4. **Install all plugins at USER SCOPE:**
    ```bash
-   # Superpowers marketplace plugins
-   claude plugin install superpowers@superpowers-marketplace
-   claude plugin install elements-of-style@superpowers-marketplace
-   claude plugin install superpowers-developing-for-claude-code@superpowers-marketplace
-   claude plugin install episodic-memory@superpowers-marketplace
+   # Core plugins (enabled by default)
+   claude plugin install superpowers@superpowers-marketplace --scope user
+   claude plugin install episodic-memory@superpowers-marketplace --scope user
+   claude plugin install superpowers-developing-for-claude-code@superpowers-marketplace --scope user
+   claude plugin install hookify@claude-plugins-official --scope user
 
-   # Plugins from claude-plugins-official and claude-code-workflows
-   # are installed automatically from known_marketplaces.json
+   # Additional plugins (disabled by default, enable per-project or per-workstation)
+   claude plugin install elements-of-style@superpowers-marketplace --scope user
+   claude plugin install pr-review-toolkit@claude-plugins-official --scope user
+   claude plugin install feature-dev@claude-plugins-official --scope user
+   claude plugin install commit-commands@claude-plugins-official --scope user
+   claude plugin install kubernetes-operations@claude-code-workflows --scope user
+   claude plugin install shell-scripting@claude-code-workflows --scope user
+   # ... (install others as needed)
+
+   # Or use a bulk install script (if available)
    ```
 
 5. **Install custom plugin repos:**
    ```bash
-   # Clone devops-toolkit plugin (contains agents and skills)
+   # Clone and install devops-toolkit plugin (contains agents and skills)
    cd ~/.claude/plugins/repos
    git clone git@github.com:adamancini/devops-toolkit.git
+   claude plugin install ~/.claude/plugins/repos/devops-toolkit --scope user
    ```
 
-6. **Verify configuration:**
+6. **Configure per-workstation enablement (optional):**
    ```bash
-   ls ~/.claude/plugins/repos/devops-toolkit/agents/  # Custom agents
-   ls ~/.claude/plugins/repos/devops-toolkit/skills/  # DevOps skills
-   ls ~/.claude/skills/          # Other custom skills
-   ls ~/.claude/hookify.*.local.md  # Hookify rules
-   cat ~/.claude/settings.json   # Settings
+   # Edit ~/.claude/settings.json to enable additional plugins on this workstation
+   # Or keep the default minimal set and enable per-project instead
    ```
+
+7. **Verify configuration:**
+   ```bash
+   claude plugin list | grep "Scope: user"  # All plugins at user scope
+   claude plugin list | grep "enabled"      # See which are enabled
+   ls ~/.claude/templates/                  # Project templates
+   ls ~/.claude/hookify.*.local.md          # Hookify rules
+   cat ~/.claude/settings.json              # User settings
+   ```
+
+## Plugin Templates
+
+Pre-configured `.claude/settings.json` templates for common project types. Copy to your project directory to enable relevant plugins.
+
+### Kubernetes/Helm Projects
+
+**Template:** `~/.claude/templates/kubernetes-settings.json`
+
+**Enables:**
+- kubernetes-operations@claude-code-workflows
+- cloud-infrastructure@claude-code-workflows
+- yaml-kubernetes-validator (via devops-toolkit)
+- helm-chart-developer (via devops-toolkit)
+- shell-scripting@claude-code-workflows
+
+**Usage:**
+```bash
+cp ~/.claude/templates/kubernetes-settings.json /path/to/k8s-project/.claude/settings.json
+```
+
+### Go Development
+
+**Template:** `~/.claude/templates/go-settings.json`
+
+**Enables:**
+- systems-programming@claude-code-workflows (includes golang-pro)
+- gopls-lsp@claude-plugins-official
+- feature-dev@claude-plugins-official
+- pr-review-toolkit@claude-plugins-official
+- unit-testing@claude-code-workflows
+
+**Usage:**
+```bash
+cp ~/.claude/templates/go-settings.json /path/to/go-project/.claude/settings.json
+```
+
+### Shell Scripting
+
+**Template:** `~/.claude/templates/shell-settings.json`
+
+**Enables:**
+- shell-scripting@claude-code-workflows (posix-shell-pro, bash-pro)
+- shell-code-optimizer (via devops-toolkit)
+- debugging-toolkit@claude-code-workflows
+
+**Usage:**
+```bash
+cp ~/.claude/templates/shell-settings.json /path/to/shell-project/.claude/settings.json
+```
+
+### DevOps/Infrastructure
+
+**Template:** `~/.claude/templates/devops-settings.json`
+
+**Enables:**
+- cicd-automation@claude-code-workflows
+- cloud-infrastructure@claude-code-workflows
+- kubernetes-operations@claude-code-workflows
+- shell-scripting@claude-code-workflows
+- security-scanning@claude-code-workflows
+
+**Usage:**
+```bash
+cp ~/.claude/templates/devops-settings.json /path/to/devops-project/.claude/settings.json
+```
+
+### Creating Custom Templates
+
+1. Create a new project-specific `.claude/settings.json`
+2. Test the plugin combination
+3. Save as a template in `~/.claude/templates/`
+4. Document in this README
 
 ## Rationale
 

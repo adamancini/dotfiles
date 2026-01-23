@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "BASH_DEFAULT_TIMEOUT_MS": "300000",
+    "BASH_MAX_TIMEOUT_MS": "1860000"
+  },
+  "includeCoAuthoredBy": false,
+  "permissions": {
+    "allow": [
+      "Bash(aerospace reload-config:*)",
+      "Bash(aerospace list-workspaces:*)",
+      "Bash(aerospace:*)",
+      "Bash(brew upgrade:*)",
+      "Bash(cat:*)",
+      "Bash(chmod:*)",
+      "Bash(claude plugin list:*)",
+      "Bash(docker:*)",
+      "Bash(find:*)",
+      "Bash(gcloud:*)",
+      "Bash(gh:*)",
+      "Bash(git:*)",
+      "Bash(go:*)",
+      "Bash(golangci-lint:*)",
+      "Bash(grep:*)",
+      "Bash(helm template:*)",
+      "Bash(helm:*)",
+      "Bash(helmfile:*)",
+      "Bash(kubectl:*)",
+      "Bash(ls:*)",
+      "Bash(make:*)",
+      "Bash(mdls:*)",
+      "Bash(mkdir:*)",
+      "Bash(osascript:*)",
+      "Bash(pgrep:*)",
+      "Bash(python3:*)",
+      "Bash(replicated:*)",
+      "Bash(ssh:*)",
+      "Bash(task:*)",
+      "Bash(tree:*)",
+      "Bash(which:*)",
+      "Bash(yadm status:*)",
+      "Bash(yadm diff:*)",
+      "Bash(yadm add:*)",
+      "Bash(yadm commit:*)",
+      "Bash(yadm push:*)",
+      "Bash(yadm:*)",
+      "Bash(yamllint:*)",
+      "Bash(yq eval:*)",
+      "Edit(file_path:/Users/ada/notes/*)",
+      "mcp__sequential-thinking",
+      "Read(file_path:/Users/ada/notes/*)",
+      "Skill(replicated-cli)",
+      "Skill(superpowers:*)",
+      "Skill(yadm-utilities)",
+      "SlashCommand(/superpowers:brainstorm)",
+      "WebFetch(domain:angel-legion.fandom.com)",
+      "WebFetch(domain:cloudnative-pg.io)",
+      "WebFetch(domain:docs.replicated.com)",
+      "WebFetch(domain:hyper3d.ai)",
+      "WebFetch(domain:steamcommunity.com)",
+      "WebFetch(domain:*)",
+      "WebSearch",
+      "Write(file_path:/Users/ada/notes/*)"
+    ],
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(kubectl delete namespace:*)",
+      "Bash(yadm rm:*)"
+    ],
+    "ask": [],
+    "defaultMode": "default"
+  },
+  "model": "sonnet[1m]",
+  "enableAllProjectMcpServers": false,
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/user-prompt-submit-mcp-reminder.py"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude-code-docs/claude-docs-helper.sh hook-check"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline-command.sh"
+  },
+  "enabledPlugins": {
+    "superpowers@superpowers-marketplace": true,
+    "episodic-memory@superpowers-marketplace": true,
+    "superpowers-developing-for-claude-code@superpowers-marketplace": true,
+    "devops-toolkit@devops-toolkit": true,
+    "hookify@claude-plugins-official": true,
+    "Notion@claude-plugins-official": false,
+    "agent-orchestration@claude-code-workflows": false,
+    "cicd-automation@claude-code-workflows": false,
+    "cloud-infrastructure@claude-code-workflows": false,
+    "code-documentation@claude-code-workflows": false,
+    "code-refactoring@claude-code-workflows": false,
+    "code-review@claude-plugins-official": false,
+    "codebase-cleanup@claude-code-workflows": false,
+    "commit-commands@claude-plugins-official": false,
+    "context-management@claude-code-workflows": false,
+    "context7@claude-plugins-official": false,
+    "debugging-toolkit@claude-code-workflows": false,
+    "developer-essentials@claude-code-workflows": false,
+    "distributed-debugging@claude-code-workflows": false,
+    "documentation-generation@claude-code-workflows": false,
+    "elements-of-style@superpowers-marketplace": false,
+    "error-debugging@claude-code-workflows": false,
+    "error-diagnostics@claude-code-workflows": false,
+    "explanatory-output-style@claude-plugins-official": false,
+    "feature-dev@claude-plugins-official": false,
+    "frontend-design@claude-plugins-official": false,
+    "full-stack-orchestration@claude-code-workflows": false,
+    "git-pr-workflows@claude-code-workflows": false,
+    "gopls-lsp@claude-plugins-official": false,
+    "kubernetes-operations@claude-code-workflows": false,
+    "learning-output-style@claude-plugins-official": false,
+    "observability-monitoring@claude-code-workflows": false,
+    "plugin-dev@claude-plugins-official": false,
+    "pr-review-toolkit@claude-plugins-official": false,
+    "security-compliance@claude-code-workflows": false,
+    "security-guidance@claude-plugins-official": false,
+    "security-scanning@claude-code-workflows": false,
+    "shell-scripting@claude-code-workflows": false,
+    "systems-programming@claude-code-workflows": false,
+    "unit-testing@claude-code-workflows": false
+  },
+  "outputStyle": "default",
+  "spinnerTipsEnabled": true,
+  "feedbackSurveyState": {
+    "lastShownTime": 1754064217555
+  }
+}
