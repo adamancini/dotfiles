@@ -2,7 +2,8 @@
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "env": {
     "BASH_DEFAULT_TIMEOUT_MS": "300000",
-    "BASH_MAX_TIMEOUT_MS": "1860000"
+    "BASH_MAX_TIMEOUT_MS": "1860000",
+    "ENABLE_TOOL_SEARCH": "true"
   },
   "includeCoAuthoredBy": false,
   "permissions": {
@@ -70,7 +71,7 @@
     "ask": [],
     "defaultMode": "default"
   },
-  "model": "sonnet[1m]",
+  "model": "opus[1m]",
   "enableAllProjectMcpServers": false,
   "hooks": {
     "UserPromptSubmit": [
@@ -101,46 +102,15 @@
     "command": "~/.claude/statusline-command.sh"
   },
   "enabledPlugins": {
-    "superpowers@superpowers-marketplace": true,
-    "episodic-memory@superpowers-marketplace": true,
-    "superpowers-developing-for-claude-code@superpowers-marketplace": true,
     "devops-toolkit@devops-toolkit": true,
-    "hookify@claude-plugins-official": true,
-    "Notion@claude-plugins-official": false,
-    "agent-orchestration@claude-code-workflows": false,
-    "cicd-automation@claude-code-workflows": false,
-    "cloud-infrastructure@claude-code-workflows": false,
-    "code-documentation@claude-code-workflows": false,
-    "code-refactoring@claude-code-workflows": false,
-    "code-review@claude-plugins-official": false,
-    "codebase-cleanup@claude-code-workflows": false,
-    "commit-commands@claude-plugins-official": false,
-    "context-management@claude-code-workflows": false,
-    "context7@claude-plugins-official": false,
-    "debugging-toolkit@claude-code-workflows": false,
-    "developer-essentials@claude-code-workflows": false,
-    "distributed-debugging@claude-code-workflows": false,
-    "documentation-generation@claude-code-workflows": false,
-    "elements-of-style@superpowers-marketplace": false,
-    "error-debugging@claude-code-workflows": false,
-    "error-diagnostics@claude-code-workflows": false,
-    "explanatory-output-style@claude-plugins-official": false,
-    "feature-dev@claude-plugins-official": false,
-    "frontend-design@claude-plugins-official": false,
-    "full-stack-orchestration@claude-code-workflows": false,
-    "git-pr-workflows@claude-code-workflows": false,
-    "gopls-lsp@claude-plugins-official": false,
-    "kubernetes-operations@claude-code-workflows": false,
-    "learning-output-style@claude-plugins-official": false,
-    "observability-monitoring@claude-code-workflows": false,
-    "plugin-dev@claude-plugins-official": false,
-    "pr-review-toolkit@claude-plugins-official": false,
-    "security-compliance@claude-code-workflows": false,
-    "security-guidance@claude-plugins-official": false,
-    "security-scanning@claude-code-workflows": false,
-    "shell-scripting@claude-code-workflows": false,
-    "systems-programming@claude-code-workflows": false,
-    "unit-testing@claude-code-workflows": false
+    "elements-of-style@superpowers-marketplace": true,
+    "episodic-memory@superpowers-marketplace": true,
+    "superpowers@superpowers-marketplace": true,
+    "superpowers-developing-for-claude-code@superpowers-marketplace": true,
+    "gopls-lsp@claude-plugins-official": true,
+    "systems-programming@claude-code-workflows": true,
+    "cloud-infrastructure@claude-code-workflows": true,
+    "kubernetes-operations@claude-code-workflows": true
   },
   "outputStyle": "default",
   "spinnerTipsEnabled": true,
