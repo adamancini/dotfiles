@@ -1,3 +1,7 @@
+# Config version for compatibility and deprecations
+# Fallback value (if you omit the key): config-version = 1
+config-version = 2
+
 # Start AeroSpace at login
 start-at-login = true
 
@@ -8,7 +12,7 @@ enable-normalization-opposite-orientation-for-nested-containers = true
 # See: https://nikitabobko.github.io/AeroSpace/guide#layouts
 # The 'accordion-padding' specifies the size of accordion padding
 # You can set 0 to disable the padding feature
-accordion-padding = 0
+accordion-padding = 8
 
 # Possible values: tiles|accordion
 default-root-container-layout = 'tiles'
@@ -28,8 +32,34 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 # You can effectively turn off macOS "Hide application" (cmd-h) feature by toggling this flag
 # Useful if you don't use this macOS feature, but accidentally hit cmd-h or cmd-alt-h key
 # Also see: https://nikitabobko.github.io/AeroSpace/goodies#disable-hide-app
-automatically-unhide-macos-hidden-apps = false
+automatically-unhide-macos-hidden-apps = true
 
+# List of workspaces that should stay alive even when they contain no windows,
+# even when they are invisible.
+# This config version is only available since 'config-version = 2'
+# Fallback value (if you omit the key): persistent-workspaces = []
+persistent-workspaces = ["1", "2", "3", "4", "5"]
+
+# A callback that runs every time binding mode changes
+# See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
+# See: https://nikitabobko.github.io/AeroSpace/commands#mode
+on-mode-changed = []
+
+# Gaps between windows (inner-*) and between monitor edges (outer-*).
+# Possible values:
+# - Constant:     gaps.outer.top = 8
+# - Per monitor:  gaps.outer.top = [{ monitor.main = 16 }, { monitor."some-pattern" = 32 }, 24]
+#                 In this example, 24 is a default value when there is no match.
+#                 Monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
+#                 See:
+#                 https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
+[gaps]
+    inner.horizontal = 0
+    inner.vertical =   0
+    outer.left =       0
+    outer.bottom =     0
+    outer.top =        0
+    outer.right =      0
 
 # Support tiling window manager aerospace
 # https://ghostty.org/docs/help/macos-tiling-wms
@@ -151,22 +181,6 @@ run= [
 # See https://nikitabobko.github.io/AeroSpace/guide#key-mapping
 [key-mapping]
     preset = 'qwerty'
-
-# Gaps between windows (inner-*) and between monitor edges (outer-*).
-# Possible values:
-# - Constant:     gaps.outer.top = 8
-# - Per monitor:  gaps.outer.top = [{ monitor.main = 16 }, { monitor."some-pattern" = 32 }, 24]
-#                 In this example, 24 is a default value when there is no match.
-#                 Monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
-#                 See:
-#                 https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
-[gaps]
-    inner.horizontal = 0
-    inner.vertical =   0
-    outer.left =       0
-    outer.bottom =     0
-    outer.top =        0
-    outer.right =      0
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes

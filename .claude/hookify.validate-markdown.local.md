@@ -2,6 +2,7 @@
 name: validate-markdown
 enabled: true
 event: file
+tool_matcher: Edit|Write|MultiEdit
 conditions:
   - field: file_path
     operator: regex_match
