@@ -92,6 +92,35 @@ make TARGET_NAME VARIABLE1=value1 VARIABLE2=value2 ...
 - General housekeeping tasks
 - Repository organization
 
+### Knowledge Base Consultation
+
+A curated knowledge base exists at:
+`~/.claude/plugins/marketplaces/devops-toolkit/plugins/devops-toolkit/skills/knowledge-base/reference/`
+
+This contains distilled reference material organized by topic (e.g., `kubernetes-networking/`, `traefik-migration.md`). These references are machine-optimized summaries of research the user has done.
+
+**When to consult the knowledge base:**
+
+- **Before starting development work** on Kubernetes manifests, Helm charts, networking configs, or any infrastructure topic -- check if curated references exist for the relevant topic
+- **Before web research** -- the knowledge base may already have the answer, saving a round-trip
+- **When an agent encounters a topic** covered by the knowledge base (e.g., ingress controllers, Traefik, Gateway API)
+
+**How to consult:**
+
+1. Read the `knowledge-base` SKILL.md to see the "Available Topics" table
+2. If a relevant topic exists, read the reference doc(s) in that topic's subdirectory
+3. Apply the curated knowledge alongside your own training data
+4. For deeper vault searches (personal notes, cross-references, open questions), use the `knowledge-reader` or `obsidian-notes` agent
+
+**Who should consult:**
+
+Any agent doing development or research work where curated knowledge might exist. This includes but is not limited to:
+- `helm-chart-developer` -- before writing ingress, networking, or other templated resources
+- `yaml-kubernetes-validator` -- when validating manifests against known patterns
+- `web-search-researcher` -- before searching the web, check if the answer is already captured
+- `feature-dev:code-architect` -- when designing features that touch documented infrastructure topics
+- Any agent working on Kubernetes networking, ingress controllers, or related topics
+
 ### Available Specialized Agents
 
 #### Code Quality & Review Agents
@@ -245,9 +274,19 @@ make TARGET_NAME VARIABLE1=value1 VARIABLE2=value2 ...
   - MOC maintenance and knowledge graph queries
   - Notion sync operations (with privacy constraints)
   - Complex searches across the entire knowledge base
+  - Adding new knowledge (creates both vault note and curated reference)
 - **Direct operations OK for:** Reading/editing individual notes, simple file operations in ~/notes/
-- **Purpose:** Expert Obsidian knowledge management at `~/notes/`
+- **Purpose:** Expert Obsidian knowledge management at `~/notes/`; also searches curated knowledge-base references
 - **Tools:** All tools
+
+**knowledge-reader**
+- **When to use:** Quick read-only knowledge retrieval
+  - "What do I know about X?" queries
+  - Pre-development knowledge checks (does curated material exist for this topic?)
+  - Finding relevant notes and references without vault modifications
+- **Purpose:** Lightweight RAG-like search across both Obsidian vault and curated knowledge-base references
+- **Difference from obsidian-notes:** Read-only, no vault management; faster for pure retrieval
+- **Tools:** Read, Grep, Glob, LS
 
 #### MCP Integration Agents
 
