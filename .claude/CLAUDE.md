@@ -219,6 +219,12 @@ Any agent doing development or research work where curated knowledge might exist
 - **Standards:** Leverages yaml-language-server for validation
 - **Tools:** All tools
 
+**ansible-playbook-developer**
+- **When to use:** Creating, reviewing, or validating Ansible playbooks, roles, and inventories
+- **Purpose:** Production-quality Ansible automation following best practices and idempotency principles
+- **Expertise:** Module usage, Jinja2 templating, variable precedence, Vault secrets, role organization
+- **Tools:** All tools
+
 **helm-chart-developer**
 - **When to use:** Creating, reviewing, or improving Helm charts
 - **Purpose:** Production-quality Helm chart development following Helm 3 standards
@@ -395,6 +401,11 @@ WRONG: mcp__plugin_linear_linear__get_issue(id="ANN-41")  ← NEVER DO THIS
 3. `feature-dev:code-reviewer` - Review for bugs and quality
 4. `pr-review-toolkit:code-reviewer` - Review against project standards
 5. `claudemd-compliance-checker` - Verify CLAUDE.md compliance
+
+**For Ansible playbooks:**
+1. `ansible-playbook-developer` - Develop or review playbooks and roles
+2. `yaml-kubernetes-validator` - Validate YAML structure (if deploying to K8s)
+3. `claudemd-compliance-checker` - Verify project compliance
 
 **For Helm chart work:**
 1. `helm-chart-developer` - Develop or review charts
