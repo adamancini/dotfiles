@@ -118,6 +118,12 @@ run= [
   "layout floating",
 ]
 
+# Tabs Outliner (Chrome extension) - move to left of Chrome
+# Title regex can't be used here because Chrome sets window titles after detection
+[[on-window-detected]]
+if.app-id = "com.google.Chrome"
+run = ["exec-and-forget sleep 0.5 && WID=$(aerospace list-windows --all | grep 'Tabs Outliner' | head -1 | awk '{print $1}') && [ -n \"$WID\" ] && aerospace move left --window-id $WID && aerospace resize width -700 --window-id $WID"]
+
 # Firefox PassFF extension window should always float
 [[on-window-detected]]
 if.app-id="org.mozilla.firefox"
