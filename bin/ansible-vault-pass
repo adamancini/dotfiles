@@ -18,7 +18,7 @@
 
 set -euo pipefail
 
-PASS_PATH="annarchy.net/vault"
+PASS_PATH="fleet-infra/annarchy.net/vault"
 
 # Retrieve password from pass and output to stdout
 # Ansible expects just the password, nothing else

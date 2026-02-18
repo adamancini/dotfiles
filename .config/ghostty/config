@@ -32,8 +32,8 @@ font-size = 16
 theme = "Solarized Dark Patched"
 cursor-style = block
 cursor-style-blink = true
-background-opacity = .98
-background-blur = true
+background-opacity = 1
+background-blur = false
 
 # Load OS-specific configuration if available
 config-file = ?~/.config/ghostty/config.local

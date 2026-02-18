@@ -141,11 +141,13 @@
     "superpowers@superpowers-marketplace": true,
     "superpowers-developing-for-claude-code@superpowers-marketplace": true,
     "systems-programming@claude-code-workflows": true,
-    "unit-testing@claude-code-workflows": false
+    "unit-testing@claude-code-workflows": false,
+    "double-shot-latte@superpowers-marketplace": true
   },
   "outputStyle": "default",
   "spinnerTipsEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754064217555
-  }
+  },
+  "effortLevel": "medium"
 }
