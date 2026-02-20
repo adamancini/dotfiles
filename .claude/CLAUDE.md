@@ -379,6 +379,13 @@ WRONG: mcp__plugin_linear_linear__get_issue(id="ANN-41")  ← NEVER DO THIS
 
 ### Agent Selection Guidelines
 
+**For Proxmox / Talos / annarchy.net infrastructure:**
+- Any mention of **annarchy.net**, **staging cluster**, **production cluster**, **fleet-infra**, **pve01/pve02/pve03**, **Talos**, or **Proxmox** should route to `devops-toolkit:proxmox-manager`
+- Common phrases: "spin up staging", "tear down staging", "rebuild the cluster", "upgrade Talos", "deploy latest Talos", "check cluster health", "what VMs are running", "generate factory schematic", "etcd backup", "bootstrap etcd", "run talos-provision-vms", "talosctl"
+- **Skill** (`proxmox-manager`): For single-step queries (status checks, VM listing, template listing)
+- **Agent** (`devops-toolkit:proxmox-manager`): For multi-step operations (cluster create/teardown, Talos bootstrap, upgrades, template creation, node evacuation)
+- Cross-repo coordination: proxmox-manager reads cluster config from devops-toolkit but delegates provisioning to fleet-infra Ansible playbooks
+
 **For system maintenance (recommended for complex operations):**
 - **Complex yadm workflows:** Use `home-manager` agent for multi-file operations
 - **Shell configuration setup:** Use `home-manager` agent (delegates to zsh-config-manager skill)
