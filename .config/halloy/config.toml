@@ -1,0 +1,12 @@
+# Halloy config.
+#
+# For a complete list of available options,
+# please visit https://halloy.chat/configuration.html
+
+[servers.liberachat]
+nickname = "ada_"
+server = "irc.libera.chat"
+channels = ["#docker"]
+[font]
+family = "Iosevka Nerd Font Mono"
+size = 20
