@@ -92,6 +92,53 @@ make TARGET_NAME VARIABLE1=value1 VARIABLE2=value2 ...
 - General housekeeping tasks
 - Repository organization
 
+### Subagent Worktree Policy
+
+**CRITICAL: Subagents that modify code MUST use worktrees whenever possible.**
+
+When launching subagents via the Task tool that will write or edit code, always use `isolation: "worktree"` to give the agent an isolated copy of the repository. This prevents subagents from interfering with each other or with the main working tree.
+
+**Worktree location convention:**
+
+All worktrees MUST be created relative to the repository root in a `.worktrees` directory:
+
+```
+<repo-root>/.worktrees/<branch-name>
+```
+
+**Example:**
+```
+~/src/adamancini/git-repo/.worktrees/feat-branch-1
+```
+
+**Setup requirements:**
+
+- The `.worktrees` directory MUST be added to the repository's `.gitignore` to prevent tracking worktree artifacts
+- Use the `superpowers:using-git-worktrees` skill whenever worktrees are needed -- it handles directory selection, safety verification, and creation
+- Invoke the skill before creating worktrees to ensure proper setup
+
+**When to use worktrees:**
+
+- Subagents performing code implementation, refactoring, or feature development
+- Parallel agents working on independent tasks in the same repository
+- Any Task agent with `isolation: "worktree"` parameter
+- Plan execution via `superpowers:subagent-driven-development` or `superpowers:executing-plans`
+
+**When worktrees are NOT needed:**
+
+- Read-only agents (exploration, code review, analysis)
+- Agents that only search/grep without modifying files
+- System maintenance tasks outside of git repositories
+- Single-file edits where isolation adds no value
+
+**Parallel agent example:**
+```
+Task(subagent_type="golang-pro", isolation="worktree", prompt="Implement feature A...")
+Task(subagent_type="golang-pro", isolation="worktree", prompt="Implement feature B...")
+```
+
+Both agents get isolated worktrees under `.worktrees/` and can work simultaneously without conflicts.
+
 ### Knowledge Base Consultation
 
 A curated knowledge base exists at:
