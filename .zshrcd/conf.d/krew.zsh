@@ -1,1 +1,0 @@
-path+=("$HOME/.krew/bin")
