@@ -132,6 +132,14 @@ run= [
   "layout floating",
 ]
 
+# Firefox Picture-in-Picture windows should always float
+[[on-window-detected]]
+if.app-id="org.mozilla.firefox"
+if.window-title-regex-substring="Picture-in-Picture"
+run= [
+  "layout floating",
+]
+
 # Firefox default to workspace 1
 [[on-window-detected]]
 if.app-id="org.mozilla.firefox"
