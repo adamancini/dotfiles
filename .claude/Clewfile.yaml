@@ -79,6 +79,7 @@ plugins:
   - name: security-guidance@claude-plugins-official
     enabled: false
   - name: devops-toolkit@devops-toolkit
+  - name: replicated-review@devops-toolkit
   - name: elements-of-style@superpowers-marketplace
     enabled: false
   - name: episodic-memory@superpowers-marketplace
