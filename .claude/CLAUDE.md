@@ -429,9 +429,15 @@ WRONG: mcp__plugin_linear_linear__get_issue(id="ANN-41")  ← NEVER DO THIS
 **For Proxmox / Talos / annarchy.net infrastructure:**
 - Any mention of **annarchy.net**, **staging cluster**, **production cluster**, **fleet-infra**, **pve01/pve02/pve03**, **Talos**, or **Proxmox** should route to `devops-toolkit:proxmox-manager`
 - Common phrases: "spin up staging", "tear down staging", "rebuild the cluster", "upgrade Talos", "deploy latest Talos", "check cluster health", "what VMs are running", "generate factory schematic", "etcd backup", "bootstrap etcd", "run talos-provision-vms", "talosctl"
+- **ALSO route to proxmox-manager for:** VM destroy/cleanup, Talos extension changes, Synology iSCSI/CSI troubleshooting on Talos, interface naming issues, rolling upgrades, and any operation that touches the Talos installer image or factory schematic
 - **Skill** (`proxmox-manager`): For single-step queries (status checks, VM listing, template listing)
-- **Agent** (`devops-toolkit:proxmox-manager`): For multi-step operations (cluster create/teardown, Talos bootstrap, upgrades, template creation, node evacuation)
+- **Agent** (`devops-toolkit:proxmox-manager`): For multi-step operations (cluster create/teardown, Talos bootstrap, upgrades, template creation, node evacuation, VM destroy+reprovision)
 - Cross-repo coordination: proxmox-manager reads cluster config from devops-toolkit but delegates provisioning to fleet-infra Ansible playbooks
+- **Critical lessons (see runbooks for details):**
+  - VM destroy is async -- always verify VMs are gone on ALL PVE nodes before re-provisioning
+  - Extension changes (new schematic) can rename network interfaces (eth0 -> ens18) -- update per-node patches first
+  - Prefer full reprovisioning over in-place `talosctl upgrade` when changing extensions
+  - btrfs format hangs on thin-provisioned Synology iSCSI LUNs -- use ext4
 
 **For system maintenance (recommended for complex operations):**
 - **Complex yadm workflows:** Use `home-manager` agent for multi-file operations
