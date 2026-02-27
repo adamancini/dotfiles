@@ -94,6 +94,7 @@ claude plugin install /path/to/devops-toolkit
 - **superpowers-marketplace** (obra/superpowers-marketplace)
 - **claude-plugins-official** (anthropics/claude-plugins-official)
 - **claude-code-workflows** (wshobson/agents)
+- **yamlscript** (yaml/yamlscript)
 - **devops-toolkit** (adamancini/devops-toolkit) - Local repository
 
 ### Plugins Enabled by Default (User Scope)
