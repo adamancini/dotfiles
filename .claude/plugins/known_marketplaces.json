@@ -1,29 +1,29 @@
 {
   "superpowers-marketplace": {
     "source": {
-      "source": "directory",
-      "path": "/Users/ada/.claude/plugins/marketplaces/superpowers-marketplace"
+      "source": "github",
+      "repo": "obra/superpowers-marketplace"
     },
     "installLocation": "/Users/ada/.claude/plugins/marketplaces/superpowers-marketplace",
-    "lastUpdated": "2026-02-18T22:19:49.407Z",
-    "autoUpdate": true
-  },
-  "claude-code-workflows": {
-    "source": {
-      "source": "directory",
-      "path": "/Users/ada/.claude/plugins/marketplaces/claude-code-workflows"
-    },
-    "installLocation": "/Users/ada/.claude/plugins/marketplaces/claude-code-workflows",
-    "lastUpdated": "2026-02-25T18:59:59.019Z",
+    "lastUpdated": "2026-03-01T18:07:43.524Z",
     "autoUpdate": true
   },
   "claude-plugins-official": {
     "source": {
-      "source": "git",
-      "url": "https://github.com/anthropics/claude-plugins-official.git"
+      "source": "github",
+      "repo": "anthropics/claude-plugins-official"
     },
     "installLocation": "/Users/ada/.claude/plugins/marketplaces/claude-plugins-official",
-    "lastUpdated": "2026-02-27T18:55:13.795Z"
+    "lastUpdated": "2026-03-01T18:25:23.176Z"
+  },
+  "claude-code-workflows": {
+    "source": {
+      "source": "github",
+      "repo": "wshobson/agents"
+    },
+    "installLocation": "/Users/ada/.claude/plugins/marketplaces/claude-code-workflows",
+    "lastUpdated": "2026-03-01T19:10:34.412Z",
+    "autoUpdate": true
   },
   "devops-toolkit": {
     "source": {
@@ -31,15 +31,7 @@
       "repo": "adamancini/devops-toolkit"
     },
     "installLocation": "/Users/ada/.claude/plugins/marketplaces/devops-toolkit",
-    "lastUpdated": "2026-02-27T19:12:41.089Z",
+    "lastUpdated": "2026-03-01T19:20:10.493Z",
     "autoUpdate": true
-  },
-  "yamlscript": {
-    "source": {
-      "source": "github",
-      "repo": "yaml/yamlscript"
-    },
-    "installLocation": "/Users/ada/.claude/plugins/marketplaces/yamlscript",
-    "lastUpdated": "2026-02-27T17:20:52.092Z"
   }
 }
