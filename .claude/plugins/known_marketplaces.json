@@ -5,7 +5,7 @@
       "repo": "obra/superpowers-marketplace"
     },
     "installLocation": "/Users/ada/.claude/plugins/marketplaces/superpowers-marketplace",
-    "lastUpdated": "2026-03-01T18:07:43.524Z",
+    "lastUpdated": "2026-03-01T19:43:08.146Z",
     "autoUpdate": true
   },
   "claude-plugins-official": {
@@ -31,7 +31,7 @@
       "repo": "adamancini/devops-toolkit"
     },
     "installLocation": "/Users/ada/.claude/plugins/marketplaces/devops-toolkit",
-    "lastUpdated": "2026-03-01T19:20:10.493Z",
+    "lastUpdated": "2026-03-01T19:40:55.851Z",
     "autoUpdate": true
   }
 }
