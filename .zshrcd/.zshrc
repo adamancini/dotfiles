@@ -11,6 +11,7 @@ ZSH_TMUX_CONFIG=$HOME/.tmux.d/tmux.conf
 
 setopt prompt_subst
 setopt complete_aliases
+setopt ignore_eof
 
 export HISTTIMEFORMAT="[%F %T] "
 setopt append_history
@@ -47,6 +48,7 @@ if [ -f $ZDOTDIR/conf.d/antigen.zsh ] && [[ -z "$_ANTIGEN_LOADED" ]]; then
   POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(status host dir vcs)
   antigen init $ZDOTDIR/antigenrc
   _ANTIGEN_LOADED=1
+  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh  # re-source after oh-my-zsh to preserve fzf bindings
 fi
 
 # disable Ctrl+S 'freeze terminal' keybind
@@ -54,3 +56,14 @@ stty -ixon
 
 # enable emacs keybindings (disable vi mode)
 bindkey -e
+
+# Ctrl+D: delete char mid-line, warn on empty line (no completion trigger)
+function _ctrl_d_handler() {
+  if [[ -z "$BUFFER" ]]; then
+    zle -M "zsh: use 'exit' to exit."
+  else
+    zle delete-char
+  fi
+}
+zle -N _ctrl_d_handler
+bindkey '^D' _ctrl_d_handler
