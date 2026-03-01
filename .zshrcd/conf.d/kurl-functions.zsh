@@ -5,7 +5,7 @@ KURL_VM_IMAGE_PROJECT="ubuntu-os-cloud"
 KURL_VM_INSTANCE_TYPE="n1-standard-8"
 #DATE=$(date '+%Y-%m-%d' -d "+30 days")
 DATE=never
-export GOOS=linux # for watchrsync on MacOS
+
 
 # Creates an instance with a disk device attached.
 # For additional instances pass a prefix, example: kurl-dev-make user-kurl2
