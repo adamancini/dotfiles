@@ -22,7 +22,7 @@
       "repo": "wshobson/agents"
     },
     "installLocation": "/Users/ada/.claude/plugins/marketplaces/claude-code-workflows",
-    "lastUpdated": "2026-03-01T19:10:34.412Z",
+    "lastUpdated": "2026-03-01T21:03:53.978Z",
     "autoUpdate": true
   },
   "devops-toolkit": {
@@ -31,7 +31,7 @@
       "repo": "adamancini/devops-toolkit"
     },
     "installLocation": "/Users/ada/.claude/plugins/marketplaces/devops-toolkit",
-    "lastUpdated": "2026-03-01T19:40:55.851Z",
+    "lastUpdated": "2026-03-01T21:04:29.497Z",
     "autoUpdate": true
   }
 }
