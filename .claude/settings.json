@@ -104,6 +104,11 @@
   "enabledPlugins": {
     "devops-toolkit@devops-toolkit": true,
     "Notion@claude-plugins-official": false,
+    "agent-orchestration@claude-code-workflows": true,
+    "cicd-automation@claude-code-workflows": false,
+    "cloud-infrastructure@claude-code-workflows": true,
+    "code-documentation@claude-code-workflows": false,
+    "code-refactoring@claude-code-workflows": false,
     "code-review@claude-plugins-official": false,
     "commit-commands@claude-plugins-official": false,
     "context7@claude-plugins-official": false,
@@ -113,6 +118,7 @@
     "gopls-lsp@claude-plugins-official": true,
     "hookify@claude-plugins-official": true,
     "learning-output-style@claude-plugins-official": false,
+    "observability-monitoring@claude-code-workflows": false,
     "plugin-dev@claude-plugins-official": true,
     "pr-review-toolkit@claude-plugins-official": false,
     "security-guidance@claude-plugins-official": false,
@@ -123,6 +129,7 @@
     "superpowers-developing-for-claude-code@superpowers-marketplace": true,
     "systems-programming@claude-code-workflows": true,
     "unit-testing@claude-code-workflows": false,
+    "ys-skill@yamlscript": true,
     "replicated-review@devops-toolkit": true
   },
   "outputStyle": "default",

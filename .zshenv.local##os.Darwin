@@ -1,2 +1,5 @@
 # macOS-specific environment settings
 path+=/opt/homebrew/bin
+
+# Support Bundle CLI token
+export SBCTL_TOKEN=d599980175e097e56be0bbac8be729c1552f5ca1400a628e2e4c7f7a78525461
