@@ -39,6 +39,9 @@ autoload -Uz compinit
 compinit -u
 _comp_options+=(globdots) # With hidden files
 
+# load deferred completions (defined in conf.d, run after compinit)
+(( $+functions[_kubecm_setup_completion] )) && _kubecm_setup_completion && unfunction _kubecm_setup_completion
+
 # load antigen (only once per session)
 if [ -f $ZDOTDIR/conf.d/antigen.zsh ] && [[ -z "$_ANTIGEN_LOADED" ]]; then
   typeset -a ANTIGEN_CHECK_FILES=(${ZDOTDIR:-~}/.zshrc ${ZDOTDIR:-~}/conf.d/antigen.zsh)
