@@ -1,5 +1,9 @@
 # Configuration & yadm Management
 
+## yadm Usage
+
+NEVER use `yadm status -u` or `yadm status -uall` -- it enumerates the entire home directory. Always use `yadm status` without the `-u` flag.
+
 ## yadm Tracking
 
 **Track (commit to yadm):** README.md, settings.json, plugins/config.json, plugins/installed_plugins.json, plugins/known_marketplaces.json, custom agents/skills/hooks/hookify rules.
