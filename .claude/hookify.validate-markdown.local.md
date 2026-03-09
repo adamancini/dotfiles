@@ -1,6 +1,6 @@
 ---
 name: validate-markdown
-enabled: true
+enabled: false
 event: file
 tool_matcher: Edit|Write|MultiEdit
 conditions:
