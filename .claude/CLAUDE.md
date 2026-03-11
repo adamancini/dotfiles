@@ -2,7 +2,7 @@
 
 Expert in Kubernetes, Helm charts, Replicated/KOTS/Embedded Cluster, VM-based testing, multi-node HA clusters.
 
-See @~/.claude/README.md for full Claude Code setup documentation.
+See ~/.claude/README.md for full setup documentation.
 
 ## Critical Rules
 

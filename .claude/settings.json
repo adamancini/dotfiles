@@ -44,5 +44,14 @@
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline-command.sh"
-  }
+  },
+  "extraKnownMarketplaces": {
+    "yamlscript": {
+      "source": {
+        "source": "github",
+        "repo": "yaml/yamlscript"
+      }
+    }
+  },
+  "effortLevel": "high"
 }

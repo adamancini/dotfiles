@@ -43,6 +43,7 @@ _comp_options+=(globdots) # With hidden files
 (( $+functions[_kubecm_setup_completion] )) && _kubecm_setup_completion && unfunction _kubecm_setup_completion
 
 # load antigen (only once per session)
+export ZLUA_EXEC="luajit"  # Lua 5.5 broke z.lua (const loop vars)
 if [ -f $ZDOTDIR/conf.d/antigen.zsh ] && [[ -z "$_ANTIGEN_LOADED" ]]; then
   typeset -a ANTIGEN_CHECK_FILES=(${ZDOTDIR:-~}/.zshrc ${ZDOTDIR:-~}/conf.d/antigen.zsh)
   ADOTDIR=$HOME/.antigen
