@@ -6,8 +6,7 @@ This document explains what Claude Code files are synced via yadm and why.
 
 ### Core Configuration
 - **`.claude/CLAUDE.md`** - Personal Claude Code configuration and preferences
-- **`.claude/settings.json`** - Claude Code settings (statusline, allowlist, etc.)
-- **`.claude/settings.local.json`** - Local settings overrides
+- **`.claude/settings.json`** - Stable policy settings (deny rules, hooks, model, statusline)
 
 ### Custom Agents & Skills
 
@@ -33,6 +32,9 @@ See the "Plugin Repositories" section below for the devops-toolkit repository lo
 - **`.claude/statusline-command.sh`** - Custom statusline showing git, k8s, system info
 
 ## NOT Tracked (Local-Only)
+
+### Machine-Specific Settings
+- `.claude/settings.local.json` - Machine-specific, high-churn settings (permissions.allow, enabledPlugins, outputStyle, feedbackSurveyState, effortLevel). NOT tracked to avoid merge conflicts.
 
 ### Cache and Temporary Files
 - `.claude/plugins/cache/` - Downloaded plugin cache (regenerated from marketplaces)
@@ -80,8 +82,8 @@ claude plugin install /path/to/devops-toolkit
 - Each workstation can have different plugins enabled
 
 **Enablement Strategy:**
-- **User default:** Most plugins are **disabled by default** in `~/.claude/settings.json`
-- **Core plugins enabled:** Only 5 essential plugins enabled by default (see below)
+- **User default:** Plugin enablement is configured in `~/.claude/settings.local.json` (machine-specific, not tracked by yadm)
+- **Core plugins enabled:** Essential plugins enabled by default (see below)
 - **Per-project override:** Enable specific plugins in project `.claude/settings.json`
 
 **Benefits:**
@@ -99,7 +101,7 @@ claude plugin install /path/to/devops-toolkit
 
 ### Plugins Enabled by Default (User Scope)
 
-These 5 plugins are enabled in `~/.claude/settings.json`:
+These 5 plugins are enabled in `~/.claude/settings.local.json`:
 
 1. **superpowers@superpowers-marketplace** - Core skills library
 2. **episodic-memory@superpowers-marketplace** - Cross-session memory
@@ -198,7 +200,7 @@ When setting up a new machine with yadm:
 
 6. **Configure per-workstation enablement (optional):**
    ```bash
-   # Edit ~/.claude/settings.json to enable additional plugins on this workstation
+   # Edit ~/.claude/settings.local.json to enable additional plugins on this workstation
    # Or keep the default minimal set and enable per-project instead
    ```
 
@@ -290,10 +292,11 @@ cp ~/.claude/templates/devops-settings.json /path/to/devops-project/.claude/sett
 - **Custom agents** - Now managed via devops-toolkit plugin repository (separate git repo)
 - **Hookify rules** - Enforce consistency across all machines
 - **Custom skills** - Domain-specific knowledge and automation (non-plugin skills)
-- **Settings** - Personal preferences and configurations
+- **settings.json** - Stable policy config (deny rules, hooks, model, statusline)
 - **Plugin config** - Which plugins/marketplaces to use
 
 ### Why NOT Track These Files?
+- **settings.local.json** - Machine-specific, high-churn (permissions.allow, enabledPlugins, feedbackSurveyState). #1 source of yadm merge conflicts when tracked.
 - **Cache** - Regenerated automatically, wastes space
 - **installed_plugins.json** - Contains timestamps/paths that change frequently, regenerated on install
 - **Project history** - Machine-specific paths, privacy concerns

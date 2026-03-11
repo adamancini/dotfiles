@@ -6,9 +6,25 @@ NEVER use `yadm status -u` or `yadm status -uall` -- it enumerates the entire ho
 
 ## yadm Tracking
 
-**Track (commit to yadm):** README.md, settings.json, plugins/config.json, plugins/installed_plugins.json, plugins/known_marketplaces.json, custom agents/skills/hooks/hookify rules.
+**Track (commit to yadm):** README.md, settings.json (stable policy only), plugins/config.json, custom agents/skills/hooks/hookify rules.
 
-**Never track:** plugins/cache/, plugins/marketplaces/, file-history/, projects/, debug/, settings.local.json (machine-specific overrides)
+**Never track:** plugins/cache/, plugins/marketplaces/, file-history/, projects/, debug/, settings.local.json (machine-specific overrides), plugins/installed_plugins.json, plugins/known_marketplaces.json.
+
+## settings.json vs settings.local.json Split
+
+**settings.json (tracked)** — stable cross-machine policy that rarely changes:
+- `$schema`, `env`, `includeCoAuthoredBy`
+- `permissions.deny`, `permissions.ask`, `permissions.defaultMode`
+- `model`, `enableAllProjectMcpServers`
+- `hooks`, `statusLine`
+
+**settings.local.json (NOT tracked)** — machine-specific, high-churn settings:
+- `permissions.allow` (grows every session as tools get approved)
+- `enabledPlugins` (toggled frequently, varies per workstation)
+- `outputStyle`, `spinnerTipsEnabled`, `effortLevel`
+- `feedbackSurveyState` (auto-updated timestamps)
+
+**Rule of thumb:** If a setting changes more than once a month or varies per machine, it belongs in settings.local.json. If it's a safety/policy setting that should be consistent everywhere, it belongs in settings.json.
 
 ## After Plugin/Config Changes
 
