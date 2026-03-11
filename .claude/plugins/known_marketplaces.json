@@ -1,0 +1,45 @@
+{
+  "superpowers-marketplace": {
+    "source": {
+      "source": "github",
+      "repo": "obra/superpowers-marketplace"
+    },
+    "installLocation": "/Users/ada/.claude/plugins/marketplaces/superpowers-marketplace",
+    "lastUpdated": "2026-03-11T22:54:07.526Z",
+    "autoUpdate": true
+  },
+  "claude-plugins-official": {
+    "source": {
+      "source": "github",
+      "repo": "anthropics/claude-plugins-official"
+    },
+    "installLocation": "/Users/ada/.claude/plugins/marketplaces/claude-plugins-official",
+    "lastUpdated": "2026-03-11T20:37:03.468Z"
+  },
+  "claude-code-workflows": {
+    "source": {
+      "source": "github",
+      "repo": "wshobson/agents"
+    },
+    "installLocation": "/Users/ada/.claude/plugins/marketplaces/claude-code-workflows",
+    "lastUpdated": "2026-03-11T20:25:21.859Z",
+    "autoUpdate": true
+  },
+  "devops-toolkit": {
+    "source": {
+      "source": "github",
+      "repo": "adamancini/devops-toolkit"
+    },
+    "installLocation": "/Users/ada/.claude/plugins/marketplaces/devops-toolkit",
+    "lastUpdated": "2026-03-11T20:35:33.753Z",
+    "autoUpdate": true
+  },
+  "yamlscript": {
+    "source": {
+      "source": "github",
+      "repo": "yaml/yamlscript"
+    },
+    "installLocation": "/Users/ada/.claude/plugins/marketplaces/yamlscript",
+    "lastUpdated": "2026-03-07T03:51:07.047Z"
+  }
+}

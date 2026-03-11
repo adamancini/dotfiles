@@ -8,11 +8,13 @@ Every coding project todo list MUST end with:
 
 This does NOT apply to system maintenance tasks (yadm, dotfiles, package installs, file reorg).
 
-## Subagent Worktree Policy
+## Worktree Policy (All Branch Work)
 
-IMPORTANT: Subagents that modify code MUST use `isolation: "worktree"`.
+CRITICAL: ALL branch creation for development work MUST use worktrees -- this includes the main session, not just subagents. See `~/.claude/rules/git-worktrees.md` for the full rule.
 
+- Subagents that modify code MUST use `isolation: "worktree"`
+- Main session creating a feature branch MUST use a worktree
 - Worktrees go in `<repo-root>/.worktrees/<branch-name>`
 - Add `.worktrees` to `.gitignore`
 - Use `superpowers:using-git-worktrees` skill for setup
-- NOT needed for: read-only agents, search/grep only, system maintenance, single-file edits
+- NOT needed for: commits on current branch, read-only agents, system maintenance
