@@ -70,7 +70,7 @@ install_superpowers_plugins() {
         local plugin_name=$(echo "$plugin" | cut -d'@' -f1)
         info "Installing $plugin_name..."
 
-        if claude plugin install "$plugin" 2>&1; then
+        if claude plugin install "$plugin" --scope user 2>&1; then
             success "$plugin_name installed"
         else
             warn "$plugin_name installation failed (may already be installed)"
@@ -110,13 +110,21 @@ install_devops_toolkit() {
     info "Cloning devops-toolkit from $DEVOPS_TOOLKIT_REPO..."
     if git clone "$DEVOPS_TOOLKIT_REPO" "$toolkit_dir"; then
         success "devops-toolkit cloned"
-        return 0
     else
         warn "Failed to clone devops-toolkit"
         warn "You can clone it manually later:"
         info "  cd ~/.claude/plugins/repos"
         info "  git clone $DEVOPS_TOOLKIT_REPO"
         return 1
+    fi
+
+    # Install as a plugin at user scope
+    info "Installing devops-toolkit plugin at user scope..."
+    if claude plugin install "$toolkit_dir" --scope user 2>&1; then
+        success "devops-toolkit plugin installed (user scope)"
+    else
+        warn "devops-toolkit plugin install failed"
+        info "  Try manually: claude plugin install $toolkit_dir --scope user"
     fi
 }
 
@@ -209,15 +217,18 @@ main() {
     info "Claude Code plugins setup completed"
     info ""
     info "Custom configurations:"
-    info "  - Custom agents: ~/.claude/agents/"
-    info "  - Custom skills: ~/.claude/skills/"
+    info "  - Agents & skills: ~/.claude/plugins/repos/devops-toolkit/"
     info "  - Hookify rules: ~/.claude/hookify.*.local.md"
-    info "  - Settings: ~/.claude/settings.json"
+    info "  - Settings (policy): ~/.claude/settings.json"
+    info "  - Settings (local): ~/.claude/settings.local.json"
     info ""
     info "Plugin management:"
-    info "  claude plugin list              # List installed plugins"
-    info "  claude plugin marketplace update # Update marketplaces"
-    info "  claude plugin install <name>    # Install a plugin"
+    info "  claude plugin list                              # List installed plugins"
+    info "  claude plugin marketplace update                # Update marketplaces"
+    info "  claude plugin install <name> --scope user       # Install a plugin"
+    info ""
+    warn "NEVER install plugins without --scope user (local scope breaks project dirs)"
+    warn "NEVER create project-level .claude/settings.local.json (shadows user enabledPlugins)"
     echo "${CYAN}════════════════════════════════════════════════${RESET}"
     echo ""
 
