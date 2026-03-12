@@ -92,6 +92,10 @@ claude plugin install /path/to/devops-toolkit
 - ✅ Different plugin sets per workstation
 - ✅ Template-based configuration for common project types
 
+**Known Pitfalls:**
+- **NEVER install plugins at local scope** — they won't be visible from other directories. Always use `--scope user`.
+- **NEVER create project-level `.claude/settings.local.json`** — it shadows (replaces, not merges) the user-level file, which nukes `enabledPlugins`. User-level `permissions.allow` wildcards (e.g. `Bash(gh:*)`, `WebFetch(domain:*)`) already cover most project needs. If per-project settings are truly needed, use `.claude/settings.json` instead.
+
 ### Installed Marketplaces
 - **superpowers-marketplace** (obra/superpowers-marketplace)
 - **claude-plugins-official** (anthropics/claude-plugins-official)
