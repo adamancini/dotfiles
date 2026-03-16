@@ -140,6 +140,22 @@ run= [
   "layout floating",
 ]
 
+# Chrome sign-in / OAuth popup windows should always float
+[[on-window-detected]]
+if.app-id="com.google.Chrome"
+if.window-title-regex-substring="(?i)sign in"
+run= [
+  "layout floating",
+]
+
+# Firefox sign-in / OAuth popup windows should always float
+[[on-window-detected]]
+if.app-id="org.mozilla.firefox"
+if.window-title-regex-substring="(?i)sign in"
+run= [
+  "layout floating",
+]
+
 # Firefox default to workspace 1
 [[on-window-detected]]
 if.app-id="org.mozilla.firefox"

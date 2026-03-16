@@ -1,5 +1,6 @@
 antigen use ohmyzsh/ohmyzsh
-antigen bundle adamancini/oh-my-replicated@main
+antigen bundle adamancini/oh-my-replicated@main --loc=replicated-awscommands.plugin.zsh
+antigen bundle adamancini/oh-my-replicated@main --loc=replicated-gcommands.plugin.zsh
 antigen bundle aws
 antigen bundle docker
 antigen bundle docker-compose
