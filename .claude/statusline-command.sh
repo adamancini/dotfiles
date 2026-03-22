@@ -1,46 +1,43 @@
 #!/bin/bash
 #
 # Claude Code Statusline Script
-# Displays: working directory, git status, system info
+# Displays: cwd, git branch + worktree info, session tag, system info
 
 set -euo pipefail
-
-# Color codes for formatting (optional, statusline may support these)
-RESET='\033[0m'
-BOLD='\033[1m'
-DIM='\033[2m'
-CYAN='\033[36m'
-GREEN='\033[32m'
-YELLOW='\033[33m'
-RED='\033[31m'
-BLUE='\033[34m'
 
 # Get current working directory (abbreviated for home)
 CWD="${PWD/#$HOME/~}"
 
-# Git information
+# --- Git Information ---
 GIT_INFO=""
+WORKTREE_INFO=""
 if git rev-parse --is-inside-work-tree &>/dev/null; then
-    BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null || echo "unknown")
+    BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null \
+        || git rev-parse --short HEAD 2>/dev/null \
+        || echo "detached")
 
-    # Check for uncommitted changes
-    if ! git diff-index --quiet HEAD -- 2>/dev/null; then
-        STATUS="*"  # Modified files
-    else
-        STATUS=""
+    # Detect if this session is inside a worktree.
+    # When in a worktree, git-dir path contains /worktrees/ rather than ending in .git
+    GIT_DIR=$(git rev-parse --git-dir 2>/dev/null || echo "")
+    WORKTREE_PREFIX=""
+    if [[ "$GIT_DIR" == *"/worktrees/"* ]]; then
+        WORKTREE_PREFIX="⑂"
     fi
 
-    # Check for untracked files
+    # Uncommitted changes
+    STATUS=""
+    if ! git diff-index --quiet HEAD -- 2>/dev/null; then
+        STATUS="*"
+    fi
     if [ -n "$(git ls-files --others --exclude-standard 2>/dev/null)" ]; then
         STATUS="${STATUS}+"
     fi
 
-    # Check if ahead/behind remote
+    # Ahead/behind remote
     UPSTREAM=$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null || echo "")
     if [ -n "$UPSTREAM" ]; then
         AHEAD=$(git rev-list --count @{u}..HEAD 2>/dev/null || echo "0")
         BEHIND=$(git rev-list --count HEAD..@{u} 2>/dev/null || echo "0")
-
         if [ "$AHEAD" -gt 0 ] && [ "$BEHIND" -gt 0 ]; then
             STATUS="${STATUS}⇅"
         elif [ "$AHEAD" -gt 0 ]; then
@@ -50,42 +47,62 @@ if git rev-parse --is-inside-work-tree &>/dev/null; then
         fi
     fi
 
-    GIT_INFO=" | git:${BRANCH}${STATUS}"
+    # Read active worktree recorded by the PreToolUse hook.
+    # Session key: grandparent PID = the Claude process (stable, unique per session).
+    SESSION_PID=$(ps -o ppid= -p $PPID 2>/dev/null | tr -d ' ')
+    ACTIVE_WT=""
+    if [ -n "$SESSION_PID" ]; then
+        ACTIVE_WT_FILE="/tmp/.claude-session-${SESSION_PID}.worktree"
+        if [ -f "$ACTIVE_WT_FILE" ] && kill -0 "$SESSION_PID" 2>/dev/null; then
+            ACTIVE_WT=$(tr -d '\n' < "$ACTIVE_WT_FILE" 2>/dev/null)
+        fi
+    fi
+
+    # Show main→feat/auth when at repo root but actively working in a worktree.
+    # If already inside the worktree dir (ACTIVE_WT == BRANCH), ⑂ prefix suffices.
+    if [ -n "$ACTIVE_WT" ] && [ "$ACTIVE_WT" != "$BRANCH" ]; then
+        GIT_INFO=" | ${WORKTREE_PREFIX}${BRANCH}→${ACTIVE_WT}${STATUS}"
+    else
+        GIT_INFO=" | ${WORKTREE_PREFIX}${BRANCH}${STATUS}"
+    fi
+
+    # List active worktrees OTHER than the current one.
+    # Works whether the session is at the repo root (shows all worktrees) or
+    # inside a specific worktree (shows the others).
+    CURRENT_WT=$(git rev-parse --show-toplevel 2>/dev/null || echo "")
+    ACTIVE_WTS=$(git worktree list 2>/dev/null \
+        | awk -v cur="$CURRENT_WT" '$1 != cur { print $3 }' \
+        | tr -d '[]' \
+        | grep -v '^$' \
+        | grep -v '^(bare)$' \
+        | tr '\n' ',' \
+        | sed 's/,$//' \
+        || echo "")
+    if [ -n "$ACTIVE_WTS" ]; then
+        WORKTREE_INFO=" | wt:${ACTIVE_WTS}"
+    fi
 fi
 
-# Kubernetes context (if kubectl is available and configured)
-K8S_INFO=""
-if command -v kubectl &>/dev/null && kubectl config current-context &>/dev/null; then
-    K8S_CTX=$(kubectl config current-context 2>/dev/null | cut -c1-20)
-    K8S_INFO=" | k8s:${K8S_CTX}"
-fi
+# --- Session Tag ---
+# $PPID is the parent process of this script (the shell Claude invoked).
+# It is unique per concurrent Claude session and stable within a session.
+# Displayed as a 3-hex-digit code for brevity.
+SESSION_TAG=$(printf '#%03x' $((PPID % 4096)))
 
-# System information
+# --- System Information ---
 HOSTNAME=$(hostname -s)
 LOAD=$(uptime | sed 's/.*load average: //' | awk '{print $1}' | sed 's/,$//')
-SYSTEM_INFO="${HOSTNAME} [${LOAD}]"
 
-# Build left and right parts
-LEFT_PART="[${CWD}]${GIT_INFO}${K8S_INFO}"
-RIGHT_PART="${SYSTEM_INFO}"
+# --- Build Statusline ---
+LEFT_PART="[${CWD}]${GIT_INFO}${WORKTREE_INFO}"
+RIGHT_PART="${HOSTNAME} [${LOAD}] ${SESSION_TAG}"
 
-# Get terminal width (default to 80 if unable to determine)
 TERM_WIDTH=$(tput cols 2>/dev/null || echo "80")
-
-# Calculate visible length (removing ANSI codes if present)
 LEFT_LEN=$(echo -n "$LEFT_PART" | sed 's/\x1b\[[0-9;]*m//g' | wc -c | tr -d ' ')
 RIGHT_LEN=$(echo -n "$RIGHT_PART" | sed 's/\x1b\[[0-9;]*m//g' | wc -c | tr -d ' ')
-
-# Calculate padding needed
 PADDING=$((TERM_WIDTH - LEFT_LEN - RIGHT_LEN))
-
-# Ensure minimum padding of 1 space
 if [ $PADDING -lt 1 ]; then
     PADDING=1
 fi
 
-# Create padding string
-PAD_STR=$(printf '%*s' $PADDING '')
-
-# Build the statusline with right-justified system info
-echo "${LEFT_PART}${PAD_STR}${RIGHT_PART}"
+echo "${LEFT_PART}$(printf '%*s' $PADDING '')${RIGHT_PART}"
