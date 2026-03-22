@@ -6,7 +6,6 @@ This document explains what Claude Code files are synced via yadm and why.
 
 ### Core Configuration
 - **`.claude/CLAUDE.md`** - Personal Claude Code configuration and preferences
-- **`.claude/settings.json`** - Stable policy settings (deny rules, hooks, model, statusline)
 
 ### Custom Agents & Skills
 
@@ -32,9 +31,6 @@ See the "Plugin Repositories" section below for the devops-toolkit repository lo
 - **`.claude/statusline-command.sh`** - Custom statusline showing git, k8s, system info
 
 ## NOT Tracked (Local-Only)
-
-### Machine-Specific Settings
-- `.claude/settings.local.json` - Machine-specific, high-churn settings (permissions.allow, enabledPlugins, outputStyle, feedbackSurveyState, effortLevel). NOT tracked to avoid merge conflicts.
 
 ### Cache and Temporary Files
 - `.claude/plugins/cache/` - Downloaded plugin cache (regenerated from marketplaces)
@@ -81,20 +77,9 @@ claude plugin install /path/to/devops-toolkit
 - Available globally across all projects on a workstation
 - Each workstation can have different plugins enabled
 
-**Enablement Strategy:**
-- **User default:** Plugin enablement is configured in `~/.claude/settings.local.json` (machine-specific, not tracked by yadm)
-- **Core plugins enabled:** Essential plugins enabled by default (see below)
-- **Per-project override:** Enable specific plugins in project `.claude/settings.json`
-
-**Benefits:**
-- ✅ Minimal context usage by default (only 5 core plugins loaded)
-- ✅ Selective enablement per project type
-- ✅ Different plugin sets per workstation
-- ✅ Template-based configuration for common project types
-
 **Known Pitfalls:**
 - **NEVER install plugins at local scope** — they won't be visible from other directories. Always use `--scope user`.
-- **NEVER create project-level `.claude/settings.local.json`** — it shadows (replaces, not merges) the user-level file, which nukes `enabledPlugins`. User-level `permissions.allow` wildcards (e.g. `Bash(gh:*)`, `WebFetch(domain:*)`) already cover most project needs. If per-project settings are truly needed, use `.claude/settings.json` instead.
+- **NEVER create project-level `.claude/settings.local.json`** — it shadows (replaces, not merges) the user-level `settings.json`. Use `settings.json` at both user and project scope.
 
 ### Installed Marketplaces
 - **superpowers-marketplace** (obra/superpowers-marketplace)
@@ -103,19 +88,9 @@ claude plugin install /path/to/devops-toolkit
 - **yamlscript** (yaml/yamlscript)
 - **devops-toolkit** (adamancini/devops-toolkit) - Local repository
 
-### Plugins Enabled by Default (User Scope)
+### Plugins Available
 
-These 5 plugins are enabled in `~/.claude/settings.local.json`:
-
-1. **superpowers@superpowers-marketplace** - Core skills library
-2. **episodic-memory@superpowers-marketplace** - Cross-session memory
-3. **superpowers-developing-for-claude-code@superpowers-marketplace** - Development docs
-4. **devops-toolkit@devops-toolkit** - Personal DevOps toolkit
-5. **hookify@claude-plugins-official** - Hook management
-
-### Plugins Available (Disabled by Default)
-
-All 35+ other plugins are available but disabled by default. Enable them per-project as needed.
+All plugins are available but selectively enabled. Enable them per-project as needed.
 
 **From claude-plugins-official:**
 - pr-review-toolkit, commit-commands, feature-dev, code-review
@@ -155,8 +130,6 @@ Create `.claude/settings.json` in any project to enable additional plugins:
 - Shell Scripting: `~/.claude/templates/shell-settings.json`
 - DevOps/Infrastructure: `~/.claude/templates/devops-settings.json`
 
-See "Plugin Templates" section below for details.
-
 ## Setup on New Machine
 
 When setting up a new machine with yadm:
@@ -176,13 +149,13 @@ When setting up a new machine with yadm:
 
 4. **Install all plugins at USER SCOPE:**
    ```bash
-   # Core plugins (enabled by default)
+   # Core plugins
    claude plugin install superpowers@superpowers-marketplace --scope user
    claude plugin install episodic-memory@superpowers-marketplace --scope user
    claude plugin install superpowers-developing-for-claude-code@superpowers-marketplace --scope user
    claude plugin install hookify@claude-plugins-official --scope user
 
-   # Additional plugins (disabled by default, enable per-project or per-workstation)
+   # Additional plugins (enable per-project as needed)
    claude plugin install elements-of-style@superpowers-marketplace --scope user
    claude plugin install pr-review-toolkit@claude-plugins-official --scope user
    claude plugin install feature-dev@claude-plugins-official --scope user
@@ -190,8 +163,6 @@ When setting up a new machine with yadm:
    claude plugin install kubernetes-operations@claude-code-workflows --scope user
    claude plugin install shell-scripting@claude-code-workflows --scope user
    # ... (install others as needed)
-
-   # Or use a bulk install script (if available)
    ```
 
 5. **Install custom plugin repos:**
@@ -202,93 +173,13 @@ When setting up a new machine with yadm:
    claude plugin install ~/.claude/plugins/repos/devops-toolkit --scope user
    ```
 
-6. **Configure per-workstation enablement (optional):**
-   ```bash
-   # Edit ~/.claude/settings.local.json to enable additional plugins on this workstation
-   # Or keep the default minimal set and enable per-project instead
-   ```
-
-7. **Verify configuration:**
+6. **Verify configuration:**
    ```bash
    claude plugin list | grep "Scope: user"  # All plugins at user scope
    claude plugin list | grep "enabled"      # See which are enabled
    ls ~/.claude/templates/                  # Project templates
    ls ~/.claude/hookify.*.local.md          # Hookify rules
-   cat ~/.claude/settings.json              # User settings
    ```
-
-## Plugin Templates
-
-Pre-configured `.claude/settings.json` templates for common project types. Copy to your project directory to enable relevant plugins.
-
-### Kubernetes/Helm Projects
-
-**Template:** `~/.claude/templates/kubernetes-settings.json`
-
-**Enables:**
-- kubernetes-operations@claude-code-workflows
-- cloud-infrastructure@claude-code-workflows
-- yaml-kubernetes-validator (via devops-toolkit)
-- helm-chart-developer (via devops-toolkit)
-- shell-scripting@claude-code-workflows
-
-**Usage:**
-```bash
-cp ~/.claude/templates/kubernetes-settings.json /path/to/k8s-project/.claude/settings.json
-```
-
-### Go Development
-
-**Template:** `~/.claude/templates/go-settings.json`
-
-**Enables:**
-- systems-programming@claude-code-workflows (includes golang-pro)
-- gopls-lsp@claude-plugins-official
-- feature-dev@claude-plugins-official
-- pr-review-toolkit@claude-plugins-official
-- unit-testing@claude-code-workflows
-
-**Usage:**
-```bash
-cp ~/.claude/templates/go-settings.json /path/to/go-project/.claude/settings.json
-```
-
-### Shell Scripting
-
-**Template:** `~/.claude/templates/shell-settings.json`
-
-**Enables:**
-- shell-scripting@claude-code-workflows (posix-shell-pro, bash-pro)
-- shell-code-optimizer (via devops-toolkit)
-- debugging-toolkit@claude-code-workflows
-
-**Usage:**
-```bash
-cp ~/.claude/templates/shell-settings.json /path/to/shell-project/.claude/settings.json
-```
-
-### DevOps/Infrastructure
-
-**Template:** `~/.claude/templates/devops-settings.json`
-
-**Enables:**
-- cicd-automation@claude-code-workflows
-- cloud-infrastructure@claude-code-workflows
-- kubernetes-operations@claude-code-workflows
-- shell-scripting@claude-code-workflows
-- security-scanning@claude-code-workflows
-
-**Usage:**
-```bash
-cp ~/.claude/templates/devops-settings.json /path/to/devops-project/.claude/settings.json
-```
-
-### Creating Custom Templates
-
-1. Create a new project-specific `.claude/settings.json`
-2. Test the plugin combination
-3. Save as a template in `~/.claude/templates/`
-4. Document in this README
 
 ## Rationale
 
@@ -296,11 +187,9 @@ cp ~/.claude/templates/devops-settings.json /path/to/devops-project/.claude/sett
 - **Custom agents** - Now managed via devops-toolkit plugin repository (separate git repo)
 - **Hookify rules** - Enforce consistency across all machines
 - **Custom skills** - Domain-specific knowledge and automation (non-plugin skills)
-- **settings.json** - Stable policy config (deny rules, hooks, model, statusline)
 - **Plugin config** - Which plugins/marketplaces to use
 
 ### Why NOT Track These Files?
-- **settings.local.json** - Machine-specific, high-churn (permissions.allow, enabledPlugins, feedbackSurveyState). #1 source of yadm merge conflicts when tracked.
 - **Cache** - Regenerated automatically, wastes space
 - **installed_plugins.json** - Contains timestamps/paths that change frequently, regenerated on install
 - **Project history** - Machine-specific paths, privacy concerns

@@ -6,25 +6,15 @@ NEVER use `yadm status -u` or `yadm status -uall` -- it enumerates the entire ho
 
 ## yadm Tracking
 
-**Track (commit to yadm):** README.md, settings.json (stable policy only), plugins/config.json, custom agents/skills/hooks/hookify rules.
+**Track (commit to yadm):** README.md, plugins/config.json, custom agents/skills/hooks/hookify rules.
 
-**Never track:** plugins/cache/, plugins/marketplaces/, file-history/, projects/, debug/, settings.local.json (machine-specific overrides), plugins/installed_plugins.json, plugins/known_marketplaces.json.
+**Never track:** settings.json, settings.local.json, plugins/cache/, plugins/marketplaces/, file-history/, projects/, debug/, plugins/installed_plugins.json, plugins/known_marketplaces.json.
 
-## settings.json vs settings.local.json Split
+## settings.json
 
-**settings.json (tracked)** — stable cross-machine policy that rarely changes:
-- `$schema`, `env`, `includeCoAuthoredBy`
-- `permissions.deny`, `permissions.ask`, `permissions.defaultMode`
-- `model`, `enableAllProjectMcpServers`
-- `hooks`, `statusLine`
+All Claude settings live in `~/.claude/settings.json` (untracked). Do NOT split into settings.local.json — at project scope, settings.local.json shadows (fully replaces) the user-level file rather than merging, which breaks user-level permissions.allow, enabledPlugins, and hooks.
 
-**settings.local.json (NOT tracked)** — machine-specific, high-churn settings:
-- `permissions.allow` (grows every session as tools get approved)
-- `enabledPlugins` (toggled frequently, varies per workstation)
-- `outputStyle`, `spinnerTipsEnabled`, `effortLevel`
-- `feedbackSurveyState` (auto-updated timestamps)
-
-**Rule of thumb:** If a setting changes more than once a month or varies per machine, it belongs in settings.local.json. If it's a safety/policy setting that should be consistent everywhere, it belongs in settings.json.
+Use `settings.json` at both user and project scope.
 
 ## After Plugin/Config Changes
 
