@@ -4,6 +4,10 @@
 
 NEVER use `yadm status -u` or `yadm status -uall` -- it enumerates the entire home directory. Always use `yadm status` without the `-u` flag.
 
+## yadm Templates
+
+Template files use a `##os.Darwin` suffix for macOS-specific configs. `yadm alt` creates symlinks automatically (e.g., `.gitconfig.local##os.Darwin` → `.gitconfig.local`). Config directory: `~/.config/yadm/`.
+
 ## yadm Tracking
 
 **Track (commit to yadm):** README.md, plugins/config.json, custom agents/skills/hooks/hookify rules.

@@ -8,13 +8,10 @@ Every coding project todo list MUST end with:
 
 This does NOT apply to system maintenance tasks (yadm, dotfiles, package installs, file reorg).
 
+## Parallelism
+
+Use agents to run independent tasks in parallel wherever possible. When multiple research, analysis, or execution steps don't depend on each other's results, launch them concurrently using the Agent tool in a single message rather than sequentially.
+
 ## Worktree Policy (All Branch Work)
 
-CRITICAL: ALL branch creation for development work MUST use worktrees -- this includes the main session, not just subagents. See `~/.claude/rules/git-worktrees.md` for the full rule.
-
-- Subagents that modify code MUST use `isolation: "worktree"`
-- Main session creating a feature branch MUST use a worktree
-- Worktrees go in `<repo-root>/.worktrees/<branch-name>`
-- Add `.worktrees` to `.gitignore`
-- Use `superpowers:using-git-worktrees` skill for setup
-- NOT needed for: commits on current branch, read-only agents, system maintenance
+CRITICAL: ALL branch creation MUST use worktrees — main session and subagents alike. Subagents that modify code MUST use `isolation: "worktree"`. See `~/.claude/rules/git-worktrees.md` for setup and exceptions.
