@@ -8,80 +8,49 @@ marketplaces:
     repo: adamancini/devops-toolkit
   superpowers-marketplace:
     repo: obra/superpowers-marketplace
+  yamlscript:
+    repo: yaml/yamlscript
 plugins:
   - name: agent-orchestration@claude-code-workflows
-    enabled: false
   - name: cicd-automation@claude-code-workflows
-    enabled: false
   - name: cloud-infrastructure@claude-code-workflows
-    enabled: false
   - name: code-documentation@claude-code-workflows
-    enabled: false
   - name: code-refactoring@claude-code-workflows
-    enabled: false
   - name: codebase-cleanup@claude-code-workflows
-    enabled: false
   - name: context-management@claude-code-workflows
-    enabled: false
   - name: debugging-toolkit@claude-code-workflows
-    enabled: false
   - name: developer-essentials@claude-code-workflows
-    enabled: false
   - name: distributed-debugging@claude-code-workflows
-    enabled: false
   - name: documentation-generation@claude-code-workflows
-    enabled: false
   - name: error-debugging@claude-code-workflows
-    enabled: false
   - name: error-diagnostics@claude-code-workflows
-    enabled: false
   - name: full-stack-orchestration@claude-code-workflows
-    enabled: false
   - name: git-pr-workflows@claude-code-workflows
-    enabled: false
   - name: kubernetes-operations@claude-code-workflows
-    enabled: false
   - name: observability-monitoring@claude-code-workflows
-    enabled: false
   - name: security-compliance@claude-code-workflows
-    enabled: false
   - name: security-scanning@claude-code-workflows
-    enabled: false
   - name: shell-scripting@claude-code-workflows
-    enabled: false
   - name: systems-programming@claude-code-workflows
-    enabled: false
   - name: unit-testing@claude-code-workflows
-    enabled: false
   - name: Notion@claude-plugins-official
-    enabled: false
   - name: code-review@claude-plugins-official
-    enabled: false
   - name: commit-commands@claude-plugins-official
-    enabled: false
   - name: context7@claude-plugins-official
-    enabled: false
   - name: explanatory-output-style@claude-plugins-official
-    enabled: false
   - name: feature-dev@claude-plugins-official
-    enabled: false
   - name: frontend-design@claude-plugins-official
-    enabled: false
   - name: gopls-lsp@claude-plugins-official
-    enabled: false
   - name: hookify@claude-plugins-official
   - name: learning-output-style@claude-plugins-official
-    enabled: false
   - name: plugin-dev@claude-plugins-official
-    enabled: false
   - name: pr-review-toolkit@claude-plugins-official
-    enabled: false
   - name: security-guidance@claude-plugins-official
-    enabled: false
   - name: devops-toolkit@devops-toolkit
   - name: replicated-review@devops-toolkit
+  - name: double-shot-latte@superpowers-marketplace
   - name: elements-of-style@superpowers-marketplace
-    enabled: false
   - name: episodic-memory@superpowers-marketplace
   - name: superpowers-developing-for-claude-code@superpowers-marketplace
   - name: superpowers@superpowers-marketplace
+  - name: ys-skill@yamlscript
