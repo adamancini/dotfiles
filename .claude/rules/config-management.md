@@ -16,9 +16,21 @@ Template files use a `##os.Darwin` suffix for macOS-specific configs. `yadm alt`
 
 ## settings.json
 
-All Claude settings live in `~/.claude/settings.json` (untracked). Do NOT split into settings.local.json — at project scope, settings.local.json shadows (fully replaces) the user-level file rather than merging, which breaks user-level permissions.allow, enabledPlugins, and hooks.
+All Claude settings live in `~/.claude/settings.json` (untracked). NEVER use `settings.local.json` at any scope:
+- At project scope it shadows (fully replaces) the user-level `settings.json`, breaking `permissions.allow`, `enabledPlugins`, and hooks across all subdirectories
+- At user scope it creates split state that is hard to reason about and violates the flat-config convention
 
-Use `settings.json` at both user and project scope.
+Use `settings.json` only — at both user and project scope.
+
+## Plugin Sync Strategy
+
+Do NOT track plugin state in yadm. Previous attempts caused constant merge conflicts from cache churn and timestamp drift in `installed_plugins.json`.
+
+**What to track (yadm):** `plugins/config.json`, `plugins/known_marketplaces.json`, hookify rules, hooks, CLAUDE.md, rules/
+**What NOT to track:** `settings.json`, `settings.local.json`, `plugins/cache/`, `plugins/marketplaces/`, `plugins/installed_plugins.json`
+
+Plugins are re-installed on new machines via the bootstrap script (`~/.config/yadm/bootstrap.d/60-claude-plugins.sh`).
+Custom agents/skills live in plugin repos (e.g., `devops-toolkit`) managed as separate git repositories.
 
 ## After Plugin/Config Changes
 

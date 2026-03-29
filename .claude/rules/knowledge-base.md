@@ -5,6 +5,6 @@ Curated reference material for K8s, Helm, networking, and infrastructure topics 
 
 Consult BEFORE starting development or web research -- the answer may already exist.
 
-Quick lookups: `knowledge-reader` agent. Vault-wide operations: `obsidian-notes` agent.
+Quick lookups: `knowledge-reader` agent.
 
-Note: for support case notes and remediation patterns, see `~/claude-knowledge-base` (documented in `~/.claude/rules/support-cases.md`).
+For personal notes and the work knowledge graph, see `~/.claude/rules/notes-vaults.md`. Use `vlt` via Bash directly.

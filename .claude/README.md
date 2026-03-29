@@ -18,6 +18,8 @@ See the "Plugin Repositories" section below for the devops-toolkit repository lo
 
 ### Hookify Rules (Custom Validations)
 - **`.claude/hookify.block-claude-in-commits.local.md`** - Prevents "Claude" mentions in commits
+- **`.claude/hookify.block-direct-linear-mcp.local.md`** - Enforces Linear delegation to `linear-assistant` agent
+- **`.claude/hookify.block-direct-yadm.local.md`** - Enforces yadm delegation to `home-manager` agent (currently disabled)
 - **`.claude/hookify.require-mcp-security-validation.local.md`** - Enforces MCP security checks
 - **`.claude/hookify.validate-helm-templates.local.md`** - Validates Helm template syntax
 - **`.claude/hookify.validate-markdown.local.md`** - Lints markdown files
@@ -33,9 +35,9 @@ See the "Plugin Repositories" section below for the devops-toolkit repository lo
 ## NOT Tracked (Local-Only)
 
 ### Cache and Temporary Files
-- `.claude/plugins/cache/` - Downloaded plugin cache (regenerated from marketplaces)
-- `.claude/plugins/installed_plugins.json` - Plugin install registry (regenerated, has timestamps/paths)
-- `.claude/plugins/marketplaces/` - Marketplace repositories (cloned from remote)
+- `.claude/plugins/cache/` - Downloaded plugin cache (regenerated from marketplaces; tracking causes merge conflicts)
+- `.claude/plugins/installed_plugins.json` - Plugin install registry (regenerated; has timestamps/paths that churn across workstations)
+- `.claude/plugins/marketplaces/` - Marketplace repositories (cloned from remote; tracking causes merge conflicts)
 - `.claude/file-history/` - File edit history (session-specific)
 - `.claude/debug/` - Debug logs (temporary)
 - `.claude/ide/*.lock` - IDE lock files (process-specific)
@@ -79,7 +81,8 @@ claude plugin install /path/to/devops-toolkit
 
 **Known Pitfalls:**
 - **NEVER install plugins at local scope** — they won't be visible from other directories. Always use `--scope user`.
-- **NEVER create project-level `.claude/settings.local.json`** — it shadows (replaces, not merges) the user-level `settings.json`. Use `settings.json` at both user and project scope.
+- **NEVER use `settings.local.json` at any scope** — at project scope it shadows (fully replaces) the user-level `settings.json`, breaking `enabledPlugins`, `permissions.allow`, and hooks in all subdirectories. Use `settings.json` only.
+- **NEVER track plugin state in yadm** — `installed_plugins.json`, `plugins/cache/`, and `plugins/marketplaces/` cause constant merge conflicts from cache churn. Use the bootstrap script to reinstall on new machines.
 
 ### Installed Marketplaces
 - **superpowers-marketplace** (obra/superpowers-marketplace)
