@@ -1,0 +1,63 @@
+{
+  "superpowers-marketplace": {
+    "source": {
+      "source": "github",
+      "repo": "obra/superpowers-marketplace"
+    },
+    "installLocation": "/Users/ada/.claude/plugins/marketplaces/superpowers-marketplace",
+    "lastUpdated": "2026-03-29T09:49:24.191Z",
+    "autoUpdate": true
+  },
+  "claude-plugins-official": {
+    "source": {
+      "source": "github",
+      "repo": "anthropics/claude-plugins-official"
+    },
+    "installLocation": "/Users/ada/.claude/plugins/marketplaces/claude-plugins-official",
+    "lastUpdated": "2026-03-29T06:23:37.552Z"
+  },
+  "claude-code-workflows": {
+    "source": {
+      "source": "github",
+      "repo": "wshobson/agents"
+    },
+    "installLocation": "/Users/ada/.claude/plugins/marketplaces/claude-code-workflows",
+    "lastUpdated": "2026-03-29T09:49:16.607Z",
+    "autoUpdate": true
+  },
+  "devops-toolkit": {
+    "source": {
+      "source": "github",
+      "repo": "adamancini/devops-toolkit"
+    },
+    "installLocation": "/Users/ada/.claude/plugins/marketplaces/devops-toolkit",
+    "lastUpdated": "2026-03-29T09:53:36.976Z",
+    "autoUpdate": true
+  },
+  "yamlscript": {
+    "source": {
+      "source": "github",
+      "repo": "yaml/yamlscript"
+    },
+    "installLocation": "/Users/ada/.claude/plugins/marketplaces/yamlscript",
+    "lastUpdated": "2026-03-29T09:49:20.853Z",
+    "autoUpdate": true
+  },
+  "paivot-graph": {
+    "source": {
+      "source": "github",
+      "repo": "adamancini/paivot-graph"
+    },
+    "installLocation": "/Users/ada/.claude/plugins/marketplaces/paivot-graph",
+    "lastUpdated": "2026-03-29T10:06:44.524Z",
+    "autoUpdate": true
+  },
+  "nd": {
+    "source": {
+      "source": "directory",
+      "path": "/Users/ada/.claude/plugins/repos/nd/nd-skill"
+    },
+    "installLocation": "/Users/ada/.claude/plugins/repos/nd/nd-skill",
+    "lastUpdated": "2026-03-22T02:11:35.126Z"
+  }
+}
