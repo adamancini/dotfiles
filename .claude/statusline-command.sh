@@ -5,8 +5,55 @@
 
 set -euo pipefail
 
+# Shorten a path fish-style: abbreviate intermediate components to first character.
+# Only applied when the full path exceeds the threshold (default 35 chars).
+# Usage: shorten_path <path> [threshold]
+shorten_path() {
+    local path="$1"
+    local threshold="${2:-35}"
+
+    # Nothing to do if the path is already short enough.
+    if (( ${#path} <= threshold )); then
+        echo "$path"
+        return
+    fi
+
+    # Split on "/" into an array.
+    local IFS='/'
+    read -ra parts <<< "$path"
+
+    # parts[0] is either "" (absolute path, leading /) or "~" (home-relative).
+    # We need at least 3 elements (anchor + one intermediate + last) to abbreviate.
+    local n=${#parts[@]}
+    if (( n <= 2 )); then
+        echo "$path"
+        return
+    fi
+
+    local result=""
+    local i
+    for (( i = 0; i < n; i++ )); do
+        local seg="${parts[$i]}"
+        if (( i == 0 )); then
+            # Leading anchor: empty string (for "/foo") or "~"
+            result="$seg"
+        elif (( i == n - 1 )); then
+            # Always keep the last component full.
+            result="${result}/${seg}"
+        else
+            # Intermediate: abbreviate to first character (skip empty segments).
+            if [[ -n "$seg" ]]; then
+                result="${result}/${seg:0:1}"
+            fi
+        fi
+    done
+
+    echo "$result"
+}
+
 # Get current working directory (abbreviated for home)
 CWD="${PWD/#$HOME/~}"
+CWD=$(shorten_path "$CWD" 35)
 
 # --- Git Information ---
 GIT_INFO=""
@@ -20,7 +67,7 @@ if git rev-parse --is-inside-work-tree &>/dev/null; then
     # When in a worktree, git-dir path contains /worktrees/ rather than ending in .git
     GIT_DIR=$(git rev-parse --git-dir 2>/dev/null || echo "")
     WORKTREE_PREFIX=""
-    if [[ "$GIT_DIR" == *"/worktrees/"* ]]; then
+    if [[ "$GIT_DIR" == *"/worktrees/"* ]] || [[ "$PWD" == *"/.worktrees/"* ]]; then
         WORKTREE_PREFIX="⑂"
     fi
 
@@ -66,20 +113,20 @@ if git rev-parse --is-inside-work-tree &>/dev/null; then
         GIT_INFO=" | ${WORKTREE_PREFIX}${BRANCH}${STATUS}"
     fi
 
-    # List active worktrees OTHER than the current one.
+    # Count active worktrees OTHER than the current one.
     # Works whether the session is at the repo root (shows all worktrees) or
     # inside a specific worktree (shows the others).
     CURRENT_WT=$(git rev-parse --show-toplevel 2>/dev/null || echo "")
-    ACTIVE_WTS=$(git worktree list 2>/dev/null \
+    WT_COUNT=$(git worktree list 2>/dev/null \
         | awk -v cur="$CURRENT_WT" '$1 != cur { print $3 }' \
         | tr -d '[]' \
         | grep -v '^$' \
         | grep -v '^(bare)$' \
-        | tr '\n' ',' \
-        | sed 's/,$//' \
-        || echo "")
-    if [ -n "$ACTIVE_WTS" ]; then
-        WORKTREE_INFO=" | wt:${ACTIVE_WTS}"
+        | wc -l \
+        | tr -d ' ' \
+        || echo "0")
+    if [ "${WT_COUNT}" -gt 0 ] 2>/dev/null; then
+        WORKTREE_INFO=" | wt:${WT_COUNT}"
     fi
 fi
 
