@@ -6,6 +6,12 @@ marketplaces:
     repo: anthropics/claude-plugins-official
   devops-toolkit:
     repo: adamancini/devops-toolkit
+  nd:
+    path: /Users/ada/src/github.com/paivot-ai/nd/.worktrees/feat/nd-watch-flag/nd-skill
+  paivot-graph:
+    path: /Users/ada/src/github.com/paivot-ai/paivot-graph
+  replicated-plugins:
+    repo: git@github.com:replicatedhq/replicated-claude-marketplace
   superpowers-marketplace:
     repo: obra/superpowers-marketplace
   yamlscript:
@@ -33,10 +39,9 @@ plugins:
   - name: shell-scripting@claude-code-workflows
   - name: systems-programming@claude-code-workflows
   - name: unit-testing@claude-code-workflows
-  - name: Notion@claude-plugins-official
+  - name: agent-sdk-dev@claude-plugins-official
   - name: code-review@claude-plugins-official
   - name: commit-commands@claude-plugins-official
-  - name: context7@claude-plugins-official
   - name: explanatory-output-style@claude-plugins-official
   - name: feature-dev@claude-plugins-official
   - name: frontend-design@claude-plugins-official
@@ -47,7 +52,15 @@ plugins:
   - name: pr-review-toolkit@claude-plugins-official
   - name: security-guidance@claude-plugins-official
   - name: devops-toolkit@devops-toolkit
-  - name: replicated-review@devops-toolkit
+  - name: nd@nd
+  - name: paivot-graph@paivot-graph
+  - name: ce@replicated-plugins
+  - name: gtm@replicated-plugins
+    enabled: false
+  - name: launch@replicated-plugins
+  - name: shortcut@replicated-plugins
+  - name: support@replicated-plugins
+  - name: wiki@replicated-plugins
   - name: double-shot-latte@superpowers-marketplace
   - name: elements-of-style@superpowers-marketplace
   - name: episodic-memory@superpowers-marketplace
