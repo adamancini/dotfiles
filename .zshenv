@@ -27,5 +27,9 @@ typeset -aU path
 path+=$HOME/bin
 path+=$GOPATH/bin
 
+
 # Load OS-specific environment settings if available
 [[ -f ~/.zshenv.local ]] && source ~/.zshenv.local
+
+# Load tool-specific PATH additions needed for non-interactive SSH
+[[ -f ${ZDOTDIR:-~}/conf.d/claude.zsh ]] && source ${ZDOTDIR:-~}/conf.d/claude.zsh

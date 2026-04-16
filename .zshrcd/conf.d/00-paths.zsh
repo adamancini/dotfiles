@@ -6,8 +6,5 @@
 export BUN_INSTALL="$HOME/.bun"
 path+="$BUN_INSTALL/bin"
 
-# Claude Code CLI
-path+="$HOME/.local/bin"
-
 # Krew (kubectl plugin manager)
 path+="$HOME/.krew/bin"
