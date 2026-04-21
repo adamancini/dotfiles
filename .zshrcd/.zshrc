@@ -35,8 +35,15 @@ if [[ -d $ZDOTDIR/conf.d ]]; then
 fi
 
 # turn on completions (after conf.d so fpath additions are picked up)
+# skip security check + dump rebuild when the cache is <20h old
 autoload -Uz compinit
-compinit -u
+_zcompdump=$ZDOTDIR/.zcompdump
+if [[ -n $_zcompdump(#qN.mh-20) ]]; then
+  compinit -C -d $_zcompdump
+else
+  compinit -u -d $_zcompdump
+fi
+unset _zcompdump
 _comp_options+=(globdots) # With hidden files
 
 # load deferred completions (defined in conf.d, run after compinit)
