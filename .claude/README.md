@@ -15,15 +15,15 @@ See the "Plugin Repositories" section below for the devops-toolkit repository lo
 
 ### Hooks
 - **`.claude/hooks/user-prompt-submit-mcp-reminder.py`** - Reminds about MCP security validation
+- **`.claude/hooks/cbm-code-discovery-gate`** - First Grep/Glob/Read per session nudges toward codebase-memory-mcp
+- **`.claude/hooks/block-cd-git-compound.py`** - PreToolUse hook that blocks `cd <path> && git ...` (use `git -C <path>` instead)
+- **`.claude/hooks/track-worktree.sh`** - Worktree tracking helper
 
-### Hookify Rules (Custom Validations)
-- **`.claude/hookify.block-claude-in-commits.local.md`** - Prevents "Claude" mentions in commits
-- **`.claude/hookify.block-direct-linear-mcp.local.md`** - Enforces Linear delegation to `linear-assistant` agent
-- **`.claude/hookify.block-direct-yadm.local.md`** - Enforces yadm delegation to `home-manager` agent (currently disabled)
-- **`.claude/hookify.require-mcp-security-validation.local.md`** - Enforces MCP security checks
-- **`.claude/hookify.validate-helm-templates.local.md`** - Validates Helm template syntax
-- **`.claude/hookify.validate-markdown.local.md`** - Lints markdown files
-- **`.claude/hookify.validate-yaml-indentation.local.md`** - Checks YAML indentation
+Hooks are wired in `~/.claude/settings.json` under `hooks.PreToolUse` (and other event arrays). Add new enforcement there, not via the `hookify` plugin — see note below.
+
+### Hookify Rules — NOT USED at user scope
+
+The `hookify` plugin loads rules from `.claude/hookify.*.local.md` **relative to the hook's CWD**, which is the project root when Claude Code runs. User-level rules at `~/.claude/hookify.*.local.md` therefore only fire when CWD happens to be `~`, which is almost never. All previously-tracked user-level hookify rules have been removed. Use native Claude Code hooks in `~/.claude/settings.json` for global enforcement; reserve hookify for per-project rules placed at `<project>/.claude/hookify.*.local.md`.
 
 ### Plugin Configuration
 - **`.claude/plugins/config.json`** - Plugin system configuration
@@ -181,14 +181,15 @@ When setting up a new machine with yadm:
    claude plugin list | grep "Scope: user"  # All plugins at user scope
    claude plugin list | grep "enabled"      # See which are enabled
    ls ~/.claude/templates/                  # Project templates
-   ls ~/.claude/hookify.*.local.md          # Hookify rules
+   ls ~/.claude/hooks/                      # Custom Claude Code hooks
+   jq '.hooks | keys' ~/.claude/settings.json  # Wired hook events
    ```
 
 ## Rationale
 
 ### Why Track These Files?
 - **Custom agents** - Now managed via devops-toolkit plugin repository (separate git repo)
-- **Hookify rules** - Enforce consistency across all machines
+- **Hooks** - `.claude/hooks/` scripts and wiring in `settings.json` enforce consistency across all machines
 - **Custom skills** - Domain-specific knowledge and automation (non-plugin skills)
 - **Plugin config** - Which plugins/marketplaces to use
 
@@ -225,7 +226,7 @@ yadm ls-files | grep "^\.claude"
 
 1. **Custom agents** - Manage via plugin repositories (like devops-toolkit) for better organization and git sync
 2. **Custom skills** - Track standalone skills in `.claude/skills/`, or add to plugin repos for shared workflows
-3. **Hookify rules** - Track to maintain consistency across machines
+3. **Hooks** - Track `.claude/hooks/` scripts and `.claude/settings.json` hook wiring to maintain consistency across machines. Avoid user-level hookify rules — they don't fire (see Hookify section above).
 4. **Plugin repos** - Manage as separate git repositories (agents and skills live here)
 5. **Marketplaces** - Don't track (they're cloned from upstream)
 6. **Cache** - Never track (regenerated automatically)

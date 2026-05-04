@@ -10,7 +10,7 @@ Template files use a `##os.Darwin` suffix for macOS-specific configs. `yadm alt`
 
 ## yadm Tracking
 
-**Track (commit to yadm):** README.md, plugins/config.json, custom agents/skills/hooks/hookify rules.
+**Track (commit to yadm):** README.md, plugins/config.json, custom agents/skills/hooks. (Hookify rules at user scope do NOT fire — hookify globs relative to CWD; use settings.json hooks for global enforcement.)
 
 **Never track:** settings.json, settings.local.json, plugins/cache/, plugins/marketplaces/, file-history/, projects/, debug/, plugins/installed_plugins.json, plugins/known_marketplaces.json.
 
@@ -26,7 +26,7 @@ Use `settings.json` only — at both user and project scope.
 
 Do NOT track plugin state in yadm. Previous attempts caused constant merge conflicts from cache churn and timestamp drift in `installed_plugins.json`.
 
-**What to track (yadm):** `plugins/config.json`, `plugins/known_marketplaces.json`, hookify rules, hooks, CLAUDE.md, rules/
+**What to track (yadm):** `plugins/config.json`, `plugins/known_marketplaces.json`, hooks, CLAUDE.md, rules/
 **What NOT to track:** `settings.json`, `settings.local.json`, `plugins/cache/`, `plugins/marketplaces/`, `plugins/installed_plugins.json`
 
 Plugins are re-installed on new machines via the bootstrap script (`~/.config/yadm/bootstrap.d/60-claude-plugins.sh`).
@@ -44,5 +44,5 @@ Remote: `git@github.com:adamancini/devops-toolkit.git`
 
 MANDATORY sync after modifying agents/skills or during updates:
 ```bash
-cd ~/.claude/plugins/repos/devops-toolkit && git fetch origin && git pull --rebase origin main && git push origin main
+git -C ~/.claude/plugins/repos/devops-toolkit fetch origin && git -C ~/.claude/plugins/repos/devops-toolkit pull --rebase origin main && git -C ~/.claude/plugins/repos/devops-toolkit push origin main
 ```
