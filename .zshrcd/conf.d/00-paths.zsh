@@ -8,3 +8,6 @@ path+="$BUN_INSTALL/bin"
 
 # Krew (kubectl plugin manager)
 path+="$HOME/.krew/bin"
+
+# Claude Code (native installer drops binary at ~/.local/bin/claude)
+path+="$HOME/.local/bin"
