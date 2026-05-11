@@ -2,6 +2,10 @@
 #General configuration starts: stuff that you always want executed
 
 export PATH=~/bin:$PATH
+
+# Paivot-ai OpenCode plugin configuration
+export CLAUDE_PLUGIN_ROOT="$HOME/src/github.com/paivot-ai/opencode-paivot"
+export PVG_PATH="opencode-pvg"
 #export DRONE_SERVER='http://git.jbanetwork.com:8080'
 #export DRONE_TOKEN='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZXh0IjoiYWRhbWFuY2luaSIsInR5cGUiOiJ1c2VyIn0.aLKFZlOAOmJR5vh1_CKk9P1iuDCYC-6Pc9jJAXkxLO4'
 #export ANSIBLE_INVENTORY=/etc/ansible/puppetdb-inventory.sh

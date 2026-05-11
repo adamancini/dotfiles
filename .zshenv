@@ -4,7 +4,7 @@
 export XDG_CONFIG_HOME="$HOME/.config"
 
 # zsh
-export ZDOTDIR=$HOME/.zshrcd
+export ZDOTDIR=$HOME/.zshrc.d
 export ZCONFDIR=$ZDOTDIR/conf.d
 export HISTFILE="$ZDOTDIR/.zhistory"    # History filepath
 export HISTSIZE=100000                   # Maximum events for internal history
@@ -24,7 +24,7 @@ export GOBIN=$HOME/go/bin
 
 
 # path
-typeset -aU path
+typeset -aU path fpath
 path+=$HOME/bin
 path+=$GOPATH/bin
 
