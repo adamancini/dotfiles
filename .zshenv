@@ -11,8 +11,9 @@ export HISTSIZE=100000                   # Maximum events for internal history
 export SAVEHIST=100000                   # Maximum events in history file
 
 
-# Ensure that a non-login, non-interactive shell has a defined environment.
-if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s ${ZDOTDIR:-~}/.zprofile ]]; then
+# Ensure that a non-login shell has a defined environment (any SHLVL).
+if [[ ! -o LOGIN && -s ${ZDOTDIR:-~}/.zprofile && -z "$ZPROFILE_SOURCED" ]]; then
+  export ZPROFILE_SOURCED=1
   source ${ZDOTDIR:-~}/.zprofile
 fi
 

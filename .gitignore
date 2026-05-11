@@ -1,0 +1,12 @@
+
+# Paivot runtime state (managed by pvg)
+.vault/issues/
+
+# Local shell overrides (never tracked — secrets, tokens, machine-specific paths)
+.zshenv.local
+.vault/.nd.yaml
+.vault/.piv-loop-state.json
+.vault/.piv-loop-snapshot.json
+.vault/.dispatcher-state.json
+.vault/.vlt.lock
+.vault/.guard/
