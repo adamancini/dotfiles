@@ -32,5 +32,14 @@ path+=$GOPATH/bin
 # Load OS-specific environment settings if available
 [[ -f ~/.zshenv.local ]] && source ~/.zshenv.local
 
-# Load tool-specific PATH additions needed for non-interactive SSH
-[[ -f ${ZDOTDIR:-~}/conf.d/claude.zsh ]] && source ${ZDOTDIR:-~}/conf.d/claude.zsh
+# Load aliases for both interactive and non-interactive shells
+[[ -f $ZCONFDIR/aliases.zsh ]] && source $ZCONFDIR/aliases.zsh
+
+# Load conf.d modules for non-interactive shells
+# (interactive shells load them from .zshrc)
+if [[ ! -o interactive && -z "$CONFD_ENV_SOURCED" ]]; then
+  export CONFD_ENV_SOURCED=1
+  for file in $ZCONFDIR/*.zsh(N); do
+    [[ -f $file ]] && source "$file"
+  done
+fi
