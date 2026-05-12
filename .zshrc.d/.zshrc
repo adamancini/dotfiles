@@ -94,3 +94,6 @@ bindkey '^D' _ctrl_d_handler
 
 # p10k theme config
 [[ ! -f ${ZDOTDIR}/.p10k.zsh ]] || source ${ZDOTDIR}/.p10k.zsh
+
+# bun completions
+[ -s "/Users/ada/.bun/_bun" ] && source "/Users/ada/.bun/_bun"
