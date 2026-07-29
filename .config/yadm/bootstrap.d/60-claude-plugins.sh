@@ -21,6 +21,8 @@ success() { echo "${GREEN}[✓]${RESET} $*"; }
 # Configuration
 CLAUDE_APP="/Applications/Claude.app"
 DEVOPS_TOOLKIT_REPO="https://github.com/adamancini/devops-toolkit.git"
+DEVOPS_TOOLKIT_MARKETPLACE_SOURCE="adamancini/devops-toolkit"
+DEVOPS_TOOLKIT_MARKETPLACE_NAME="devops-toolkit"
 
 check_claude_installed() {
     if [[ -d "$CLAUDE_APP" ]]; then
@@ -52,6 +54,34 @@ install_claude_cli() {
         error "Claude Code installer failed"
         return 1
     fi
+}
+
+register_marketplaces() {
+    info "Registering plugin marketplaces..."
+
+    # `marketplace update` only refreshes marketplaces already registered --
+    # on a fresh machine none are, so plugin installs below would otherwise
+    # fail with "not found in any configured marketplace". Add each one
+    # explicitly first; `marketplace add` is idempotent if already present.
+    local marketplaces=(
+        "anthropics/claude-plugins-official"
+        "obra/superpowers-marketplace"
+        "wshobson/agents"
+        "yaml/yamlscript"
+        "$DEVOPS_TOOLKIT_MARKETPLACE_SOURCE"
+    )
+
+    local failed=0
+    for mp in "${marketplaces[@]}"; do
+        if claude plugin marketplace add "$mp" 2>&1; then
+            success "$mp registered"
+        else
+            warn "Failed to register marketplace: $mp"
+            failed=1
+        fi
+    done
+
+    return $failed
 }
 
 update_marketplaces() {
@@ -130,13 +160,15 @@ install_devops_toolkit() {
         return 1
     fi
 
-    # Install as a plugin at user scope
+    # Install via the marketplace (registered in register_marketplaces), not
+    # the local cloned path -- `claude plugin install <local-path>` doesn't
+    # resolve against a configured marketplace and fails.
     info "Installing devops-toolkit plugin at user scope..."
-    if claude plugin install "$toolkit_dir" --scope user 2>&1; then
+    if claude plugin install "$DEVOPS_TOOLKIT_MARKETPLACE_NAME@$DEVOPS_TOOLKIT_MARKETPLACE_NAME" --scope user 2>&1; then
         success "devops-toolkit plugin installed (user scope)"
     else
         warn "devops-toolkit plugin install failed"
-        info "  Try manually: claude plugin install $toolkit_dir --scope user"
+        info "  Try manually: claude plugin install $DEVOPS_TOOLKIT_MARKETPLACE_NAME@$DEVOPS_TOOLKIT_MARKETPLACE_NAME --scope user"
     fi
 }
 
@@ -197,7 +229,12 @@ main() {
     fi
     echo ""
 
-    # Step 3: Update marketplaces
+    # Step 3: Register and update marketplaces
+    if ! register_marketplaces; then
+        warn "One or more marketplaces failed to register, continuing anyway..."
+    fi
+    echo ""
+
     if ! update_marketplaces; then
         warn "Marketplace update failed, continuing anyway..."
     fi
