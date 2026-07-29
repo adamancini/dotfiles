@@ -80,7 +80,7 @@ unset _zcompdump
 _comp_options+=(globdots)
 
 # deferred completions
-(( $+functions[_kubecm_setup_completion] )) && _kubecm_setup_completion && unfunction _kubecm_setup_completion
+(( $+functions[_kubecm_setup_completion] )) && _kubecm_setup_completion && unfunction _kubecm_setup_completion || true
 
 [[ -t 0 ]] && stty -ixon
 bindkey -e
@@ -100,3 +100,8 @@ bindkey '^D' _ctrl_d_handler
 
 # bun completions
 [ -s "/Users/ada/.bun/_bun" ] && source "/Users/ada/.bun/_bun"
+# This is the last statement in .zshrc -- without a trailing `true`, a
+# missing/unset-up bun leaves the `[ -s ... ]` test's nonzero exit as $?,
+# which shows up as a spurious "exit code 1" on the first prompt of every
+# new shell.
+true
