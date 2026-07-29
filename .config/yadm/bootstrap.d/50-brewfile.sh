@@ -58,11 +58,17 @@ verify_brewfile() {
 trust_taps() {
     info "Trusting third-party taps..."
 
-    # Homebrew refuses to load formulae/casks from these taps without an
-    # explicit trust: amar1729/formulae (browserpass), nikitabobko/tap (aerospace).
+    # Homebrew refuses to load formulae/casks from a tap without an explicit
+    # trust. Every third-party tap referenced by a specific tap/formula (or
+    # tap/cask) entry in the Brewfile needs this, or `brew bundle install`
+    # aborts entirely the first time it reaches one that isn't trusted.
     local taps=(
-        "amar1729/formulae"
-        "nikitabobko/tap"
+        "amar1729/formulae"   # browserpass
+        "nikitabobko/tap"     # aerospace
+        "fluxcd/tap"          # flux
+        "k0sproject/tap"      # k0sctl
+        "norwoodj/tap"        # helm-docs
+        "weaveworks/tap"      # gitops
     )
 
     for tap in "${taps[@]}"; do
