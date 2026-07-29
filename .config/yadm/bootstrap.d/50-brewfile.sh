@@ -58,13 +58,20 @@ verify_brewfile() {
 trust_taps() {
     info "Trusting third-party taps..."
 
-    # amar1729/formulae is a personal tap (provides browserpass); Homebrew
-    # refuses to load formulae from untrusted taps without this.
-    if brew tap amar1729/formulae && brew trust --tap amar1729/formulae; then
-        success "amar1729/formulae trusted"
-    else
-        warn "Failed to trust amar1729/formulae -- browserpass install will fail"
-    fi
+    # Homebrew refuses to load formulae/casks from these taps without an
+    # explicit trust: amar1729/formulae (browserpass), nikitabobko/tap (aerospace).
+    local taps=(
+        "amar1729/formulae"
+        "nikitabobko/tap"
+    )
+
+    for tap in "${taps[@]}"; do
+        if brew tap "$tap" && brew trust --tap "$tap"; then
+            success "$tap trusted"
+        else
+            warn "Failed to trust $tap -- its formulae/casks will fail to install"
+        fi
+    done
 }
 
 install_from_brewfile() {
