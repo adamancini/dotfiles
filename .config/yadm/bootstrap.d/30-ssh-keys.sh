@@ -66,6 +66,8 @@ import_existing_key() {
     info "Import existing SSH key"
     echo ""
     read -p "Enter path to private key file: " -r key_path
+    # `read` doesn't expand a leading ~ the way the shell would
+    key_path="${key_path/#\~/$HOME}"
 
     if [[ ! -f "$key_path" ]]; then
         error "File not found: $key_path"

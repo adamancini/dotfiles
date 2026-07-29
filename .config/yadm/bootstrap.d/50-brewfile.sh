@@ -80,7 +80,7 @@ install_from_brewfile() {
     echo ""
 
     # Run brew bundle
-    if brew bundle --file="$BREWFILE" --no-lock; then
+    if brew bundle install --file="$BREWFILE"; then
         success "Brewfile installation completed"
         return 0
     else

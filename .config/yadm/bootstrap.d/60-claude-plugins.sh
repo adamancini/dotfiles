@@ -167,23 +167,19 @@ main() {
     info "Claude Code plugins setup..."
     echo ""
 
-    # Step 1: Check if Claude Code is installed
-    if ! check_claude_installed; then
-        warn "Claude Code app not installed"
+    # Step 1: Check if Claude Code is installed, via the desktop app or the
+    # standalone CLI (native installer / npm) -- either is sufficient.
+    check_claude_installed || true
+    echo ""
+
+    if ! check_claude_cli; then
+        warn "Neither Claude Code app nor CLI found"
         warn "Skipping plugin installation"
         info ""
         info "To install Claude Code:"
         info "  1. Visit: https://claude.ai/download"
         info "  2. Download and install Claude Code"
         info "  3. Re-run: ~/.config/yadm/bootstrap.d/60-claude-plugins.sh"
-        return 0  # Don't fail the phase
-    fi
-    echo ""
-
-    # Step 2: Check Claude CLI
-    if ! check_claude_cli; then
-        warn "Claude CLI not available"
-        info "You may need to launch Claude Code first"
         return 0  # Don't fail the phase
     fi
     echo ""
