@@ -143,21 +143,20 @@ install_devops_toolkit() {
         else
             warn "devops-toolkit update failed"
         fi
-        return 0
-    fi
-
-    # Clone the repository
-    mkdir -p "$HOME/.claude/plugins/repos"
-
-    info "Cloning devops-toolkit from $DEVOPS_TOOLKIT_REPO..."
-    if git clone "$DEVOPS_TOOLKIT_REPO" "$toolkit_dir"; then
-        success "devops-toolkit cloned"
     else
-        warn "Failed to clone devops-toolkit"
-        warn "You can clone it manually later:"
-        info "  cd ~/.claude/plugins/repos"
-        info "  git clone $DEVOPS_TOOLKIT_REPO"
-        return 1
+        # Clone the repository
+        mkdir -p "$HOME/.claude/plugins/repos"
+
+        info "Cloning devops-toolkit from $DEVOPS_TOOLKIT_REPO..."
+        if git clone "$DEVOPS_TOOLKIT_REPO" "$toolkit_dir"; then
+            success "devops-toolkit cloned"
+        else
+            warn "Failed to clone devops-toolkit"
+            warn "You can clone it manually later:"
+            info "  cd ~/.claude/plugins/repos"
+            info "  git clone $DEVOPS_TOOLKIT_REPO"
+            return 1
+        fi
     fi
 
     # Install via the marketplace (registered in register_marketplaces), not
