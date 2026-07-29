@@ -55,6 +55,18 @@ verify_brewfile() {
     return 0
 }
 
+trust_taps() {
+    info "Trusting third-party taps..."
+
+    # amar1729/formulae is a personal tap (provides browserpass); Homebrew
+    # refuses to load formulae from untrusted taps without this.
+    if brew tap amar1729/formulae && brew trust --tap amar1729/formulae; then
+        success "amar1729/formulae trusted"
+    else
+        warn "Failed to trust amar1729/formulae -- browserpass install will fail"
+    fi
+}
+
 install_from_brewfile() {
     info "Installing from Brewfile..."
     info "This may take a while (10-30 minutes)..."
@@ -148,17 +160,21 @@ main() {
     display_brewfile_errors
     echo ""
 
-    # Step 4: Install from Brewfile
+    # Step 4: Trust third-party taps
+    trust_taps
+    echo ""
+
+    # Step 5: Install from Brewfile
     if ! install_from_brewfile; then
         warn "Installation had issues, but continuing..."
     fi
     echo ""
 
-    # Step 5: Cleanup
+    # Step 6: Cleanup
     cleanup_homebrew
     echo ""
 
-    # Step 6: Verify critical packages
+    # Step 7: Verify critical packages
     verify_critical_packages
     echo ""
 
