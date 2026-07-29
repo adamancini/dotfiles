@@ -96,19 +96,25 @@ main() {
     # Step 5: Verify key config files exist
     info "Verifying configuration files..."
 
+    # (label, path) pairs -- labeled explicitly rather than derived with
+    # basename, since $HOME/.zshrc and $HOME/.zshrc.d/.zshrc both end in
+    # ".zshrc" and would otherwise print identical, contradictory-looking
+    # success/warning lines for two different files.
     local key_files=(
-        "$HOME/.zshrc"
-        "$HOME/.zshenv"
-        "$HOME/.zshrc.d/.zshrc"
-        "$HOME/.gitconfig"
-        "$HOME/.tmux.conf"
+        "legacy ~/.zshrc (expected absent under ZDOTDIR)|$HOME/.zshrc"
+        ".zshenv|$HOME/.zshenv"
+        "ZDOTDIR .zshrc|$HOME/.zshrc.d/.zshrc"
+        ".gitconfig|$HOME/.gitconfig"
+        ".tmux.conf|$HOME/.tmux.conf"
     )
 
-    for file in "${key_files[@]}"; do
+    for entry in "${key_files[@]}"; do
+        local label="${entry%%|*}"
+        local file="${entry#*|}"
         if [[ -f "$file" ]]; then
-            success "$(basename "$file") exists"
+            success "$label exists: $file"
         else
-            warn "$(basename "$file") not found: $file"
+            warn "$label not found: $file"
         fi
     done
     echo ""

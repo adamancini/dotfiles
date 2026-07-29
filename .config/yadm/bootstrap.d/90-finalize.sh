@@ -99,8 +99,10 @@ verify_configurations() {
 
     # Shell configuration
     info "Shell Configuration:"
+    # .zshrc lives under ZDOTDIR ($HOME/.zshrc.d/.zshrc), not the legacy
+    # bare $HOME/.zshrc, which is expected to be absent.
     [[ -d ~/.zshrc.d ]] && success "Zsh config directory exists" || warn "Zsh config directory missing"
-    [[ -f ~/.zshrc ]] && success ".zshrc exists" || warn ".zshrc missing"
+    [[ -f ~/.zshrc.d/.zshrc ]] && success ".zshrc exists" || warn ".zshrc missing"
     [[ -f ~/.zshenv ]] && success ".zshenv exists" || warn ".zshenv missing"
     echo ""
 
@@ -216,7 +218,7 @@ generate_report() {
         echo "─────────────────────────────────────────────────────────────────"
         echo ""
 
-        [[ -f ~/.zshrc ]] && echo "✓ Shell configuration" || echo "✗ Shell configuration"
+        [[ -f ~/.zshrc.d/.zshrc ]] && echo "✓ Shell configuration" || echo "✗ Shell configuration"
         [[ -f ~/.gitconfig ]] && echo "✓ Git configuration" || echo "✗ Git configuration"
         [[ -f ~/.ssh/id_moira ]] && echo "✓ SSH keys" || echo "✗ SSH keys"
         gpg --list-secret-keys adab3ta@gmail.com &>/dev/null && echo "✓ GPG key" || echo "✗ GPG key"
