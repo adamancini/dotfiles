@@ -31,14 +31,18 @@ run_health_checks() {
     local checks_failed=0
     local checks_total=0
 
-    # Health check function
+    # Health check function. Not every CLI supports a plain `--version`
+    # (kubectl and helm dropped it, ssh never had it, aerospace's --version
+    # also probes for a running server and prints a network error first) --
+    # pass an explicit version_cmd to override the default for those.
     check_command() {
         local cmd="$1"
         local name="${2:-$1}"
+        local version_cmd="${3:-$cmd --version}"
         checks_total=$((checks_total + 1))
 
         if command -v "$cmd" &>/dev/null; then
-            local version=$("$cmd" --version 2>&1 | head -1 | cut -c1-60)
+            local version=$(bash -c "$version_cmd" 2>&1 | head -1 | cut -c1-60)
             success "$name: $version"
             checks_passed=$((checks_passed + 1))
             return 0
@@ -60,20 +64,23 @@ run_health_checks() {
     info "Security Tools:"
     check_command gpg "GPG"
     check_command pass "Password Store"
-    check_command ssh "SSH"
+    check_command ssh "SSH" "ssh -V"
     echo ""
 
     # Development tools
     info "Development Tools:"
-    check_command kubectl "Kubectl"
-    check_command helm "Helm"
+    check_command kubectl "Kubectl" "kubectl version --client"
+    check_command helm "Helm" "helm version"
     check_command docker "Docker"
     echo ""
 
     # Other tools
     info "Other Tools:"
     check_command claude "Claude CLI" || warn "Claude Code may not be installed"
-    check_command aerospace "AeroSpace" || warn "AeroSpace window manager not installed"
+    # `aerospace --version` also probes for a running AeroSpace.app server and
+    # prints a network error first when it isn't running; grep the actual
+    # client version line instead of taking the raw first line of output.
+    check_command aerospace "AeroSpace" "aerospace --version 2>&1 | grep 'CLI client version'" || warn "AeroSpace window manager not installed"
     echo ""
 
     # Summary
@@ -129,8 +136,10 @@ verify_configurations() {
     info "Claude Code Configuration:"
     [[ -d ~/.claude ]] && success "Claude config directory exists" || warn "Claude config missing"
     [[ -f ~/.claude/settings.json ]] && success "Claude settings exist" || warn "Claude settings missing"
-    [[ -d ~/.claude/agents ]] && success "Custom agents directory exists" || warn "Custom agents missing"
-    [[ -d ~/.claude/skills ]] && success "Custom skills directory exists" || warn "Custom skills missing"
+    # Custom agents/skills are no longer stored directly under
+    # .claude/agents or .claude/skills -- they ship via the devops-toolkit
+    # plugin repo instead.
+    [[ -d ~/.claude/plugins/repos/devops-toolkit ]] && success "devops-toolkit plugin repo exists" || warn "devops-toolkit plugin repo missing"
     echo ""
 }
 
@@ -141,7 +150,12 @@ check_manual_steps() {
     local manual_steps=()
 
     # SSH key on GitHub
-    if ! ssh -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
+    # `ssh -T git@github.com` always exits 1 by design, even on successful
+    # auth, so with `pipefail` a piped `| grep -q` always reports failure
+    # regardless of the match. Capture output first and grep separately.
+    local github_ssh_output
+    github_ssh_output=$(ssh -T git@github.com 2>&1)
+    if ! echo "$github_ssh_output" | grep -q "successfully authenticated"; then
         manual_steps+=("Add SSH key to GitHub: https://github.com/settings/keys")
     fi
 
@@ -150,8 +164,8 @@ check_manual_steps() {
         manual_steps+=("Configure GPG signing key: git config --global user.signingkey <key-id>")
     fi
 
-    # Claude Code
-    if [[ ! -d "/Applications/Claude.app" ]]; then
+    # Claude Code -- either the desktop app or the standalone CLI counts
+    if [[ ! -d "/Applications/Claude.app" ]] && ! command -v claude &>/dev/null; then
         manual_steps+=("Install Claude Code: https://claude.ai/download")
     fi
 
@@ -192,7 +206,7 @@ generate_report() {
         command -v yadm &>/dev/null && echo "YADM: $(yadm --version)"
         command -v gpg &>/dev/null && echo "GPG: $(gpg --version | head -1)"
         command -v pass &>/dev/null && echo "Pass: $(pass --version)"
-        command -v kubectl &>/dev/null && echo "Kubectl: $(kubectl version --client --short 2>/dev/null)"
+        command -v kubectl &>/dev/null && echo "Kubectl: $(kubectl version --client 2>/dev/null | tr '\n' ' ')"
         command -v helm &>/dev/null && echo "Helm: $(helm version --short 2>/dev/null)"
         command -v claude &>/dev/null && echo "Claude CLI: $(claude --version 2>/dev/null)" || echo "Claude CLI: Not installed"
 
