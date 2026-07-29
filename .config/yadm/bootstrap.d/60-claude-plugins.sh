@@ -42,6 +42,18 @@ check_claude_cli() {
     fi
 }
 
+install_claude_cli() {
+    info "Installing Claude Code via the official installer..."
+
+    if curl -fsSL https://claude.ai/install.sh | bash; then
+        success "Claude Code installer completed"
+        return 0
+    else
+        error "Claude Code installer failed"
+        return 1
+    fi
+}
+
 update_marketplaces() {
     info "Updating plugin marketplaces..."
 
@@ -173,14 +185,15 @@ main() {
     echo ""
 
     if ! check_claude_cli; then
-        warn "Neither Claude Code app nor CLI found"
-        warn "Skipping plugin installation"
-        info ""
-        info "To install Claude Code:"
-        info "  1. Visit: https://claude.ai/download"
-        info "  2. Download and install Claude Code"
-        info "  3. Re-run: ~/.config/yadm/bootstrap.d/60-claude-plugins.sh"
-        return 0  # Don't fail the phase
+        if ! install_claude_cli || ! check_claude_cli; then
+            warn "Claude Code CLI still not available"
+            warn "Skipping plugin installation"
+            info ""
+            info "To install manually:"
+            info "  curl -fsSL https://claude.ai/install.sh | bash"
+            info "Then re-run: ~/.config/yadm/bootstrap.d/60-claude-plugins.sh"
+            return 0  # Don't fail the phase
+        fi
     fi
     echo ""
 
