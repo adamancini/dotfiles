@@ -24,7 +24,6 @@ ohmyzsh/ohmyzsh path:plugins/mosh
 ohmyzsh/ohmyzsh path:plugins/nmap
 ohmyzsh/ohmyzsh path:plugins/pass kind:fpath
 ohmyzsh/ohmyzsh path:plugins/tmux
-ohmyzsh/ohmyzsh path:plugins/z
 
 # prompt theme (needed immediately)
 romkatv/powerlevel10k

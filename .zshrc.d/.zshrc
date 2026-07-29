@@ -60,7 +60,7 @@ fpath+="$ZDOTDIR/completions"
 # antidote static loading
 zsh_plugins=${ZDOTDIR}/.zsh_plugins
 if [[ ! ${zsh_plugins}.zsh -nt ${zsh_plugins}.txt ]]; then
-  source /Users/ada/src/github.com/mattmc3/antidote/antidote.zsh
+  source /opt/homebrew/opt/antidote/share/antidote/antidote.zsh
   antidote bundle <${zsh_plugins}.txt >${zsh_plugins}.zsh
 fi
 source ${zsh_plugins}.zsh
