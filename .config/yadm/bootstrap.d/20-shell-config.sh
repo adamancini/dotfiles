@@ -51,8 +51,8 @@ main() {
     info "Verifying shell configuration..."
 
     local config_dirs=(
-        "$HOME/.zshrcd"
-        "$HOME/.zshrcd/conf.d"
+        "$HOME/.zshrc.d"
+        "$HOME/.zshrc.d/conf.d"
         "$HOME/.config"
     )
 
@@ -85,11 +85,11 @@ main() {
 
     # Step 4: Check ZDOTDIR
     info "Checking ZDOTDIR..."
-    if [[ "${ZDOTDIR:-}" == "$HOME/.zshrcd" ]]; then
+    if [[ "${ZDOTDIR:-}" == "$HOME/.zshrc.d" ]]; then
         success "ZDOTDIR set correctly: $ZDOTDIR"
     else
         warn "ZDOTDIR not set yet (will be set after shell reload)"
-        info "Expected: $HOME/.zshrcd"
+        info "Expected: $HOME/.zshrc.d"
     fi
     echo ""
 
@@ -99,7 +99,7 @@ main() {
     local key_files=(
         "$HOME/.zshrc"
         "$HOME/.zshenv"
-        "$HOME/.zshrcd/.zshrc"
+        "$HOME/.zshrc.d/.zshrc"
         "$HOME/.gitconfig"
         "$HOME/.tmux.conf"
     )

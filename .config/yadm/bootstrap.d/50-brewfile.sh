@@ -19,7 +19,7 @@ error() { echo "${RED}[ERROR]${RESET} $*"; }
 success() { echo "${GREEN}[✓]${RESET} $*"; }
 
 # Configuration
-BREWFILE="$HOME/.zshrcd/conf.d/Brewfile"
+BREWFILE="$HOME/.zshrc.d/conf.d/Brewfile"
 
 verify_homebrew() {
     if ! command -v brew &>/dev/null; then

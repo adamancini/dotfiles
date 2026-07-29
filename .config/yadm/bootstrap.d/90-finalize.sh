@@ -92,7 +92,7 @@ verify_configurations() {
 
     # Shell configuration
     info "Shell Configuration:"
-    [[ -d ~/.zshrcd ]] && success "Zsh config directory exists" || warn "Zsh config directory missing"
+    [[ -d ~/.zshrc.d ]] && success "Zsh config directory exists" || warn "Zsh config directory missing"
     [[ -f ~/.zshrc ]] && success ".zshrc exists" || warn ".zshrc missing"
     [[ -f ~/.zshenv ]] && success ".zshenv exists" || warn ".zshenv missing"
     echo ""

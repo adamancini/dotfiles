@@ -27,6 +27,16 @@ ESSENTIAL_TOOLS=(
     "pass"
 )
 
+# Some brew formulae install a binary under a different name than the
+# formula itself (e.g. "gnupg" installs the "gpg" binary). Map formula
+# name -> binary name for command -v checks.
+tool_binary_name() {
+    case "$1" in
+        gnupg) echo "gpg" ;;
+        *) echo "$1" ;;
+    esac
+}
+
 install_xcode_cli_tools() {
     info "Checking for Xcode Command Line Tools..."
 
@@ -103,8 +113,9 @@ install_essential_tools() {
 
     for tool in "${ESSENTIAL_TOOLS[@]}"; do
         info "Checking $tool..."
+        local binary=$(tool_binary_name "$tool")
 
-        if command -v "$tool" &>/dev/null; then
+        if command -v "$binary" &>/dev/null; then
             success "$tool already installed"
             continue
         fi
@@ -146,8 +157,9 @@ verify_installations() {
 
     # Verify essential tools
     for tool in "${ESSENTIAL_TOOLS[@]}"; do
-        if command -v "$tool" &>/dev/null; then
-            local version=$("$tool" --version 2>&1 | head -1)
+        local binary=$(tool_binary_name "$tool")
+        if command -v "$binary" &>/dev/null; then
+            local version=$("$binary" --version 2>&1 | head -1)
             success "$tool: $version"
         else
             error "$tool: NOT FOUND"
