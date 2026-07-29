@@ -59,7 +59,10 @@ fpath+="$ZDOTDIR/completions"
 
 # antidote static loading
 zsh_plugins=${ZDOTDIR}/.zsh_plugins
-if [[ ! ${zsh_plugins}.zsh -nt ${zsh_plugins}.txt ]]; then
+# Regenerate if missing/empty (e.g. a prior run failed before antidote was
+# installed, leaving a stale empty file that would otherwise look "newer"
+# than the .txt forever) or if the .txt source has changed since.
+if [[ ! -s ${zsh_plugins}.zsh || ! ${zsh_plugins}.zsh -nt ${zsh_plugins}.txt ]]; then
   source /opt/homebrew/opt/antidote/share/antidote/antidote.zsh
   antidote bundle <${zsh_plugins}.txt >${zsh_plugins}.zsh
 fi
