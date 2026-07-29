@@ -1,0 +1,60 @@
+[user]
+	name = Ada Mancini
+{% if yadm.class == "akuity" %}
+	email = ada.mancini@akuity.io
+{% else %}
+	email = adab3ta@gmail.com
+{% endif %}
+	signingkey = adab3ta@gmail.com
+[color]
+	branch = auto
+	diff = auto
+	interactive = auto
+	pager = true
+	status = auto
+	ui = true
+[pull]
+	rebase = true
+[push]
+	default = current
+[rebase]
+	autoStash = true
+[core]
+	editor = vim
+	excludesFile = ~/.gitignore_global
+[alias]
+	co = checkout
+	graph = log --graph --oneline --decorate --all --date-order
+	gram = log --graph --decorate --all --date-order --format=format:'%C(auto)%h%C(reset) - %C(dim white)(%ar)%C(reset) %C(auto)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
+	st = status -sb
+	wt = worktree
+	lg = log --graph --pretty=format:'%C(yellow)%h%C(auto)%d%Creset %s %C(white)- %an, %ar%Creset'
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[init]
+	defaultBranch = main
+[hub]
+	protocol = ssh
+[commit]
+	gpgsign = false
+[gpg]
+	format = openpgp
+	program = {{ env.HOME }}/bin/gpg-wrapper.sh
+[tag]
+	forceSignAnnotated = false
+[gpg "ssh"]
+	program = ssh-keygen
+	allowedSignersFile = ""
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+{% if yadm.os == "Darwin" %}
+[difftool "sourcetree"]
+	cmd = opendiff "$LOCAL" "$REMOTE"
+	path =
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh "$LOCAL" "$REMOTE" -ancestor "$BASE" -merge "$MERGED"
+	trustExitCode = true
+{% endif %}
