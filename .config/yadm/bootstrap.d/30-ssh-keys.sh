@@ -47,7 +47,7 @@ generate_new_key() {
     info "Email: $SSH_KEY_EMAIL"
     echo ""
 
-    if ssh-keygen -t rsa -b 4096 -f "$SSH_KEY_FILE" -C "$SSH_KEY_EMAIL"; then
+    if ssh-keygen -t ecdsa -b 256 -f "$SSH_KEY_FILE" -C "$SSH_KEY_EMAIL"; then
         success "SSH key generated successfully"
 
         # Set proper permissions
@@ -104,20 +104,20 @@ import_existing_key() {
 create_key_symlinks() {
     info "Creating SSH key symlinks..."
 
-    # id_rsa -> id_moira
-    if [[ ! -L ~/.ssh/id_rsa ]]; then
-        ln -sf id_moira ~/.ssh/id_rsa
-        success "Created symlink: id_rsa -> id_moira"
+    # id_ecdsa -> id_moira
+    if [[ ! -L ~/.ssh/id_ecdsa ]]; then
+        ln -sf id_moira ~/.ssh/id_ecdsa
+        success "Created symlink: id_ecdsa -> id_moira"
     else
-        success "Symlink already exists: id_rsa"
+        success "Symlink already exists: id_ecdsa"
     fi
 
-    # id_rsa.pub -> id_moira.pub
-    if [[ ! -L ~/.ssh/id_rsa.pub ]]; then
-        ln -sf id_moira.pub ~/.ssh/id_rsa.pub
-        success "Created symlink: id_rsa.pub -> id_moira.pub"
+    # id_ecdsa.pub -> id_moira.pub
+    if [[ ! -L ~/.ssh/id_ecdsa.pub ]]; then
+        ln -sf id_moira.pub ~/.ssh/id_ecdsa.pub
+        success "Created symlink: id_ecdsa.pub -> id_moira.pub"
     else
-        success "Symlink already exists: id_rsa.pub"
+        success "Symlink already exists: id_ecdsa.pub"
     fi
 }
 
@@ -142,7 +142,13 @@ add_to_ssh_agent() {
 test_github_connection() {
     info "Testing GitHub SSH connection..."
 
-    if ssh -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
+    # `ssh -T git@github.com` always exits 1, even on successful auth (GitHub
+    # denies shell access by design), so with `pipefail` a piped `| grep -q`
+    # would report failure regardless of the actual match. Capture output
+    # first and grep it separately instead of chaining through the pipe.
+    local output
+    output=$(ssh -T git@github.com 2>&1)
+    if echo "$output" | grep -q "successfully authenticated"; then
         success "GitHub SSH connection successful"
         return 0
     else
@@ -216,7 +222,7 @@ main() {
         else
             warn "Non-interactive mode detected"
             info "Skipping SSH key generation"
-            info "Run manually: ssh-keygen -t rsa -b 4096 -f $SSH_KEY_FILE"
+            info "Run manually: ssh-keygen -t ecdsa -b 256 -f $SSH_KEY_FILE"
             return 0
         fi
     fi
