@@ -116,20 +116,8 @@ cask "vagrant"
 cask "visual-studio-code"
 cask "wireshark-app"
 
-mas "AutoMounter", id: 1160435653
-mas "CrystalFetch", id: 6454431289
-mas "GoodNotes", id: 1444383602
-mas "Goodnotes", id: 1444383602
 mas "GrandPerspective", id: 1111570163
-mas "iMovie", id: 408981434
-mas "Keynote", id: 409183694
-mas "NordVPN", id: 905953485
-mas "Notability", id: 360593530
-mas "Numbers", id: 409203825
-mas "Pages", id: 409201541
 mas "The Unarchiver", id: 425424353
-mas "Things", id: 904280696
-mas "Twingate", id: 1501592214
 
 vscode "4ops.packer"
 vscode "anggiarlandi.vscode-open-in-github"
