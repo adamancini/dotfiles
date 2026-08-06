@@ -42,3 +42,25 @@ MANDATORY sync after modifying agents/skills or during updates:
 ```bash
 git -C ~/.claude/plugins/repos/devops-toolkit fetch origin && git -C ~/.claude/plugins/repos/devops-toolkit pull --rebase origin main && git -C ~/.claude/plugins/repos/devops-toolkit push origin main
 ```
+
+### Version bump is MANDATORY on every push to this (or any) marketplace-enabled plugin
+
+Not currently enforced by git tooling -- must be handled at development time,
+every time, with no exceptions. A push to a Claude plugin marketplace repo
+without a version bump is silently ignored by the plugin cache -- the
+content changes ship in the git history but never reach a running session
+until someone notices the version didn't move.
+
+Before every push that touches plugin content (SKILL.md, agents/*.md,
+references/*.md, hooks, or any file under `plugins/<name>/`), bump BOTH:
+
+1. The individual skill/agent's own `version:` frontmatter field in its
+   `SKILL.md` (or agent file), if it has one.
+2. The plugin-wide `version` field in `.claude-plugin/marketplace.json`
+   (under `plugins[].version` for the affected plugin entry).
+
+Both bumps go in the same commit (or an immediately following commit)
+as the content change -- never push content changes and defer the version
+bump to "later." If in doubt about bump size, follow this repo's existing
+pattern of small, frequent minor/patch bumps per notable change (see
+`git log -- .claude-plugin/marketplace.json` for precedent).
