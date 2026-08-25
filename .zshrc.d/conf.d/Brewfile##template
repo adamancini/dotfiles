@@ -1,4 +1,11 @@
-# Complete Brewfile - All packages across all machines
+# Brewfile -- rendered by yadm from Brewfile##template
+# Shared packages install everywhere. Personal-only packages (below) are
+# skipped on the work machine (class "akuity"). Add a hostname block the
+# same way if something is specific to one personal machine, e.g.:
+#   {% if yadm.hostname == "studio" %}
+#   cask "something-studio-only"
+#   {% endif %}
+
 tap "amar1729/formulae"
 tap "buo/cask-upgrade"
 tap "fluxcd/tap"
@@ -93,3 +100,9 @@ go "github.com/go-delve/delve/cmd/dlv"
 go "github.com/onsi/ginkgo/v2/ginkgo"
 go "golang.org/x/tools/gopls"
 go "honnef.co/go/tools/cmd/staticcheck"
+
+{% if yadm.class != "akuity" %}
+# --- Personal-only (moira.local, studio.local) ---
+cask "rar"
+cask "wireshark-app"
+{% endif %}
