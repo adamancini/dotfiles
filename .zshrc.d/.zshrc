@@ -79,6 +79,9 @@ fi
 unset _zcompdump
 _comp_options+=(globdots)
 
+# Load openclaw completion after compinit (compdef is now defined)
+[[ -f $ZDOTDIR/cache/openclaw-completion.zsh ]] && source $ZDOTDIR/cache/openclaw-completion.zsh
+
 # deferred completions
 (( $+functions[_kubecm_setup_completion] )) && _kubecm_setup_completion && unfunction _kubecm_setup_completion || true
 
