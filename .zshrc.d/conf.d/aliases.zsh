@@ -10,6 +10,7 @@ if (( $+commands[docker] )); then
 fi
 alias ei3='vim ~/.config/i3/config.base'
 alias gbv='git branch -avv'
+alias gcr='git-clone-repo'
 alias gcm='git commit -m'
 alias gca='git commit -a'
 alias gdc='git diff --cached'

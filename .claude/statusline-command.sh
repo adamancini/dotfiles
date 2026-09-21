@@ -1,9 +1,23 @@
 #!/bin/bash
 #
 # Claude Code Statusline Script
-# Displays: cwd, git branch + worktree info, session tag, system info
+# Displays: cwd, git branch + worktree info, Claude usage (context/rate-limit), session tag, system info
 
 set -euo pipefail
+
+# --- Claude Usage (from stdin JSON) ---
+INPUT_JSON=$(cat)
+
+USAGE_INFO=""
+if [ -n "$INPUT_JSON" ]; then
+    USAGE_INFO=$(echo "$INPUT_JSON" | jq -r '
+        [
+            (if .context_window.used_percentage != null then "ctx:\(.context_window.used_percentage | floor)%" else empty end),
+            (if .rate_limits.five_hour.used_percentage != null then "5h:\(.rate_limits.five_hour.used_percentage | floor)%" else empty end),
+            (if .rate_limits.seven_day.used_percentage != null then "7d:\(.rate_limits.seven_day.used_percentage | floor)%" else empty end)
+        ] | join(" ")
+    ' 2>/dev/null || echo "")
+fi
 
 # Shorten a path fish-style: abbreviate intermediate components to first character.
 # Only applied when the full path exceeds the threshold (default 35 chars).
@@ -141,7 +155,12 @@ HOSTNAME=$(hostname -s)
 LOAD=$(uptime | sed 's/.*load average: //' | awk '{print $1}' | sed 's/,$//')
 
 # --- Build Statusline ---
-LEFT_PART="[${CWD}]${GIT_INFO}${WORKTREE_INFO}"
+USAGE_PART=""
+if [ -n "$USAGE_INFO" ]; then
+    USAGE_PART=" | ${USAGE_INFO}"
+fi
+
+LEFT_PART="[${CWD}]${GIT_INFO}${WORKTREE_INFO}${USAGE_PART}"
 RIGHT_PART="${HOSTNAME} [${LOAD}] ${SESSION_TAG}"
 
 TERM_WIDTH=$(tput cols 2>/dev/null || echo "80")

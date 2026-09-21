@@ -57,15 +57,17 @@ The `hookify` plugin loads rules from `.claude/hookify.*.local.md` **relative to
 ## Plugin Repositories
 
 Plugin repositories like `.claude/plugins/repos/devops-toolkit/` are **separate git repositories**
-and should be managed independently:
+used for editing and pushing agent/skill changes. They are NOT what Claude Code actually loads --
+the active plugin installs through the marketplace flow and runs from the plugin cache:
 
 ```bash
-# Clone on new machine
-cd ~/.claude/plugins/repos
-git clone https://github.com/your-org/devops-toolkit.git
+# Register the marketplace and install the plugin (what's actually loaded at runtime)
+claude plugin marketplace add adamancini/devops-toolkit
+claude plugin install devops-toolkit@devops-toolkit --scope user
 
-# Or use plugin installation
-claude plugin install /path/to/devops-toolkit
+# Separately, clone the dev copy for editing agents/skills
+cd ~/.claude/plugins/repos
+git clone git@github.com:adamancini/devops-toolkit.git
 ```
 
 ## Current Plugin Configuration
@@ -81,6 +83,7 @@ claude plugin install /path/to/devops-toolkit
 
 **Known Pitfalls:**
 - **NEVER install plugins at local scope** — they won't be visible from other directories. Always use `--scope user`.
+- **devops-toolkit requires the marketplace flow, not a local-path install** — `claude plugin install /path/to/devops-toolkit` does not reflect how it actually runs. Use `claude plugin marketplace add adamancini/devops-toolkit` then `claude plugin install devops-toolkit@devops-toolkit --scope user`. The `plugins/repos/devops-toolkit` clone is only for editing/pushing changes.
 - **NEVER use `settings.local.json` at any scope** — at project scope it shadows (fully replaces) the user-level `settings.json`, breaking `enabledPlugins`, `permissions.allow`, and hooks in all subdirectories. Use `settings.json` only.
 - **NEVER track plugin state in yadm** — `installed_plugins.json`, `plugins/cache/`, and `plugins/marketplaces/` cause constant merge conflicts from cache churn. Use the bootstrap script to reinstall on new machines.
 
@@ -89,7 +92,7 @@ claude plugin install /path/to/devops-toolkit
 - **claude-plugins-official** (anthropics/claude-plugins-official)
 - **claude-code-workflows** (wshobson/agents)
 - **yamlscript** (yaml/yamlscript)
-- **devops-toolkit** (adamancini/devops-toolkit) - Local repository
+- **devops-toolkit** (adamancini/devops-toolkit) - GitHub-sourced marketplace; installs via the cache like any other marketplace plugin (see "devops-toolkit Plugin Sync" below for the separate dev clone at `plugins/repos/devops-toolkit`)
 
 ### Plugins Available
 
@@ -168,12 +171,15 @@ When setting up a new machine with yadm:
    # ... (install others as needed)
    ```
 
-5. **Install custom plugin repos:**
+5. **Install devops-toolkit (agents and skills):**
    ```bash
-   # Clone and install devops-toolkit plugin (contains agents and skills)
+   # devops-toolkit installs through the marketplace flow, not a local path install
+   claude plugin marketplace add adamancini/devops-toolkit
+   claude plugin install devops-toolkit@devops-toolkit --scope user
+
+   # Separately, clone the dev copy used for editing/pushing agent and skill changes
    cd ~/.claude/plugins/repos
    git clone git@github.com:adamancini/devops-toolkit.git
-   claude plugin install ~/.claude/plugins/repos/devops-toolkit --scope user
    ```
 
 6. **Verify configuration:**

@@ -23,3 +23,7 @@ path=(
 
 # Load OS-specific profile settings if available
 [[ -f ${ZDOTDIR}/.zprofile.local ]] && source ${ZDOTDIR}/.zprofile.local
+
+# Added by OrbStack: command-line tools and integration
+# This won't be added again if you remove it.
+source ~/.orbstack/shell/init.zsh 2>/dev/null || :
