@@ -35,7 +35,7 @@ Custom agents/skills live in plugin repos (e.g., `devops-toolkit`) managed as se
 
 ## devops-toolkit Plugin Sync
 
-Location: @~/.claude/plugins/repos/devops-toolkit
+Location: `~/.claude/plugins/repos/devops-toolkit`
 Remote: `git@github.com:adamancini/devops-toolkit.git`
 
 MANDATORY sync after modifying agents/skills or during updates:
