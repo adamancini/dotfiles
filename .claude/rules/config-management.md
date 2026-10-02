@@ -30,7 +30,7 @@ Custom agents/skills live in plugin repos (e.g., `devops-toolkit`) managed as se
 
 ## After Plugin/Config Changes
 
-1. Update @~/.claude/README.md
+1. Update `~/.claude/README.md`
 2. Sync: `yadm add <files> && yadm commit -m "description" && yadm push`
 
 ## devops-toolkit Plugin Sync
