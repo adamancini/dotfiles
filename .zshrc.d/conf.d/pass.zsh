@@ -6,6 +6,12 @@
 # invokes gpg via its own native-messaging host process and does not
 # inherit this shell function or its exported env var, so it still gets
 # the GUI pinentry-mac prompt.
+
+# pinentry-curses needs to know which terminal to draw on; without GPG_TTY
+# gpg-agent launches it with no tty and it fails with
+# "Screen or window too small".
+export GPG_TTY=$TTY
+
 pass() {
     PINENTRY_USER_DATA=curses command pass "$@"
 }
