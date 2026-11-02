@@ -1,5 +1,17 @@
 # AWS Guidance
 
+## SSO Login Precheck (AWS MCP)
+
+- The AWS MCP Server needs an active `aws sso login` session before its
+  tools load and work correctly.
+- Before the first AWS MCP call in a session, check the session with a
+  cheap identity call (`run_script` with STS `GetCallerIdentity`).
+- If that call fails with an expired-token, SSO or credential error, or
+  the AWS MCP tools did not load (for example `aws-mcp` failed to connect
+  with `-32602`), stop. Ask the user to run `! aws sso login` (add
+  `--profile <name>` if a profile is in use), then reconnect with `/mcp`.
+  Do not retry the AWS call until they confirm.
+
 - Prefer the AWS MCP Server for AWS interactions — it provides sandboxed
   execution, observability, and audit logging. If unavailable, use the
   AWS CLI directly.
