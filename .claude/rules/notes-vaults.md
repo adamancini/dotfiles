@@ -65,6 +65,8 @@ vlt vault="Claude" files folder="projects"
 ## Secrets
 
 Use `pass` for all credentials. Delegate complex keyring operations to `home-manager` agent.
+
+`PASSWORD_STORE_GPG_OPTS=--pinentry-mode=error` is set in Claude's env, so `pass` fails immediately with `decryption failed: No pinentry` when the GPG key isn't cached. On that error, stop and ask the user to unlock the key in a separate terminal (e.g. `pass show <key>`). Never retry, and never try to unlock it from inside Claude.
 ```bash
 pass show <key>          # Read a secret
 pass ls                  # List available secrets
