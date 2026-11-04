@@ -10,7 +10,4 @@ Expert in Kubernetes, Helm charts, Replicated/KOTS/Embedded Cluster, VM-based te
 
 ## Personal Knowledge & Secrets
 
-- `~/Claude` — work knowledge graph (decisions, patterns, projects); use `vlt vault="Claude"` via Bash
-- `~/notes` — personal vault (journal, reference, research); use `vlt vault="notes"` via Bash
-- Vault layout and `vlt` usage: see `~/.claude/rules/notes-vaults.md`; for complex workflows use `vlt-skill`
-- Secrets/credentials: use `pass` keyring; delegate to `home-manager` agent for complex operations
+- Vaults and secrets: see `~/.claude/rules/notes-vaults.md`
