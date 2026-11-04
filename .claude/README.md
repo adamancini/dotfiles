@@ -15,11 +15,24 @@ See the "Plugin Repositories" section below for the devops-toolkit repository lo
 
 ### Hooks
 - **`.claude/hooks/user-prompt-submit-mcp-reminder.py`** - Reminds about MCP security validation
-- **`.claude/hooks/cbm-code-discovery-gate`** - First Grep/Glob/Read per session nudges toward codebase-memory-mcp
 - **`.claude/hooks/block-cd-git-compound.py`** - PreToolUse hook that blocks `cd <path> && git ...` (use `git -C <path>` instead)
 - **`.claude/hooks/track-worktree.sh`** - Worktree tracking helper
 
 Hooks are wired in `~/.claude/settings.json` under `hooks.PreToolUse` (and other event arrays). Add new enforcement there, not via the `hookify` plugin — see note below.
+
+### codebase-memory-mcp (code knowledge graph)
+
+Installed and wired by bootstrap phase `~/.config/yadm/bootstrap.d/65-codebase-memory.sh`,
+not by the upstream `codebase-memory-mcp install` (which also edits `~/.zshrc`, VS Code and `~/.copilot`).
+
+- **Binary:** Homebrew formula `adamancini/tap/codebase-memory-mcp` ([adamancini/homebrew-tap](https://github.com/adamancini/homebrew-tap)), pinned version + sha256, listed in the Brewfile
+- **MCP:** user-scope server `codebase-memory-mcp` -> `$(brew --prefix)/opt/codebase-memory-mcp/bin/codebase-memory-mcp`
+- **Hooks** (merged into untracked `settings.json` by the script): SessionStart, SubagentStart, PreToolUse `Grep|Glob|Bash`, all calling `codebase-memory-mcp hook-augment`. No PostToolUse Read hook, by choice. Augmentation needs the daemon, which the first MCP session starts on demand
+- **Agents + skill:** `~/.claude/agents/codebase-memory*.md` and `~/.claude/skills/codebase-memory/` are generated from the installed binary and are NOT tracked in yadm (excluded via the yadm repo's `info/exclude`)
+- **Graph UI:** disabled (`ui_enabled=false`)
+
+Upgrade: bump the formula in the tap, then `brew upgrade codebase-memory-mcp && ~/.config/yadm/bootstrap.d/65-codebase-memory.sh`.
+Verify: `~/.config/yadm/bootstrap.d/65-codebase-memory.sh --check`.
 
 ### Hookify Rules — NOT USED at user scope
 
