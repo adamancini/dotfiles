@@ -12,11 +12,13 @@ NEVER use `yadm status -u` or `yadm status -uall` -- it enumerates the entire ho
 
 ## settings.json
 
-All Claude settings live in `~/.claude/settings.json` (untracked). NEVER use `settings.local.json` at any scope:
-- At project scope it shadows (fully replaces) the user-level `settings.json`, breaking `permissions.allow`, `enabledPlugins`, and hooks across all subdirectories
-- At user scope it creates split state that is hard to reason about and violates the flat-config convention
+User-level settings live in `~/.claude/settings.json` (untracked). That is the single home for personal config, plugins and global hooks.
 
-Use `settings.json` only — at both user and project scope.
+How scopes combine (per the Claude Code settings docs): precedence is managed > CLI `--settings` > project local (`.claude/settings.local.json`) > project (`.claude/settings.json`) > user. Precedence is **per key**: a project file only overrides the keys it sets, and list keys such as `permissions.allow` merge across scopes. A project file does not mask the user file. Project files are read from the session's working directory or repo root; they are not inherited from parent directories the way CLAUDE.md is.
+
+- **Projects may have their own `.claude/settings.json` and `settings.local.json`.** That is fine. Don't be surprised by them: when one changes behavior that matters (plugins enabled or disabled, permissions, hooks, model), mention it. `/status` shows the setting sources.
+- **Never create `~/.claude/settings.local.json`.** Launching `claude` from `$HOME` makes `~/.claude/` both the user dir and the project dir, so a local file there would apply only to `$HOME`-rooted sessions. That split state is exactly what caused confusion before. Keep personal settings in `~/.claude/settings.json`.
+- **Install plugins at user scope by default.** Project or local scope writes `enabledPlugins` into the repo's `.claude/settings*.json`, and that's where plugins "ended up at project scope" before. Use project scope only when the repo should carry the plugin.
 
 ## Plugin Sync Strategy
 
