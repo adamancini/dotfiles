@@ -2,3 +2,5 @@
 # "foo/" matches everything under foo/; "foo/bar" matches that entry and below.
 # Anything not listed is rejected without showing a dialog.
 fleet-infra/
+nas.annarchy.net/synology-csi-talos
+nas.annarchy.net/synology-csi-smb
