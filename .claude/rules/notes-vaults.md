@@ -64,10 +64,18 @@ vlt vault="Claude" files folder="projects"
 
 ## Secrets
 
-Use `pass` for all credentials. For complex keyring operations, see the "Secrets with pass" section of the `devops-toolkit:yadm-utilities` skill.
+Credentials live in `pass`, but Claude never runs `pass`, `gpg` or reads `~/.password-store` directly. Get secrets through `pass-exec`, which asks pass-broker (a launchd agent). The broker shows the user a native dialog naming the entry, the reason and the command, and only fetches the secret if they approve. A cold GPG cache triggers the normal pinentry-mac prompt; no pre-unlock is needed.
 
-`PASSWORD_STORE_GPG_OPTS=--pinentry-mode=error` is set in Claude's env, so `pass` fails immediately with `decryption failed: No pinentry` when the GPG key isn't cached. On that error, stop and ask the user to unlock the key in a separate terminal (e.g. `pass show <key>`). Never retry, and never try to unlock it from inside Claude.
 ```bash
-pass show <key>          # Read a secret
-pass ls                  # List available secrets
+# Secret goes into the child's env or a temp file, never into the transcript
+pass-exec -r "why" --env TOKEN=fleet-infra/annarchy.net/foo -- curl -H "Authorization: Bearer $TOKEN" ...
+pass-exec -r "why" --file KUBECONFIG=fleet-infra/annarchy.net/kubeconfig -- kubectl get nodes
+pass-exec -r "why" --env-all VAR=entry -- cmd    # whole entry, not just line 1
 ```
+
+- Always pass `-r` with a concrete reason; the user decides from it.
+- Never echo, print or log a secret from the child command. `--show` prints to stdout; use it only if the user asks.
+- Only entries under prefixes in `~/.config/pass-broker/allowlist` (currently `fleet-infra/`) can be requested. Anything else is rejected without a dialog; ask the user to extend the allowlist instead of working around it.
+- If the user denies or the dialog times out, stop and ask. Do not retry in a loop.
+- Find entry names with `ls ~/.password-store/<prefix>` (names only).
+- Audit log: `~/.local/state/pass-broker/audit.log`. Broker setup: `~/.config/yadm/bootstrap.d/45-pass-broker.sh`.

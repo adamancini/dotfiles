@@ -1,0 +1,108 @@
+#!/opt/homebrew/bin/python3
+"""pass-exec: run a command with password-store secrets, approved per entry.
+
+Every secret is requested from pass-broker, which asks the user in a native
+dialog. Secrets go into the child's environment or a private temp file, never
+to stdout, so they stay out of logs and agent transcripts.
+
+  pass-exec [-r REASON] [--env VAR=ENTRY]... [--env-all VAR=ENTRY]...
+            [--file VAR=ENTRY]... -- COMMAND [ARGS...]
+  pass-exec [-r REASON] --show ENTRY      # print the value (avoid in agent sessions)
+
+  --env VAR=ENTRY      first line of the entry (pass convention: the password)
+  --env-all VAR=ENTRY  whole entry, trailing newline removed
+  --file VAR=ENTRY     whole entry written to a 0600 temp file; VAR holds its
+                       path; the file is deleted when COMMAND exits
+"""
+
+import argparse
+import json
+import os
+import shlex
+import socket
+import subprocess
+import sys
+import tempfile
+
+SOCK = os.path.expanduser("~/.local/state/pass-broker/broker.sock")
+
+
+def request(entry, reason, command):
+    msg = {"entry": entry, "reason": reason, "command": command, "cwd": os.getcwd()}
+    s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+    try:
+        s.connect(SOCK)
+    except OSError as e:
+        sys.exit("pass-exec: cannot reach pass-broker at %s: %s" % (SOCK, e))
+    with s:
+        s.sendall((json.dumps(msg) + "\n").encode())
+        buf = b""
+        while not buf.endswith(b"\n"):
+            chunk = s.recv(65536)
+            if not chunk:
+                break
+            buf += chunk
+    try:
+        resp = json.loads(buf)
+    except ValueError:
+        sys.exit("pass-exec: bad response from pass-broker")
+    if not resp.get("ok"):
+        sys.exit("pass-exec: %s: %s" % (entry, resp.get("error", "unknown error")))
+    return resp["secret"]
+
+
+def pair(text):
+    var, sep, entry = text.partition("=")
+    if not sep or not var or not entry:
+        raise argparse.ArgumentTypeError("expected VAR=ENTRY, got %r" % text)
+    return var, entry
+
+
+def main():
+    p = argparse.ArgumentParser(prog="pass-exec", description=__doc__,
+                                formatter_class=argparse.RawDescriptionHelpFormatter)
+    p.add_argument("-r", "--reason", default="")
+    p.add_argument("--env", type=pair, action="append", default=[])
+    p.add_argument("--env-all", type=pair, action="append", default=[])
+    p.add_argument("--file", type=pair, action="append", default=[])
+    p.add_argument("--show", metavar="ENTRY")
+    p.add_argument("command", nargs=argparse.REMAINDER)
+    a = p.parse_args()
+
+    cmd = a.command[1:] if a.command[:1] == ["--"] else a.command
+    if a.show:
+        if cmd or a.env or a.env_all or a.file:
+            p.error("--show takes no command or --env/--file")
+        sys.stdout.write(request(a.show, a.reason, "(print to stdout)"))
+        return 0
+    if not cmd:
+        p.error("no command given")
+    if not (a.env or a.env_all or a.file):
+        p.error("no secrets requested")
+
+    cmdline = shlex.join(cmd)
+    env = dict(os.environ)
+    tmpfiles = []
+    try:
+        for var, entry in a.env:
+            env[var] = request(entry, a.reason, cmdline).split("\n", 1)[0]
+        for var, entry in a.env_all:
+            env[var] = request(entry, a.reason, cmdline).rstrip("\n")
+        for var, entry in a.file:
+            secret = request(entry, a.reason, cmdline)
+            fd, path = tempfile.mkstemp(prefix="pass-exec-")
+            tmpfiles.append(path)
+            with os.fdopen(fd, "w") as f:
+                f.write(secret)
+            env[var] = path
+        return subprocess.call(cmd, env=env)
+    finally:
+        for path in tmpfiles:
+            try:
+                os.unlink(path)
+            except OSError:
+                pass
+
+
+if __name__ == "__main__":
+    sys.exit(main())

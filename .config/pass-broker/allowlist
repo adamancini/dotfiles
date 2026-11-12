@@ -1,0 +1,4 @@
+# pass-broker allowlist: entry prefixes Claude may request (one per line).
+# "foo/" matches everything under foo/; "foo/bar" matches that entry and below.
+# Anything not listed is rejected without showing a dialog.
+fleet-infra/

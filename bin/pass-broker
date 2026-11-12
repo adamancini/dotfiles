@@ -1,0 +1,217 @@
+#!/opt/homebrew/bin/python3
+"""pass-broker: per-entry, human-approved access to the password store.
+
+Runs as a launchd user agent (see ~/.config/yadm/bootstrap.d/45-pass-broker.sh).
+Listens on a Unix socket; each request names one pass entry. The broker shows
+a native macOS approval dialog naming the entry, the stated reason and the
+command the secret is for. Only on approval does it run `pass show`, which
+uses the normal gpg-agent and pinentry (pinentry-mac on a cold cache).
+
+Protocol: one JSON object per connection, newline-terminated.
+  request:  {"entry": "fleet-infra/x", "reason": "...", "command": "...", "cwd": "..."}
+  response: {"ok": true, "secret": "..."} | {"ok": false, "error": "..."}
+
+Files:
+  ~/.config/pass-broker/allowlist   entry prefixes that may be requested (one per line)
+  ~/.local/state/pass-broker/broker.sock
+  ~/.local/state/pass-broker/audit.log   JSON lines; never contains secret values
+"""
+
+import json
+import os
+import re
+import socketserver
+import subprocess
+import sys
+import threading
+import time
+
+HOME = os.path.expanduser("~")
+STORE = os.environ.get("PASSWORD_STORE_DIR", os.path.join(HOME, ".password-store"))
+STATE_DIR = os.path.join(HOME, ".local/state/pass-broker")
+SOCK = os.path.join(STATE_DIR, "broker.sock")
+AUDIT = os.path.join(STATE_DIR, "audit.log")
+ALLOWLIST = os.path.join(HOME, ".config/pass-broker/allowlist")
+PASS_BIN = "/opt/homebrew/bin/pass"
+
+GRANT_SECONDS = 15 * 60
+DIALOG_TIMEOUT = 120
+MAX_REQUEST = 16 * 1024
+ENTRY_RE = re.compile(r"^[A-Za-z0-9._@+-]+(/[A-Za-z0-9._@+-]+)*$")
+
+_grants = {}  # entry -> expiry (monotonic)
+_grants_lock = threading.Lock()
+_dialog_lock = threading.Lock()  # one dialog at a time
+_audit_lock = threading.Lock()
+
+DIALOG_SCRIPT = """
+on run argv
+    set theEntry to item 1 of argv
+    set theReason to item 2 of argv
+    set theCommand to item 3 of argv
+    set theCwd to item 4 of argv
+    set msg to "Claude requests a secret from the password store." & return & return & ¬
+        "Entry:   " & theEntry & return & return & ¬
+        "Reason:  " & theReason & return & return & ¬
+        "Command: " & theCommand & return & return & ¬
+        "Directory: " & theCwd
+    try
+        set r to display dialog msg with title "pass-broker" ¬
+            buttons {"Deny", "Allow 15 min", "Allow once"} ¬
+            default button "Deny" cancel button "Deny" ¬
+            with icon caution giving up after %d
+        if gave up of r then return "timeout"
+        return button returned of r
+    on error number -128
+        return "Deny"
+    end try
+end run
+""" % DIALOG_TIMEOUT
+
+
+def audit(**fields):
+    fields["ts"] = time.strftime("%Y-%m-%dT%H:%M:%S%z")
+    line = json.dumps(fields, sort_keys=True)
+    with _audit_lock, open(AUDIT, "a", encoding="utf-8") as f:
+        f.write(line + "\n")
+
+
+def load_allowlist():
+    try:
+        with open(ALLOWLIST, encoding="utf-8") as f:
+            lines = [l.strip() for l in f]
+    except FileNotFoundError:
+        return []
+    return [l for l in lines if l and not l.startswith("#")]
+
+
+def allowed_by_list(entry):
+    for prefix in load_allowlist():
+        if prefix.endswith("/"):
+            if entry.startswith(prefix):
+                return True
+        elif entry == prefix or entry.startswith(prefix + "/"):
+            return True
+    return False
+
+
+def validate(entry):
+    if not isinstance(entry, str) or not ENTRY_RE.match(entry):
+        return "invalid entry name"
+    if any(part in (".", "..") for part in entry.split("/")):
+        return "invalid entry name"
+    if not allowed_by_list(entry):
+        return "entry is not in the pass-broker allowlist (%s)" % ALLOWLIST
+    path = os.path.realpath(os.path.join(STORE, entry + ".gpg"))
+    if not path.startswith(os.path.realpath(STORE) + os.sep) or not os.path.isfile(path):
+        return "no such entry"
+    return None
+
+
+def clip(value, limit):
+    value = value if isinstance(value, str) else ""
+    value = value.replace("\r", " ").replace("\n", " ")
+    return value if len(value) <= limit else value[: limit - 1] + "…"
+
+
+def ask_user(entry, reason, command, cwd):
+    with _dialog_lock:
+        try:
+            out = subprocess.run(
+                ["/usr/bin/osascript", "-", entry, reason, command, cwd],
+                input=DIALOG_SCRIPT, capture_output=True, text=True,
+                timeout=DIALOG_TIMEOUT + 15,
+            )
+        except subprocess.TimeoutExpired:
+            return "timeout"
+        if out.returncode != 0:
+            audit(event="dialog-error", entry=entry, stderr=out.stderr.strip()[:500])
+            return "error"
+        return out.stdout.strip()
+
+
+def has_grant(entry):
+    with _grants_lock:
+        exp = _grants.get(entry)
+        if exp and exp > time.monotonic():
+            return True
+        _grants.pop(entry, None)
+        return False
+
+
+def fetch(entry):
+    env = {
+        "HOME": HOME,
+        "PATH": "/opt/homebrew/bin:/usr/bin:/bin",
+        "PASSWORD_STORE_DIR": STORE,
+        # Not "curses": pinentry-wrapper.sh then uses pinentry-mac on a cold cache.
+        "PINENTRY_USER_DATA": "claude:" + entry,
+    }
+    out = subprocess.run([PASS_BIN, "show", entry], env=env, capture_output=True,
+                         text=True, timeout=180)
+    if out.returncode != 0:
+        raise RuntimeError("pass failed: " + out.stderr.strip()[:300])
+    return out.stdout
+
+
+class Handler(socketserver.StreamRequestHandler):
+    def reply(self, obj):
+        self.wfile.write((json.dumps(obj) + "\n").encode())
+
+    def handle(self):
+        raw = self.rfile.readline(MAX_REQUEST)
+        try:
+            req = json.loads(raw)
+            if not isinstance(req, dict):
+                raise ValueError
+        except ValueError:
+            return self.reply({"ok": False, "error": "malformed request"})
+
+        entry = req.get("entry")
+        reason = clip(req.get("reason") or "(none given)", 300)
+        command = clip(req.get("command") or "(not stated)", 400)
+        cwd = clip(req.get("cwd") or "?", 200)
+
+        err = validate(entry)
+        if err:
+            audit(event="rejected", entry=str(entry)[:200], error=err, reason=reason, command=command, cwd=cwd)
+            return self.reply({"ok": False, "error": err})
+
+        if has_grant(entry):
+            decision = "grant"
+        else:
+            decision = ask_user(entry, reason, command, cwd)
+            if decision == "Allow 15 min":
+                with _grants_lock:
+                    _grants[entry] = time.monotonic() + GRANT_SECONDS
+
+        audit(event="decision", entry=entry, decision=decision, reason=reason, command=command, cwd=cwd)
+        if decision not in ("Allow once", "Allow 15 min", "grant"):
+            return self.reply({"ok": False, "error": "denied by user (%s)" % decision})
+
+        try:
+            secret = fetch(entry)
+        except (RuntimeError, subprocess.TimeoutExpired) as e:
+            audit(event="fetch-error", entry=entry, error=str(e))
+            return self.reply({"ok": False, "error": str(e)})
+        self.reply({"ok": True, "secret": secret})
+
+
+class Server(socketserver.ThreadingMixIn, socketserver.UnixStreamServer):
+    daemon_threads = True
+
+
+def main():
+    os.umask(0o077)
+    os.makedirs(STATE_DIR, mode=0o700, exist_ok=True)
+    os.chmod(STATE_DIR, 0o700)
+    if os.path.exists(SOCK):
+        os.unlink(SOCK)
+    with Server(SOCK, Handler) as srv:
+        os.chmod(SOCK, 0o600)
+        audit(event="start", pid=os.getpid())
+        srv.serve_forever()
+
+
+if __name__ == "__main__":
+    sys.exit(main())
