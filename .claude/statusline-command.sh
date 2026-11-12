@@ -11,9 +11,19 @@ INPUT_JSON=$(cat)
 USAGE_INFO=""
 if [ -n "$INPUT_JSON" ]; then
     USAGE_INFO=$(echo "$INPUT_JSON" | jq -r '
+        # Seconds until a reset timestamp (epoch number or ISO-8601 string), formatted as "2h13m" / "45m".
+        def until_reset($r):
+            ($r | if type == "number" then . elif type == "string" then (sub("\\.[0-9]+"; "") | sub("(\\+00:00|Z)$"; "Z") | fromdateiso8601) else null end) as $t
+            | if $t == null then null
+              else (($t - now) | if . < 0 then 0 else floor end) as $s
+                | if $s >= 3600 then "\($s / 3600 | floor)h\(($s % 3600) / 60 | floor)m" else "\($s / 60 | floor)m" end
+              end;
         [
             (if .context_window.used_percentage != null then "ctx:\(.context_window.used_percentage | floor)%" else empty end),
-            (if .rate_limits.five_hour.used_percentage != null then "5h:\(.rate_limits.five_hour.used_percentage | floor)%" else empty end),
+            (if .rate_limits.five_hour.used_percentage != null then
+                "5h:\(.rate_limits.five_hour.used_percentage | floor)%"
+                + ((try until_reset(.rate_limits.five_hour.resets_at) catch null) as $left | if $left then " (↻\($left))" else "" end)
+             else empty end),
             (if .rate_limits.seven_day.used_percentage != null then "7d:\(.rate_limits.seven_day.used_percentage | floor)%" else empty end)
         ] | join(" ")
     ' 2>/dev/null || echo "")
@@ -152,7 +162,7 @@ SESSION_TAG=$(printf '#%03x' $((PPID % 4096)))
 
 # --- System Information ---
 HOSTNAME=$(hostname -s)
-LOAD=$(uptime | sed 's/.*load average: //' | awk '{print $1}' | sed 's/,$//')
+LOAD=$(uptime | sed -E 's/.*load averages?: //' | awk '{print $1}' | sed 's/,$//')
 
 # --- Build Statusline ---
 USAGE_PART=""
@@ -161,7 +171,7 @@ if [ -n "$USAGE_INFO" ]; then
 fi
 
 LEFT_PART="[${CWD}]${GIT_INFO}${WORKTREE_INFO}${USAGE_PART}"
-RIGHT_PART="${HOSTNAME} [${LOAD}] ${SESSION_TAG}"
+RIGHT_PART="${HOSTNAME} [${LOAD}] $(date +%H:%M) ${SESSION_TAG}"
 
 TERM_WIDTH=$(tput cols 2>/dev/null || echo "80")
 LEFT_LEN=$(echo -n "$LEFT_PART" | sed 's/\x1b\[[0-9;]*m//g' | wc -c | tr -d ' ')
