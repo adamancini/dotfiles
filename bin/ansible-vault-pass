@@ -2,29 +2,51 @@
 #
 # Ansible Vault Password Script for password-store (pass)
 #
-# This script retrieves ansible-vault passwords from pass.
-# Ansible calls this script and expects the password on stdout.
+# Ansible runs this script and reads the vault password from its stdout.
 #
 # Usage in ansible.cfg:
 #   vault_password_file = ~/bin/ansible-vault-pass
 #
-# Usage in command line:
+# Usage on the command line:
 #   ansible-vault encrypt --vault-id @~/bin/ansible-vault-pass secrets.yml
 #   ansible-playbook --vault-id @~/bin/ansible-vault-pass playbook.yml
 #
-# Pass structure:
-#   annarchy.net/vault      - Ansible-vault password
+# Lookup order:
+#   1. pass-broker (via pass-exec), when its socket exists: the user approves
+#      a native dialog naming the entry; a cold GPG cache prompts through
+#      pinentry-mac. Works in agent sessions that cannot run pass directly.
+#   2. Plain `pass show`, on machines without the broker.
 #
+# Override the entry with ANSIBLE_VAULT_PASS_ENTRY (default below).
 
 set -euo pipefail
 
-PASS_PATH="fleet-infra/annarchy.net/vault"
+PASS_PATH="${ANSIBLE_VAULT_PASS_ENTRY:-fleet-infra/annarchy.net/vault}"
+BROKER_SOCK="${HOME}/.local/state/pass-broker/broker.sock"
+STORE="${PASSWORD_STORE_DIR:-${HOME}/.password-store}"
 
-# Retrieve password from pass and output to stdout
-# Ansible expects just the password, nothing else
-if pass show "${PASS_PATH}" &>/dev/null; then
-    pass show "${PASS_PATH}" | head -n1
-else
-    echo "Error: Password not found in pass at ${PASS_PATH}" >&2
+die() {
+    printf 'ansible-vault-pass: %s\n' "$*" >&2
     exit 1
+}
+
+# Entry existence is a file-name check; it decrypts nothing.
+[[ -f "${STORE}/${PASS_PATH}.gpg" ]] || die "no pass entry ${PASS_PATH} (looked for ${STORE}/${PASS_PATH}.gpg)"
+
+if command -v pass-exec >/dev/null 2>&1 && [[ -S "${BROKER_SOCK}" ]]; then
+    # The child prints only the first line (pass convention: the password)
+    # straight to Ansible's pipe.
+    # shellcheck disable=SC2016  # $VAULT_PASS is expanded by the inner sh
+    pass-exec -r "ansible-vault password for ${PWD##*/}" \
+        --env VAULT_PASS="${PASS_PATH}" \
+        -- sh -c 'printf "%s\n" "$VAULT_PASS"' \
+        || die "pass-broker did not return ${PASS_PATH} (denied, timed out, or decryption failed)"
+    exit 0
 fi
+
+command -v pass >/dev/null 2>&1 || die "neither pass-exec (with a running pass-broker) nor pass is available"
+
+# One decrypt. pass's own stderr (e.g. a GPG/pinentry error) is shown as is
+# instead of being reported as a missing entry.
+password="$(pass show "${PASS_PATH}")" || die "pass could not decrypt ${PASS_PATH} (is the GPG key available and unlocked?)"
+printf '%s\n' "${password%%$'\n'*}"
